@@ -1,0 +1,18 @@
+NUM dato ;
+CAD cadena;
+IMP ("Deme un dato");
+CAP (dato);
+
+STF (dato <= 30 & cadena == "hola"){
+CND (0 : 30, 3){
+IMP ("El dato es menor o igual a 30");
+}
+}
+NSTF{
+IMP("Nuestro dato es mayor a 30");
+STF(dato <=100){
+CND (0 : 100, 5){
+}
+IMP ("El dato puede o no llegar al 100");
+}
+}
