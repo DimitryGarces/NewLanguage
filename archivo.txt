@@ -1,18 +1,51 @@
-NUM dato ;
-CAD cadena;
-IMP ("Deme un dato");
-CAP (dato);
+CLASE "ejemploDeCodigo" {
+    IMPLEM "libreria";
 
-STF (dato <= 30 & cadena == "hola"){
-CND (0 : 30, 3){
-IMP ("El dato es menor o igual a 30");
+    NUM numero;
+    numero=28;
+
+    NUM suma;
+
+    BOOL booleano;
+
+    CAD captura;
+
+    FUN CAD captura(){
+        CAD cadena;
+        cadena = 'c';
+        RETORNA cadena;
+    }
+
+    METODO "aux"(NUM num){
+        num=24;
+    }
+
+    PRINCIPAL{
+        STF(numero==28){
+            suma=numero+1;
+        }NSTF{
+            IMP(2+4%5*8);
+            CAP(captura);
+        }
+
+        CND(1:5){
+
+        }
+
+        MIENTRAS(numero==28){
+
+        }
+
+        HACER{
+
+        }MIENTRAS(numero==28);
+
+        Cambio (numero) {
+            CASO 28: 
+                booleano=VER;
+            DESCANSO;
+        }
+    }
 }
-}
-NSTF{
-IMP("Nuestro dato es mayor a 30");
-STF(dato <=100){
-CND (0 : 100, 5){
-}
-IMP ("El dato puede o no llegar al 100");
-}
-}
+
+
