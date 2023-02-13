@@ -1,0 +1,61 @@
+CLASE "ejemploDeCodigo2" {
+    IMPLEM "libreria1";
+    IMPLEM "libreria2";
+
+    NUM x;
+    NUM y;
+
+    NUM resultado;
+
+    CAD captura;
+
+    FUN CAR captura(){
+        CAR caracter;
+        CAP(caracter);
+        RETORNA caracter;
+    }
+
+    METODO "division"(NUM x,NUM y){
+        resultado=x/y;
+    }
+
+    PRINCIPAL{
+        CAP(x);
+        CAP(y);
+
+        STF(captura()=='S'){
+            NUM suma;
+            suma=x+y;
+        }NSTF{
+            NUM resta;
+            resta=x-y;
+        }
+
+        CND(1:5){
+            
+        }
+
+        NUM rep;
+        rep=5;
+        NUM suma;
+        suma=0;
+
+        MIENTRAS(rep>0){
+            suma=suma+1;
+        }
+
+        HACER{
+            IMP(25);
+        }MIENTRAS(y==25);
+
+        NUM numero;
+        numero=28;
+        BOOL booleano;
+
+        Cambio (numero) {
+            CASO 28: 
+                booleano=VER;
+            DESCANSO;
+        }
+    }
+}

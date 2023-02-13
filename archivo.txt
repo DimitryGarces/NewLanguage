@@ -12,7 +12,7 @@ CLASE "ejemploDeCodigo" {
 
     FUN CAD captura(){
         CAD cadena;
-        cadena = 'c';
+        cadena = "cadena";
         RETORNA cadena;
     }
 
@@ -47,5 +47,3 @@ CLASE "ejemploDeCodigo" {
         }
     }
 }
-
-
