@@ -10,16 +10,15 @@ CLASE "ejemploDeCodigo" {
 
     CAD captura;
 
-    FUN CAD captura(){
+    FUN CAD prueba(){
         CAD cadena;
-        cadena = "cadena";
+        cadena = 'c';
         RETORNA cadena;
     }
 
-    METODO "aux"(NUM num){
+    METODO prueba2(NUM num){
         num=24;
     }
-
     PRINCIPAL{
         STF(numero==28){
             suma=numero+1;
@@ -47,3 +46,9 @@ CLASE "ejemploDeCodigo" {
         }
     }
 }
+
+
+
+
+
+
