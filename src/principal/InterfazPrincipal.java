@@ -261,7 +261,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnIntermedio.setVisible(false);
         pnOptimizacion.setVisible(false);
         pnObjeto.setVisible(false);
-        StringTokenizer st = new StringTokenizer(jTProgramaFuente.getText(), "+-^*/()%#;=<>{}& \n\b\r\t\",:", true);
+        StringTokenizer st = new StringTokenizer(jTProgramaFuente.getText(), "+-^*/()%#;=<>{}& \n\b\r\t\",:'", true);
         String texto = "";
         String cadena = "";
         while (st.hasMoreElements()) {
@@ -304,6 +304,16 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }
             } else if (cadena.equals(" ") || cadena.equals("\t")) {
                 cadena = "";
+            }else if (cadena.equals("'")) {
+                texto = texto + cadena;
+                while (st.hasMoreElements()) {
+                    cadena = st.nextToken();
+                    if (cadena.equals("'")) {
+                        texto = texto + cadena + "\n";
+                        break;
+                    }
+                    texto = texto + cadena;
+                }
             } else {
                 texto = texto + cadena + "\n";
             }
@@ -386,10 +396,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         {169, 166, 34},
         {},
         {31, 21, 52, 20, 2},
-        {23, 154, 22, 21, 172, 50, 30, 50, 20, 2},
+        {23, 154, 22, 21, 172, 50, 30, 50, 20, 5},
         {50, 29},
         {},
-        {31, 23, 154, 22, 21, 161, 20, 6},
+        { 23, 154, 22, 21, 161, 20, 6},
         {31, 21, 161, 20, 6, 23, 154, 22, 7},
         {31, 11, 154, 30, 176, 8},
         {53},
@@ -495,7 +505,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         mt[5][3] = 15;
         mt[5][5] = 16;
         mt[5][6] = 17;
-        mt[5][6] = 18;
+        mt[5][7] = 18;
         mt[5][9] = 19;
 //        mt[5][31] = 20;
         mt[5][24] = 12;
@@ -607,6 +617,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         
         mt[28][8] = 57;
         mt[28][10] = 58;
+        mt[28][23] = 58;
         
         mt[29][10] = 59;
         mt[29][23] = 60;
@@ -735,8 +746,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     cadena = cadena + "$";
                     jTProgramaCompilado.setText(cadena);
                 } else {
-                    cadena = jTProgramaFuente.getText() + "\n Error sintactico al recibirrr " + vecSal[i] + "se esperaba";
-                    for (int j = 0; j < 54; j++) {
+                    cadena = jTProgramaFuente.getText() + "\n Error sintactico al recibir [" + vecSal[i] + "] se esperaba";
+                    for (int j = 0; j < 55; j++) {
                         if (mt[pr][j] != -1) {
                             cadena = cadena + j + " ";
                         }

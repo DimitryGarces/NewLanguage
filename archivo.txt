@@ -1,7 +1,5 @@
 CLASE "ejemploDeCodigo" {
     IMPLEM "libreria";
-
-    NUM numero;
     numero=28;
 
     NUM suma;
@@ -10,13 +8,13 @@ CLASE "ejemploDeCodigo" {
 
     CAD captura;
 
-    FUN CAD prueba(){
+    FUN CAD prueba(CAD cadena){
         CAD cadena;
         cadena = 'c';
         RETORNA cadena;
     }
 
-    METODO prueba2(NUM num){
+    MET "prueba2"(NUM num){
         num=24;
     }
     PRINCIPAL{
@@ -39,16 +37,10 @@ CLASE "ejemploDeCodigo" {
 
         }MIENTRAS(numero==28);
 
-        Cambio (numero) {
+        CAMBIO (numero) {
             CASO 28: 
                 booleano=VER;
             DESCANSO;
         }
     }
 }
-
-
-
-
-
-

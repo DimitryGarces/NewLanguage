@@ -130,22 +130,24 @@ public class Lexico {
             {-1, -1, -1, -1, -1, -1, -1, -1, -1}
         };
         String vecNombre[] = {"Caracter desconocido", "Numerico", "Numerico", "CadenaQ3", "CadenaQ4", "CadenaQ5", "Variable", "Caracter","Caracter","Caracter","Bool"};
-        int vecNumero[] = {103, 50, 50, 51, 51, 51, 52,53,53,53,54};
+        int vecNumero[] = {105, 50, 50, 51, 51, 51, 52,53,53,53,54};
         String vecErrores[] = {"Caracter desconocido", "Numerico no valido", "Numerico no valido", "Cadena no validaQ3", "Cadena no validaQ4", "Cadena no validaQ5", "Variable no valida","Caracter no valido","Caracter no valido","Caracter no valido","Booleano no valido"};
         boolean band2 = true;
-        int vecError[] = {103, 100, 100, 101, 101, 101, 102,103,103,103,104};
+        int vecError[] = {105, 100, 100, 101, 101, 101, 102,103,103,103,104};
         int edo = 0, pos = 0;
         char vec[] = palabra.toCharArray();
         if (palabra.equals("VER")) {
-            pos = 10;
+            pos = 7;
         } else if (palabra.equals("FALS")) {
-            pos = 10;
+            pos = 8;
         } else {
             for (int j = 0; j < vec.length; j++) {
                 if (Character.isDigit(vec[j])) {
                     pos = 0;
                 } else if (vec[j] == '"') {
                     pos = 5;
+                }else if (vec[j] == '\'') {
+                    pos = 6;
                 } else if (Character.isUpperCase(vec[j])) {
                     pos = 2;
                 } else if (Character.isLowerCase(vec[j])) {
