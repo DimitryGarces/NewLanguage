@@ -13,6 +13,7 @@ public class Lexico {
     String lexema;
     String nombre;
     int numero;
+    String tipo;
     public String dic[][] = {
         {"IMP", "Imprimir", "1", "PR"},
         {"CAP", "Capturar", "2", "PR"},
@@ -96,6 +97,38 @@ public class Lexico {
 //        {"=", "Igual", "22"}
 //    };
 
+    public String EtiquetarInvertido(int token) {
+        for (int i = 0; i < dic.length; i++) {
+            if (Integer.getInteger(dic[i][2]) == token) {
+                return dic[i][2];
+            }
+        }
+        switch (token) {
+            case 50:
+                return "Numerico";
+            case 51:
+                return "Cadena";
+            case 52:
+                return "Variable";
+            case 53:
+                return "Caracter";
+            case 54:
+                return "Bool";
+            case 100:
+                return "Numerico no valido";
+            case 101:
+                return "Cadena no valido";
+            case 102:
+                return "Variable no valido";
+            case 103:
+                return "Caracter no valido";
+            case 104:
+                return "Bool no valido";
+            default:
+                return "Caracter desconocido";
+        }
+    }
+
     public Lexico Etiquetar(String palabra) {
         Lexico objLex = new Lexico();
         objLex.lexema = palabra;
@@ -106,6 +139,7 @@ public class Lexico {
                 ban = true;
                 objLex.nombre = dic[i][1];
                 objLex.numero = Integer.parseInt(dic[i][2]);
+                objLex.tipo = dic[i][3];
                 break;
             }
             i++;
@@ -129,11 +163,11 @@ public class Lexico {
             {-1, -1, -1, -1, -1, -1, -1, -1, -1},
             {-1, -1, -1, -1, -1, -1, -1, -1, -1}
         };
-        String vecNombre[] = {"Caracter desconocido", "Numerico", "Numerico", "CadenaQ3", "CadenaQ4", "CadenaQ5", "Variable", "Caracter","Caracter","Caracter","Bool"};
-        int vecNumero[] = {105, 50, 50, 51, 51, 51, 52,53,53,53,54};
-        String vecErrores[] = {"Caracter desconocido", "Numerico no valido", "Numerico no valido", "Cadena no validaQ3", "Cadena no validaQ4", "Cadena no validaQ5", "Variable no valida","Caracter no valido","Caracter no valido","Caracter no valido","Booleano no valido"};
+        String vecNombre[] = {"Caracter desconocido", "Numerico", "Numerico", "CadenaQ3", "CadenaQ4", "CadenaQ5", "Variable", "Caracter", "Caracter", "Caracter", "Bool"};
+        int vecNumero[] = {105, 50, 50, 51, 51, 51, 52, 53, 53, 53, 54};
+        String vecErrores[] = {"Caracter desconocido", "Numerico no valido", "Numerico no valido", "Cadena no validaQ3", "Cadena no validaQ4", "Cadena no validaQ5", "Variable no valida", "Caracter no valido", "Caracter no valido", "Caracter no valido", "Booleano no valido"};
         boolean band2 = true;
-        int vecError[] = {105, 100, 100, 101, 101, 101, 102,103,103,103,104};
+        int vecError[] = {105, 100, 100, 101, 101, 101, 102, 103, 103, 103, 104};
         int edo = 0, pos = 0;
         char vec[] = palabra.toCharArray();
         if (palabra.equals("VER")) {
@@ -146,7 +180,7 @@ public class Lexico {
                     pos = 0;
                 } else if (vec[j] == '"') {
                     pos = 5;
-                }else if (vec[j] == '\'') {
+                } else if (vec[j] == '\'') {
                     pos = 6;
                 } else if (Character.isUpperCase(vec[j])) {
                     pos = 2;
