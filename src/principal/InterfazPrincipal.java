@@ -21,7 +21,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     String[] tablaIdenFilas;
     ArrayList<String[]> tablaIdenCol = new ArrayList<>();
-
     /**
      * Creates new form InterfazPrincipal
      */
@@ -326,10 +325,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbLexicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLexicoMouseClicked
-        String[] divisionRenglones = jTProgramaFuente.getText().split(";|\n|}");
-        for (String resultado : divisionRenglones) {
-            System.out.println(resultado);
-        }
+        String[] divisionRenglones = {jTProgramaFuente.getText()};
         String resultadoLexico = "";
         codigoFuente = new Renglon[divisionRenglones.length + 1];
         Renglon renglon;
@@ -836,7 +832,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         int nl = 0;
         int tv = 0;
         ////////////////////////////////////////////////////////////Modificacion
-        cadena = "";
+       cadena = "";
         String pF = jTProgramaFuente.getText() + "\n";
         String pC = "";
         int lin = 0;
@@ -1180,7 +1176,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             lbSem.setText("Semánticamente Correcto");
             jTProgramaSemantico.setText(mensaje);
         }
-
+        
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_lbSemanticoMouseClicked
 
