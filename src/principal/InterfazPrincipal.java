@@ -17,6 +17,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     int vecSal[];
     NumLinecita numlinea;
     Lexico lexInv = new Lexico();
+    Renglon[] codigoFuente;
 
     /**
      * Creates new form InterfazPrincipal
@@ -320,105 +321,118 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbLexicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLexicoMouseClicked
-        pnSintactico.setVisible(false);
-        pnSemantico.setVisible(false);
-        pnIntermedio.setVisible(false);
-        pnOptimizacion.setVisible(false);
-        pnObjeto.setVisible(false);
-        StringTokenizer st = new StringTokenizer(jTProgramaFuente.getText(), "+-^*/()%#;=<>{}& \n\b\r\t\",:'", true);
-        String texto = "";
-        String cadena = "";
-        while (st.hasMoreElements()) {
-            cadena = st.nextToken();
-            if (cadena.equals("=")) {
-                texto = texto + cadena;
-                if (st.hasMoreElements()) {
-                    cadena = st.nextToken();
-                    if (cadena.equals("=")) {
-                        texto = texto + cadena + "\n";
-                    } else if (!(cadena.equals(" ") || cadena.equals("\t"))) {
-                        texto = texto + "\n" + cadena + "\n";
-                    } else {
-                        texto = texto + "\n";
-                    }
-
-                }
-            } else if (cadena.equals(">") || cadena.equals("<")) {
-                texto = texto + cadena;
-                if (st.hasMoreElements()) {
-                    cadena = st.nextToken();
-                    if (cadena.equals("=")) {
-                        texto = texto + cadena + "\n";
-                    } else if (!(cadena.equals(" ") || cadena.equals("\t"))) {
-                        texto = texto + "\n" + cadena + "\n";
-
-                    } else {
-                        texto = texto + "\n";
-                    }
-                }
-            } else if (cadena.equals("\"")) {
-                texto = texto + cadena;
-                while (st.hasMoreElements()) {
-                    cadena = st.nextToken();
-                    if (cadena.equals("\"")) {
-                        texto = texto + cadena + "\n";
-                        break;
-                    }
+        String[] divisionRenglones = jTProgramaFuente.getText().split(";\n}");
+        String resultadoLexico = "";
+        codigoFuente = new Renglon[divisionRenglones.length + 1];
+        Renglon renglon;
+        for (int i = 0; i < divisionRenglones.length; i++) {
+            StringTokenizer st = new StringTokenizer(divisionRenglones[i], "+-^*/()%#;=<>{}& \n\b\r\t\",:'", true);
+            String texto = "";
+            String cadena;
+            while (st.hasMoreElements()) {
+                cadena = st.nextToken();
+                if (cadena.equals("=")) {
                     texto = texto + cadena;
-                }
-            } else if (cadena.equals(" ") || cadena.equals("\t")) {
-                cadena = "";
-            } else if (cadena.equals("'")) {
-                texto = texto + cadena;
-                while (st.hasMoreElements()) {
-                    cadena = st.nextToken();
-                    if (cadena.equals("'")) {
-                        texto = texto + cadena + "\n";
-                        break;
+                    if (st.hasMoreElements()) {
+                        cadena = st.nextToken();
+                        if (cadena.equals("=")) {
+                            texto = texto + cadena + "\n";
+                        } else if (!(cadena.equals(" ") || cadena.equals("\t"))) {
+                            texto = texto + "\n" + cadena + "\n";
+                        } else {
+                            texto = texto + "\n";
+                        }
                     }
-                    texto = texto + cadena;
+                } else {
+                    if (cadena.equals("<") || cadena.equals(">") || cadena.equals("!")) {
+                        texto = texto + cadena;
+                        if (st.hasMoreElements()) {
+                            cadena = st.nextToken();
+                            if (cadena.equals("=")) {
+                                texto = texto + cadena + "\n";
+                            } else if (!(cadena.equals(" ") || cadena.equals("\t"))) {
+                                texto = texto + "\n" + cadena + "\n";
+
+                            } else {
+                                texto = texto + "\n";
+                            }
+                        }
+                    } else {
+                        if (cadena.equals("&")) {
+                            texto = texto + cadena;
+                            if (st.hasMoreElements()) {
+                                cadena = st.nextToken();
+                                if (cadena.equals("&")) {
+                                    texto = texto + cadena + "\n";
+                                } else {
+                                    texto = texto + "\n" + cadena + "\n";
+                                }
+                            }
+                        } else if (cadena.equals("\"")) {
+                            texto = texto + cadena;
+                            while (st.hasMoreElements()) {
+                                cadena = st.nextToken();
+                                if (cadena.equals("\"")) {
+                                    texto = texto + cadena + "\n";
+                                    break;
+                                }
+                                texto = texto + cadena;
+                            }
+                        } else if (cadena.equals(" ") || cadena.equals("\t")) {
+                            cadena = "";
+                        } else if (cadena.equals("'")) {
+                            texto = texto + cadena;
+                            while (st.hasMoreElements()) {
+                                cadena = st.nextToken();
+                                if (cadena.equals("'")) {
+                                    texto = texto + cadena + "\n";
+                                    break;
+                                }
+                                texto = texto + cadena;
+                            }
+                        } else {
+                            texto = texto + cadena + "\n";
+                        }
+                    }
                 }
+            }
+            StringTokenizer st2 = new StringTokenizer(texto, "\n\r\f");
+            Lexico objLex2 = new Lexico();
+            vecSal = new int[st2.countTokens() + 1];
+            int j = 0;
+            while (st2.hasMoreElements()) {
+                objLex2 = objLex2.Etiquetar(st2.nextToken());
+                resultadoLexico = resultadoLexico + objLex2.lexema + "\t" + objLex2.nombre + "\n";
+                vecSal[j] = objLex2.numero;
+                j++;
+            }
+            renglon = new Renglon(vecSal);
+            codigoFuente[i] = renglon;
+        }
+        //////
+        if (vecSal != null) {
+            vecSal[vecSal.length - 1] = 53;
+            boolean b = true;
+            for (int j = 0; j < vecSal.length; j++) {
+                switch (vecSal[j]) {
+                    case 105:
+                    case 100:
+                    case 101:
+                    case 102:
+                    case 103:
+                    case 104:
+                        b = false;
+                        break;
+                }
+            }
+            if (b) {
+                lbLex.setText("Lexicamente: Correcto.");
+                pnSintactico.setVisible(true);
             } else {
-                texto = texto + cadena + "\n";
-            }
-
-        }
-        StringTokenizer st2 = new StringTokenizer(texto, "\n\r\f");
-        texto = "";
-        Lexico obLex2 = new Lexico();
-        vecSal = new int[st2.countTokens() + 1];
-        int i = 0;
-        while (st2.hasMoreElements()) {
-            obLex2 = obLex2.Etiquetar(st2.nextToken());
-            texto = texto + "\n" + obLex2.lexema + "\t" + obLex2.nombre + "\t" + obLex2.numero;
-            vecSal[i] = obLex2.numero;
-            i++;
-        }
-        vecSal[vecSal.length - 1] = 53;
-        boolean b = true;
-        List<Integer> l = new ArrayList<>();
-        String lineas = "";
-        for (int j = 0; j < vecSal.length; j++) {
-            switch (vecSal[j]) {
-                case 105:
-                case 100:
-                case 101:
-                case 102:
-                case 103:
-                case 104:
-                    b = false;
-                    l.add(j + 1);
-                    lineas += "\n" + j;
-                    break;
+                lbLex.setText("Lexicamente: Incorrecto.");
             }
         }
-        if (b) {
-            lbLex.setText("Lexicamente: Correcto.");
-            pnSintactico.setVisible(true);
-        } else {
-            numlinea.setLineas(l);
-            lbLex.setText("Lexicamente: Incorrecto.");
-        }
+        jTProgramaCompilado.setText(resultadoLexico);
 //        jTProgramaCompilado.setText(texto);
     }//GEN-LAST:event_lbLexicoMouseClicked
 
@@ -428,14 +442,24 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnOptimizacion.setVisible(false);
         pnObjeto.setVisible(false);
 
+        jTProgramaSintactico.setText("");
+        jTProgramaSemantico.setText("");
+        int[] pp
+                = {
+                    56
+                };
+        Renglon p = new Renglon(pp);
+        codigoFuente[codigoFuente.length - 1] = p;
+
         String cadena = "";
-        for (int i = 0; i < vecSal.length; i++) {
-            cadena = cadena + vecSal[i] + " ";
-        }
-        cadena += "$";
+//        for (int i = 0; i < vecSal.length; i++) {
+//            cadena = cadena + vecSal[i] + " ";
+//        }
+//        cadena += "$";
+
 //        jTProgramaCompilado.setText(cadena);
-        jLabel1.setText("Movimiento");
-        jLabel2.setText("Cadena a validar");
+//        jLabel1.setText("Movimiento");
+//        jLabel2.setText("Cadena a validar");
 //        jTProgramaSintactico.setText("$ 150");
         int mg[][] = {{},
         {23, 188, 152, 151, 22, 51, 12},
@@ -799,21 +823,22 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         int vecMov[] = {0, 150};
         int vecMovAux[];
         int i = 0;
-        int pr = 0;
+        int pr;
         int pc = 0;
         int nl = 0;
         int tv = 0;
-        cadena = "";
+        ////////////////////////////////////////////////////////////Modificacion
+       cadena = "";
         String pF = jTProgramaFuente.getText() + "\n";
         String pC = "";
+        int lin = 0;
+
         do {
             pr = vecMov[vecMov.length - 1];
-
             if (pr >= 150) {
                 pr = pr - 150;
                 pc = vecSal[i];
                 nl = mt[pr][pc];
-
                 if (nl != -1) {
                     vecMovAux = vecMov;
                     vecMov = new int[(vecMovAux.length + mg[nl].length) - 1];
@@ -830,6 +855,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         cadena = cadena + vecMov[j] + " ";
                     }
                     pF = cadena;
+                    lin++;
                     cadena = pF + "\n";
                     for (int j = i; j < vecSal.length - 1; j++) {
                         cadena = cadena + vecSal[j] + " ";
@@ -897,7 +923,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         n++;
                     }
                     cadena = pF + "\nError sintactico al recibir: " + obLex.nombre;
-                    jTProgramaSintactico.setText("Error sintactico al recibir [" + obLex.nombre + "] se esperaba");
+                    jTProgramaSintactico.setText("Error sintactico al recibir [" + obLex.nombre + "] se esperaba ");
                     lbSin.setText("Sintactico: Incorrecto.");
                     n = 0;
                     obLex.nombre = "";
@@ -926,7 +952,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                     if (!obLex.nombre.equals("")) {
                         cadena = cadena + "\nSe esperaba: " + obLex.nombre;
-                        jTProgramaSintactico.setText("\nSe esperaba: " + obLex.nombre);
+                        jTProgramaSintactico.setText("\nSe esperaba: " + obLex.nombre + " Linea " + i);
                     }
                     pF = cadena;
                     break;
@@ -939,7 +965,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             lbSin.setText("Sintactico: Correcto.");
             pF = cadena;
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_lbSintacticoMouseClicked
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
@@ -966,6 +991,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbLex.setText("Lexico:");
         lbSin.setText("Sintactico:");
         lbSem.setText("Semantico:");
+        jTProgramaCompilado.setText("");
+        jTProgramaSintactico.setText("");
+        jTProgramaSemantico.setText("");
         // TODO add your handling code here:
         jTProgramaFuente.setText(ManejoArchivos.cargarArchivo());
     }//GEN-LAST:event_lbCargarMouseClicked
@@ -974,8 +1002,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         try {
             ManejoArchivos.guardarArchivo(jTProgramaFuente.getText());
             // TODO add your handling code here:
+
         } catch (IOException ex) {
-            Logger.getLogger(InterfazPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InterfazPrincipal.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         JOptionPane.showMessageDialog(null, "Archivo Guardado con exito.");
     }//GEN-LAST:event_lbGuardarMouseClicked
@@ -1004,16 +1034,24 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InterfazPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InterfazPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
