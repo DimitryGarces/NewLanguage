@@ -97,42 +97,52 @@ public class Lexico {
 //        {"=", "Igual", "22"}
 //    };
 
-    public String EtiquetarInvertido(int token) {
-        if (token >= 1 && token <= 19) {
-            return "PR";
-        } else if (token <= 55 && token >= 50) {
-            return "DAT";
-        }
-        for (int i = 0; i < dic.length; i++) {
-            if (Integer.valueOf(dic[i][2]) == token) {
-                return dic[i][1];
+    public String EtiquetarInvertido(int token, boolean b) {
+        if (b) {
+            if (token >= 1 && token <= 19) {
+                return "PR";
+            } else if (token <= 55 && token >= 50) {
+                return "DAT";
             }
+            for (int i = 0; i < dic.length; i++) {
+                if (Integer.valueOf(dic[i][2]) == token) {
+                    return dic[i][1];
+                }
+            }
+
+        } else {
+            for (int i = 0; i < dic.length; i++) {
+                if (dic[i][2].equals(token + "")) {
+                    return dic[i][1];
+                }
+            }
+
         }
-        return "TDNENC";
-//        switch (token) {
-//            case 50:
-//                return "Numerico";
-//            case 51:
-//                return "Cadena";
-//            case 52:
-//                return "Variable";
-//            case 53:
-//                return "Caracter";
-//            case 54:
-//                return "Bool";
-//            case 100:
-//                return "Numerico no valido";
-//            case 101:
-//                return "Cadena no valido";
-//            case 102:
-//                return "Variable no valido";
-//            case 103:
-//                return "Caracter no valido";
-//            case 104:
-//                return "Bool no valido";
-//            default:
-//                return "Caracter desconocido";
-//        }
+        switch (token) {
+            case 50:
+                return "Numerico";
+            case 51:
+                return "Cadena";
+            case 52:
+                return "Variable";
+            case 53:
+                return "Caracter";
+            case 54:
+                return "Bool";
+            case 100:
+                return "Numerico no valido";
+            case 101:
+                return "Cadena no valido";
+            case 102:
+                return "Variable no valido";
+            case 103:
+                return "Caracter no valido";
+            case 104:
+                return "Bool no valido";
+            default:
+                return "Caracter desconocido";
+        }
+
     }
 
     public Lexico Etiquetar(String palabra) {

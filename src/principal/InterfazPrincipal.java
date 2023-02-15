@@ -21,6 +21,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     String[] tablaIdenFilas;
     ArrayList<String[]> tablaIdenCol = new ArrayList<>();
+
     /**
      * Creates new form InterfazPrincipal
      */
@@ -325,6 +326,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbLexicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLexicoMouseClicked
+        pnSintactico.setVisible(false);
+        pnSemantico.setVisible(false);
+        lbSin.setText("Sintactico:");
+        lbSem.setText("Semantico:");
+        jTProgramaSintactico.setText("");
         String[] divisionRenglones = {jTProgramaFuente.getText()};
         String resultadoLexico = "";
         codigoFuente = new Renglon[divisionRenglones.length + 1];
@@ -441,25 +447,28 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_lbLexicoMouseClicked
 
     private void lbSintacticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSintacticoMouseClicked
-        pnSemantico.setVisible(true);
+        pnSemantico.setVisible(false);
         pnIntermedio.setVisible(false);
         pnOptimizacion.setVisible(false);
         pnObjeto.setVisible(false);
 
         jTProgramaSintactico.setText("");
         jTProgramaSemantico.setText("");
+
         int[] pp
                 = {
                     56
                 };
+
         Renglon p = new Renglon(pp);
         codigoFuente[codigoFuente.length - 1] = p;
 
         String cadena = "";
-//        for (int i = 0; i < vecSal.length; i++) {
-//            cadena = cadena + vecSal[i] + " ";
-//        }
-//        cadena += "$";
+        for (int i = 0; i < vecSal.length; i++) {
+            cadena = cadena + vecSal[i] + " ";
+        }
+        cadena += "$";
+        String fuente = "$ 150";
 
 //        jTProgramaCompilado.setText(cadena);
 //        jLabel1.setText("Movimiento");
@@ -545,42 +554,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         {189},
         {157}
         };
-        //Antiguo proyecto
-//        int mg[][] = {{},
-//        {159, 8, 150, 7, 6, 152, 5, 3},
-//        {8, 150, 7, 4},
-//        {},
-//        {153, 157, 14, 157},
-//        {152, 13},
-//        {},
-//        {18, 52, 10},
-//        {18, 156, 22, 52},
-//        {160, 52},
-//        {160, 51},
-//        {160, 50},
-//        {52},
-//        {51},
-//        {50},
-//        {154},
-//        {164},
-//        {162},
-//        {158},
-//        {155},
-//        {165},
-//        {150, 151},
-//        {},
-//        {160, 157, 161},
-//        {},
-//        {12},
-//        {21},
-//        {18, 6, 163, 157, 5, 1},
-//        {163, 157, 21},
-//        {},
-//        {18, 6, 52, 5, 2},
-//        {8, 150, 7, 6, 166, 50, 17, 50, 5, 9},
-//        {50, 16},
-//        {}
-//        };
+
         int mt[][] = new int[45][55];
         for (int i = 0; i < 45; i++) {
             for (int j = 0; j < 55; j++) {
@@ -631,11 +605,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         mt[7][35] = 22;
         mt[8][17] = 24;
         mt[8][18] = 25;
-//        mt[8][21] = 23;
-//        mt[8][25] = 23;
-//        mt[8][27] = 23;
-//        mt[8][31] = 23;
-//        mt[8][34] = 23;
+
         mt[8][50] = 23;
         mt[8][51] = 23;
         mt[8][52] = 23;
@@ -685,11 +655,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         mt[15][27] = 39;
         mt[15][31] = 39;
         mt[15][34] = 39;
-//        mt[16][21] = 40;
-//        mt[16][25] = 40;
-//        mt[16][27] = 40;
-//        mt[16][31] = 40;
-//        mt[16][34] = 40;
+
         mt[16][50] = 40;
         mt[16][51] = 40;
         mt[16][52] = 40;
@@ -702,11 +668,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         mt[17][27] = 42;
         mt[17][31] = 42;
         mt[17][34] = 42;
-//        mt[17][50] = 40;
-//        mt[17][51] = 40;
-//        mt[17][52] = 40;
-//        mt[17][53] = 40;
-//        mt[17][54] = 40;
+
         mt[18][1] = 43;
 
         mt[19][21] = 45;
@@ -767,126 +729,111 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         mt[42][52] = 76;
 
-//        mt[43][24] = 76;
-//        mt[43][15] = 76;
-//        mt[43][16] = 76;
-//        mt[43][14] = 76;
         mt[43][20] = 77;
         mt[43][35] = 78;
 
-        //Antiguo proyecto
-//        mt[8][3] = 1;
-//        mt[9][1] = 3;
-//        mt[9][2] = 3;
-//        mt[9][3] = 3;
-//        mt[9][4] = 2;
-//        mt[9][8] = 3;
-//        mt[9][9] = 3;
-//        mt[9][10] = 3;
-//        mt[9][52] = 3;
-//        mt[9][53] = 3;
-//        mt[2][50] = 4;
-//        mt[2][51] = 4;
-//        mt[2][52] = 4;
-//        mt[3][6] = 6;
-//        mt[3][13] = 5;
-//        mt[4][10] = 7;
-//        mt[5][52] = 8;
-//        mt[6][50] = 11;
-//        mt[6][51] = 10;
-//        mt[6][52] = 9;
-//        mt[7][50] = 14;
-//        mt[7][51] = 13;
-//        mt[7][52] = 12;
-//        mt[1][1] = 17;
-//        mt[1][2] = 16;
-//        mt[1][3] = 18;
-//        mt[1][9] = 20;
-//        mt[1][10] = 15;
-//        mt[1][52] = 19;
-//        mt[0][1] = 21;
-//        mt[0][2] = 21;
-//        mt[0][3] = 21;
-//        mt[0][8] = 22;
-//        mt[0][9] = 21;
-//        mt[0][10] = 21;
-//        mt[0][52] = 21;
-//        mt[0][53] = 22;
-//        mt[10][12] = 23;
-//        mt[10][18] = 24;
-//        mt[10][21] = 23;
-//        mt[11][12] = 25;
-//        mt[11][21] = 26;
-//        mt[12][1] = 27;
-//        mt[13][6] = 29;
-//        mt[13][21] = 28;
-//        mt[14][2] = 30;
-//        mt[15][9] = 31;
-//        mt[16][16] = 32;
-//        mt[16][6] = 33;
         int vecMov[] = {0, 150};
         int vecMovAux[];
         int i = 0;
-        int pr;
-        int pc = 0;
-        int nl = 0;
-        int tv = 0;
+        int prmReng;
+        int prmColum = 0;
+        int noLin = 0; //no. Produccion
+        int tv = 0; //Movimientos del vector auxiliar
+        cadena = "";
         ////////////////////////////////////////////////////////////Modificacion
-       cadena = "";
+        String vEsp = "";
         String pF = jTProgramaFuente.getText() + "\n";
         String pC = "";
-        int lin = 0;
+        Lexico le = new Lexico();
+        int lin = 1;
 
         do {
-            pr = vecMov[vecMov.length - 1];
-            if (pr >= 150) {
-                pr = pr - 150;
-                pc = vecSal[i];
-                nl = mt[pr][pc];
-                if (nl != -1) {
+            prmReng = vecMov[vecMov.length - 1];
+            //Si esta entre 1 y 50, es token fijo
+            //Si esta entre 50 y 99, token variable
+            //Si esta entre 100 y 149, error lexico
+            //Si esta encima del 150, no terminal
+            if (prmReng >= 150) {
+                //Para la tabla de transiciones
+                prmReng = prmReng - 150; //Obtenemos el numero de renglon
+                prmColum = vecSal[i]; //Obtenemos el numero de columna
+
+                noLin = mt[prmReng][prmColum];
+                //Verifiamos que movimiento existe o no en dicha posicion
+                if (noLin != -1) {
+                    if (vecMov.equals("31")) {
+                        lin++;
+                    }
                     vecMovAux = vecMov;
-                    vecMov = new int[(vecMovAux.length + mg[nl].length) - 1];
+                    /*Como existe movimiento lo que se hace es tomar la longitud ya existente de nuestro Vector de Salida
+                    posteriormente se agregara la longitud de nuestra matriz de gramatica en ese movimiento,
+                    es decir, cuantos movimientos nuevos posibles tendremos, esto menos 1*/
+                    vecMov = new int[(vecMovAux.length + mg[noLin].length) - 1];
                     tv = 0;
+                    //Copiamos los movimientos anteriores excepto la ultima posicion
                     for (int j = 0; j < vecMovAux.length - 1; j++) {
                         vecMov[j] = vecMovAux[j];
                     }
+                    /*Ingresamos movimientos de la gramatica desde donde se quedo vecMovAux,
+                    hasta la longitud del vecMov nuevo, tomando los nuevos posibles movimientos 
+                    en esa posicion de nuestra matriz de gramatica*/
                     for (int j = vecMovAux.length - 1; j < vecMov.length; j++) {
-                        vecMov[j] = mg[nl][tv];
+                        vecMov[j] = mg[noLin][tv];
                         tv++;
                     }
-                    cadena = pF;
+
+                    cadena = pF + "\n";
+
                     for (int j = 0; j < vecMov.length; j++) {
                         cadena = cadena + vecMov[j] + " ";
                     }
+
                     pF = cadena;
-                    lin++;
-                    cadena = pF + "\n";
+
+                    cadena = pC + "\n";
+                    //
                     for (int j = i; j < vecSal.length - 1; j++) {
                         cadena = cadena + vecSal[j] + " ";
                     }
                     cadena = cadena + "$";
                     pC = cadena;
                 } else {
-                    cadena = pF + "\nError sintactico al recibir [" + vecSal[i] + "] se esperaba ";
-                    jTProgramaSintactico.setText("Error sintactico al recibir [" + lexInv.EtiquetarInvertido(vecSal[i]) + "] se esperaba ");
+                    //Existe error de tipo sintactico
                     lbSin.setText("Sintactico: Incorrecto.");
+                    int sep = 0;
+                    vEsp = le.EtiquetarInvertido(vecSal[i], false);
+                    cadena = pF + "\nError sintactico al recibir [" + noLin + "] se esperaba ";
+
+                    //Vamos a buscar todos los movimientos esperados en la matriz de translacion
+                    String movEsperados = "";
                     for (int j = 0; j < 55; j++) {
-                        if (mt[pr][j] != -1) {
-                            cadena = cadena + j + " ";
+                        if (mt[prmReng][j] != -1) {
+                            movEsperados = movEsperados + le.EtiquetarInvertido(j, false) + " ";
                         }
                     }
+                    cadena += movEsperados;
+                    jTProgramaSintactico.setText(jTProgramaSintactico.getText()
+                            + "Error sintactico en linea " + lin + "se esperaba: " + movEsperados);
                     pF = cadena;
                     break;
                 }
             } else {
+                //Preguntamos si nuestro vector de salida es igual a nuestro vector de movimiento en su ultima pos
                 if (vecSal[i] == vecMov[vecMov.length - 1]) {
+                    //Se deberan de eliminar
                     i++;
                     vecMovAux = vecMov;
+                    if (vecMov.equals("31")) {
+                        lin++;
+                    }
                     vecMov = new int[vecMovAux.length - 1];
+                    //Hacemos la copia
                     for (int j = 0; j < vecMov.length; j++) {
                         vecMov[j] = vecMovAux[j];
                     }
+
                     cadena = pF + "\n";
+
                     for (int j = 0; j < vecMov.length; j++) {
                         cadena = cadena + vecMov[j] + " ";
                     }
@@ -898,75 +845,35 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                     cadena = cadena + "$";
                     pC = cadena;
+                    //Si logra terminar es por que no hubo error satisfactoriamente 
                 } else {
+                    //Existe error sintactico
+                    lbSin.setText("Sintactico: Incorrecto.");
+                    Lexico obLex = new Lexico();
                     if (vecSal[i] == 53 && vecMov[vecMov.length - 1] == 0) {
+                        lin++;
                         break;
                     }
-                    int n = 0;
-                    Lexico obLex = new Lexico();
-                    while (n < obLex.dic.length) {
-                        if (Integer.toString(vecSal[i]).equals(obLex.dic[n][2])) {
-                            obLex.nombre = obLex.dic[n][1];
-                            break;
-                        } else if (vecSal[i] == 50) {
-                            obLex.nombre = "Numerico";
-                            break;
-                        } else if (vecSal[i] == 51) {
-                            obLex.nombre = "Cadena";
-                            break;
-                        } else if (vecSal[i] == 52) {
-                            obLex.nombre = "Variable";
-                            break;
-                        } else if (vecSal[i] == 53) {
-                            obLex.nombre = "Caracter";
-                            break;
-                        } else if (vecSal[i] == 54) {
-                            obLex.nombre = "Booleano";
-                            break;
-                        }
-                        n++;
-                    }
+                    String vM = le.EtiquetarInvertido(vecMov[vecMov.length - 1], false);;
                     cadena = pF + "\nError sintactico al recibir: " + obLex.nombre;
-                    jTProgramaSintactico.setText("Error sintactico al recibir [" + obLex.nombre + "] se esperaba ");
-                    lbSin.setText("Sintactico: Incorrecto.");
-                    n = 0;
-                    obLex.nombre = "";
-                    while (n < obLex.dic.length) {
-                        if (Integer.toString(vecMov[vecMov.length - 1]).equals(obLex.dic[n][2])) {
-                            obLex.nombre = obLex.dic[n][1];
-                            break;
-                        } else if (vecMov[vecMov.length - 1] == 50) {
-                            obLex.nombre = "Numerico";
-                            break;
-                        } else if (vecMov[vecMov.length - 1] == 51) {
-                            obLex.nombre = "Cadena";
-                            break;
-                        } else if (vecMov[vecMov.length - 1] == 52) {
-                            obLex.nombre = "Variable";
-                            break;
-                        } else if (vecMov[vecMov.length - 1] == 53) {
-                            obLex.nombre = "Caracter";
-                            break;
 
-                        } else if (vecMov[vecMov.length - 1] == 54) {
-                            obLex.nombre = "Boolean";
-                            break;
-                        }
-                        n++;
-                    }
-                    if (!obLex.nombre.equals("")) {
-                        cadena = cadena + "\nSe esperaba: " + obLex.nombre;
-                        jTProgramaSintactico.setText("\nSe esperaba: " + obLex.nombre + " Linea " + i);
-                    }
+                    jTProgramaSintactico.setText(jTProgramaSintactico.getText()
+                            + "Error sintactico en linea " + lin + "se esperaba " + vM);
+
+//                    if (!vM.equals("Caracter desconocido")) {
+//                        cadena = cadena + "\nSe esperaba: " + obLex.nombre;
+//                        jTProgramaSintactico.setText(jTProgramaSintactico.getText()+
+//                            "Error sintactico en linea "+lin +"se esperaba "+vM);
+//                    }
                     pF = cadena;
                     break;
                 }
-
             }
         } while (i < vecSal.length);
         if (vecMov[vecMov.length - 1] == 0 && !pF.contains("Error")) {
             cadena = pF + "\nSintacticamente Correcto";
             lbSin.setText("Sintactico: Correcto.");
+            pnSemantico.setVisible(true);
             pF = cadena;
         }
     }//GEN-LAST:event_lbSintacticoMouseClicked
@@ -974,29 +881,27 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
         pnIntermedio.setVisible(true);
         String text = jTProgramaFuente.getText();
-        if (text.contains("IMP")) {
-            System.out.println("Se encontro la palabra IMP");
-        }
         Semantico objSem = new Semantico();
         Lexico objLexico = new Lexico();
-        String[] divisionRenglones = jTProgramaFuente.getText().split("(<=\n)");
+        String[] divisionRenglones = jTProgramaFuente.getText().split("\n;");
         StringTokenizer palabras, palabrasOper, palabrasAux;
         String palabra = "", texto = "";
         String mensaje = "";
-        boolean banDuplicada, banderaVV, banderaErrores = true, banderaVE = false;
-        int palabrasAsig[];
+        boolean palRep, varDec, banderaErrores = true, banderaVE = false;
         for (int i = 0; i < divisionRenglones.length; i++) {
-            palabras = new StringTokenizer(divisionRenglones[i], " ;,\n");
-            palabrasAux = new StringTokenizer(divisionRenglones[i], " ;,\n");
+            palabras = new StringTokenizer(divisionRenglones[i], " ;\n");
+            palabrasAux = new StringTokenizer(divisionRenglones[i], " ;\n");
             texto = "";
             while (palabrasAux.hasMoreElements()) {
                 texto = texto + palabrasAux.nextToken();
             }
             palabrasOper = new StringTokenizer(texto, "=+-*/%", true);
             palabra = palabras.nextToken().replaceAll("\n", "");
-            if (palabra.equals("Double") || palabra.equals("String") || palabra.equals("Variable") || palabra.equals("Char")) {
+            if (palabra.equals("NUM") || palabra.equals("CAD")
+                    || palabra.equals("CHAR") || palabra.equals("BOOL")) {
+                //Encuentra declaracion de dato, almacenamos a que tipo se refiere
                 String tipo = palabra;
-                banDuplicada = false;
+                palRep = false;
                 tablaIdenFilas = new String[5];
                 tablaIdenFilas[0] = String.valueOf(i + 1);
                 tablaIdenFilas[1] = objSem.conversionNum(palabra);
@@ -1004,18 +909,19 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if (!tablaIdenCol.isEmpty()) {
                     for (int j = 0; j < tablaIdenCol.size(); j++) {
                         if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
-                            mensaje = mensaje + "Duplicidad de variable " + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n";
+                            mensaje = mensaje + "Variable repetida " + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n";
+                            lbSem.setText("Semantico: Incorrecto");
                             jTProgramaSemantico.setText(mensaje);
-                            banDuplicada = true;
+                            palRep = true;
                             banderaErrores = false;
                         }
                     }
                 }
-                if (!banDuplicada) {
+                if (!palRep) {
                     tablaIdenCol.add(tablaIdenFilas);
                 }
                 while (palabras.hasMoreElements()) {
-                    banDuplicada = false;
+                    palRep = false;
                     tablaIdenFilas = new String[5];
                     tablaIdenFilas[0] = String.valueOf(i + 1);
                     tablaIdenFilas[1] = objSem.conversionNum(tipo);
@@ -1023,146 +929,22 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     if (!tablaIdenCol.isEmpty()) {
                         for (int j = 0; j < tablaIdenCol.size(); j++) {
                             if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
-                                mensaje = mensaje + "Duplicidad de variable " + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n";
+                                mensaje = mensaje + "Variable repetida " + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n";
+                                lbSem.setText("Semantico: Incorrecto");
                                 jTProgramaSemantico.setText(mensaje);
-                                banDuplicada = true;
+                                palRep = true;
                                 banderaErrores = false;
                             }
                         }
                     }
-                    if (!banDuplicada) {
+                    if (!palRep) {
                         if (!tablaIdenFilas[2].matches("\n")) {
                             tablaIdenCol.add(tablaIdenFilas);
                         }
                     }
                 }
             } else {
-                banderaVV = false;
-                palabrasAsig = codigoFuente[i].getPalabras();
-                if (palabrasAsig.length != 0 && palabrasAsig[0] == 50 && palabrasAsig[1] == 8) {
-                    for (int j = 0; j < tablaIdenCol.size(); j++) {
-                        if (tablaIdenCol.get(j)[2].equals(palabra)) {
-                            banderaVE = true;
-                            break;
-                        }
-                        banderaVE = false;
-                    }
-                    if (banderaVE) {
-                        for (int j = 0; j < tablaIdenCol.size(); j++) {
-                            if (tablaIdenCol.get(j)[2].equals(palabra)) {
-                                palabras.nextToken();
-                                palabras.nextToken();
-                                palabrasOper.nextToken();
-                                palabrasOper.nextToken();
-                                palabra = palabrasOper.nextToken().replaceAll("\n", "");
-                                if (!palabrasOper.hasMoreElements()) {
-                                    String num = String.valueOf(objLexico.Etiquetar(palabra).numero);
-                                    if ("50".equals(num)) {
-                                        for (int n = 0; n < tablaIdenCol.size(); n++) {
-                                            if (tablaIdenCol.get(n)[2].equals(palabra)) {
-                                                if (objSem.operCompatibles(tablaIdenCol.get(j)[1], tablaIdenCol.get(n)[1])) {
-                                                    if (tablaIdenCol.get(n)[3] == null && tablaIdenCol.get(n)[4] == null) {
-                                                        break;
-                                                    } else {
-                                                        tablaIdenCol.get(j)[3] = tablaIdenCol.get(n)[3];
-                                                        tablaIdenCol.get(j)[4] = tablaIdenCol.get(n)[4];
-                                                        banderaVV = true;
-                                                        break;
-                                                    }
-                                                } else {
-                                                    mensaje = mensaje + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(tablaIdenCol.get(n)[4])
-                                                            + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n";
-                                                    jTProgramaSemantico.setText(mensaje);
-                                                    banderaErrores = false;
-                                                }
-                                                break;
-                                            }
-                                        }
-                                        if (!banderaVV) {
-                                            mensaje = mensaje + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n";
-                                            jTProgramaSemantico.setText(mensaje);
-                                            banderaErrores = false;
-                                            break;
-                                        }
-                                    } else {
-                                        if (!banderaVV) {
-                                            if (objSem.operCompatibles(tablaIdenCol.get(j)[1], num)) {
-                                                tablaIdenCol.get(j)[3] = palabra;
-                                                tablaIdenCol.get(j)[4] = num;
-                                                break;
-                                            } else {
-                                                mensaje = mensaje + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(num)
-                                                        + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n";
-                                                jTProgramaSemantico.setText(mensaje);
-                                                banderaErrores = false;
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    String operacion = "", num;
-                                    while (palabrasOper.hasMoreElements()) {
-                                        if (objLexico.Etiquetar(palabra).numero == 50) {
-                                            for (int n = 0; n < tablaIdenCol.size(); n++) {
-                                                if (tablaIdenCol.get(n)[2].equals(palabra)) {
-                                                    operacion = operacion + palabra;
-                                                    banderaVV = true;
-                                                    palabra = palabrasOper.nextToken().replaceAll("\n", "");
-                                                    break;
-                                                }
-                                            }
-                                            if (!banderaVV) {
-                                                mensaje = mensaje + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n";
-                                                jTProgramaSemantico.setText(mensaje);
-                                                banderaErrores = false;
-                                            }
-                                        } else {
-                                            operacion = operacion + palabra;
-                                            palabra = palabrasOper.nextToken().replaceAll("\n", "");
-                                        }
-                                    }
-                                    if (objLexico.Etiquetar(palabra).numero == 50) {
-                                        for (int n = 0; n < tablaIdenCol.size(); n++) {
-                                            if (tablaIdenCol.get(n)[2].equals(palabra)) {
-                                                operacion = operacion + palabra;
-                                                banderaVV = true;
-                                                break;
-                                            }
-                                        }
-                                        if (!banderaVV) {
-                                            mensaje = mensaje + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n";
-                                            jTProgramaSemantico.setText(mensaje);
-                                            operacion = operacion + "\"error\"";
-                                            banderaErrores = false;
-                                        }
-                                    } else {
-                                        operacion = operacion + palabra;
-                                    }
-                                    try {
-                                        String res = objSem.calcular(operacion, jTabbedPane1, tablaIdenCol, tablaIdenCol.get(j)[2]);
-                                        num = String.valueOf(objLexico.Etiquetar(res).numero);
-                                        if (objSem.operCompatibles(tablaIdenCol.get(j)[1], num)) {
-                                            tablaIdenCol.get(j)[3] = res;
-                                            tablaIdenCol.get(j)[4] = num;
-                                            break;
-                                        } else {
-                                            mensaje = mensaje + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(num)
-                                                    + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n";
-                                            jTProgramaSemantico.setText(mensaje);
-                                            banderaErrores = false;
-                                        }
-                                    } catch (Exception ex) {
-                                        banderaErrores = false;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        mensaje = mensaje + "Variable " + palabra + " no declarada en la linea " + String.valueOf(i + 1) + "\n";
-                        banderaErrores = false;
-                        jTProgramaSemantico.setText(mensaje);
-                    }
-                }
+
             }
         }
 
@@ -1176,8 +958,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             lbSem.setText("Semánticamente Correcto");
             jTProgramaSemantico.setText(mensaje);
         }
-        
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_lbSemanticoMouseClicked
 

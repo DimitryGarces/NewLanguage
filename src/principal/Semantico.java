@@ -14,7 +14,7 @@ public class Semantico
     Lexico objLexico = new Lexico();
     String[] operadores =
     {
-        "-", "+", "*", "/", "%"
+        "-", "+", "*", "/", "^"
     };
     int contExp = 1, contTemp;
     ArrayList<String[]> listaCuadru = new ArrayList<>();
@@ -36,7 +36,7 @@ public class Semantico
             -1, -1, 1, -1
         },
         {
-            -1, -1, -1, -1
+            -1, -1, -1, 1
         }
     };
     int operAri[][] =
@@ -45,13 +45,13 @@ public class Semantico
             1, -1, -1, -1
         },
         {
-            1, 1, -1, -1
+            -1, -1, -1, -1
         },
         {
             -1, -1, -1, -1
         },
         {
-            -1, -1, 1, 1
+            -1, -1, 1, -1
         }
     };
 
@@ -59,22 +59,38 @@ public class Semantico
     {
         switch (s)
         {
-            case "double":
+            case "NUM":
                 return "51";
-            case "String":
+            case "CAD":
                 return "52";
-            case "Variable":
+            case "CHAR":
                 return "53";
-            case "Char":
+            case "BOOL":
                 return "54";
+            default:
+                return "No valido";
+        }
+    }
+    public String conversionString(String s)
+    {
+        switch (s)
+        {
+           case "51":
+                return "NUM";
+            case "52":
+                return "CAD";
+            case "53":
+                return "CHAR";
+            case "54":
+                return "BOOL";
             default:
                 return "No valido";
         }
     }
     public boolean operCompatibles(String fila, String colum)
     {
-        int f = Integer.parseInt(fila) - 51;
-        int c = Integer.parseInt(colum) - 51;
+        int f = Integer.parseInt(fila) - 50;
+        int c = Integer.parseInt(colum) - 50;
         if (c != 54 && c != -1 && asig[f][c] == 1)
         {
             return true;
@@ -83,22 +99,7 @@ public class Semantico
             return false;
         }
     }
-    public String conversionString(String s)
-    {
-        switch (s)
-        {
-           case "double":
-                return "51";
-            case "String":
-                return "52";
-            case "Variable":
-                return "53";
-            case "Char":
-                return "54";
-            default:
-                return "No valido";
-        }
-    }
+    
 
     public String calcular(String expresion, JTabbedPane tabPanel, ArrayList<String[]> arrlist, String var) throws Exception
     {
