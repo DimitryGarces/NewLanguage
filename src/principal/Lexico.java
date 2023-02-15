@@ -103,9 +103,9 @@ public class Lexico {
         } else if (token <= 55 && token >= 50) {
             return "DAT";
         }
-        for (int i = 28; i < dic.length; i++) {
-            if (Integer.getInteger(dic[i][2]) == token) {
-                return dic[i][2];
+        for (int i = 0; i < dic.length; i++) {
+            if (Integer.valueOf(dic[i][2]) == token) {
+                return dic[i][1];
             }
         }
         return "TDNENC";
