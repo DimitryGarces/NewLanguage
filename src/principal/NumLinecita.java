@@ -141,7 +141,7 @@ public class NumLinecita extends JPanel
         List<Integer> l = getLineas();
         while (rowStartOffset <= endOffset) {
             try {
-                if (!l.isEmpty()) {
+                if (l != null || !l.isEmpty()) {
                     Element root = component.getDocument().getDefaultRootElement();
                     int index = root.getElementIndex(rowStartOffset);
                     Element line = root.getElement(index);

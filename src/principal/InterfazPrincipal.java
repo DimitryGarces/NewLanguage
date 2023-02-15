@@ -19,6 +19,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     Lexico lexInv = new Lexico();
     Renglon[] codigoFuente;
 
+    String[] tablaIdenFilas;
+    ArrayList<String[]> tablaIdenCol = new ArrayList<>();
     /**
      * Creates new form InterfazPrincipal
      */
@@ -72,6 +74,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSintactico = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTProgramaSemantico = new javax.swing.JTextArea();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -304,6 +307,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTProgramaSemantico);
 
         pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 330, 260, 100));
+        pnContenedor.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 170, 210));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -969,6 +973,207 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
         pnIntermedio.setVisible(true);
+        Semantico objSem = new Semantico();
+        Lexico objLexico = new Lexico();
+        String[] divisionRenglones = jTProgramaFuente.getText().split("(<=\n)");
+        StringTokenizer palabras, palabrasOper, palabrasAux;
+        String palabra = "", texto = "";
+        String mensaje = "";
+        boolean banDuplicada, banderaVV, banderaErrores = true, banderaVE = false;
+        int palabrasAsig[];
+        for (int i = 0; i < divisionRenglones.length; i++) {
+            palabras = new StringTokenizer(divisionRenglones[i], " ;,\n");
+            palabrasAux = new StringTokenizer(divisionRenglones[i], " ;,\n");
+            texto = "";
+            while (palabrasAux.hasMoreElements()) {
+                texto = texto + palabrasAux.nextToken();
+            }
+            palabrasOper = new StringTokenizer(texto, "=+-*/%", true);
+            palabra = palabras.nextToken().replaceAll("\n", "");
+            if (palabra.equals("Double") || palabra.equals("String") || palabra.equals("Variable") || palabra.equals("Char")) {
+                String tipo = palabra;
+                banDuplicada = false;
+                tablaIdenFilas = new String[5];
+                tablaIdenFilas[0] = String.valueOf(i + 1);
+                tablaIdenFilas[1] = objSem.conversionNum(palabra);
+                tablaIdenFilas[2] = palabras.nextToken();
+                if (!tablaIdenCol.isEmpty()) {
+                    for (int j = 0; j < tablaIdenCol.size(); j++) {
+                        if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
+                            mensaje = mensaje + "Duplicidad de variable " + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n";
+                            jTProgramaSemantico.setText(mensaje);
+                            banDuplicada = true;
+                            banderaErrores = false;
+                        }
+                    }
+                }
+                if (!banDuplicada) {
+                    tablaIdenCol.add(tablaIdenFilas);
+                }
+                while (palabras.hasMoreElements()) {
+                    banDuplicada = false;
+                    tablaIdenFilas = new String[5];
+                    tablaIdenFilas[0] = String.valueOf(i + 1);
+                    tablaIdenFilas[1] = objSem.conversionNum(tipo);
+                    tablaIdenFilas[2] = palabras.nextToken();
+                    if (!tablaIdenCol.isEmpty()) {
+                        for (int j = 0; j < tablaIdenCol.size(); j++) {
+                            if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
+                                mensaje = mensaje + "Duplicidad de variable " + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n";
+                                jTProgramaSemantico.setText(mensaje);
+                                banDuplicada = true;
+                                banderaErrores = false;
+                            }
+                        }
+                    }
+                    if (!banDuplicada) {
+                        if (!tablaIdenFilas[2].matches("\n")) {
+                            tablaIdenCol.add(tablaIdenFilas);
+                        }
+                    }
+                }
+            } else {
+                banderaVV = false;
+                palabrasAsig = codigoFuente[i].getPalabras();
+                if (palabrasAsig.length != 0 && palabrasAsig[0] == 50 && palabrasAsig[1] == 8) {
+                    for (int j = 0; j < tablaIdenCol.size(); j++) {
+                        if (tablaIdenCol.get(j)[2].equals(palabra)) {
+                            banderaVE = true;
+                            break;
+                        }
+                        banderaVE = false;
+                    }
+                    if (banderaVE) {
+                        for (int j = 0; j < tablaIdenCol.size(); j++) {
+                            if (tablaIdenCol.get(j)[2].equals(palabra)) {
+                                palabras.nextToken();
+                                palabras.nextToken();
+                                palabrasOper.nextToken();
+                                palabrasOper.nextToken();
+                                palabra = palabrasOper.nextToken().replaceAll("\n", "");
+                                if (!palabrasOper.hasMoreElements()) {
+                                    String num = String.valueOf(objLexico.Etiquetar(palabra).numero);
+                                    if ("50".equals(num)) {
+                                        for (int n = 0; n < tablaIdenCol.size(); n++) {
+                                            if (tablaIdenCol.get(n)[2].equals(palabra)) {
+                                                if (objSem.operCompatibles(tablaIdenCol.get(j)[1], tablaIdenCol.get(n)[1])) {
+                                                    if (tablaIdenCol.get(n)[3] == null && tablaIdenCol.get(n)[4] == null) {
+                                                        break;
+                                                    } else {
+                                                        tablaIdenCol.get(j)[3] = tablaIdenCol.get(n)[3];
+                                                        tablaIdenCol.get(j)[4] = tablaIdenCol.get(n)[4];
+                                                        banderaVV = true;
+                                                        break;
+                                                    }
+                                                } else {
+                                                    mensaje = mensaje + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(tablaIdenCol.get(n)[4])
+                                                            + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n";
+                                                    jTProgramaSemantico.setText(mensaje);
+                                                    banderaErrores = false;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                        if (!banderaVV) {
+                                            mensaje = mensaje + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n";
+                                            jTProgramaSemantico.setText(mensaje);
+                                            banderaErrores = false;
+                                            break;
+                                        }
+                                    } else {
+                                        if (!banderaVV) {
+                                            if (objSem.operCompatibles(tablaIdenCol.get(j)[1], num)) {
+                                                tablaIdenCol.get(j)[3] = palabra;
+                                                tablaIdenCol.get(j)[4] = num;
+                                                break;
+                                            } else {
+                                                mensaje = mensaje + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(num)
+                                                        + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n";
+                                                jTProgramaSemantico.setText(mensaje);
+                                                banderaErrores = false;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    String operacion = "", num;
+                                    while (palabrasOper.hasMoreElements()) {
+                                        if (objLexico.Etiquetar(palabra).numero == 50) {
+                                            for (int n = 0; n < tablaIdenCol.size(); n++) {
+                                                if (tablaIdenCol.get(n)[2].equals(palabra)) {
+                                                    operacion = operacion + palabra;
+                                                    banderaVV = true;
+                                                    palabra = palabrasOper.nextToken().replaceAll("\n", "");
+                                                    break;
+                                                }
+                                            }
+                                            if (!banderaVV) {
+                                                mensaje = mensaje + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n";
+                                                jTProgramaSemantico.setText(mensaje);
+                                                banderaErrores = false;
+                                            }
+                                        } else {
+                                            operacion = operacion + palabra;
+                                            palabra = palabrasOper.nextToken().replaceAll("\n", "");
+                                        }
+                                    }
+                                    if (objLexico.Etiquetar(palabra).numero == 50) {
+                                        for (int n = 0; n < tablaIdenCol.size(); n++) {
+                                            if (tablaIdenCol.get(n)[2].equals(palabra)) {
+                                                operacion = operacion + palabra;
+                                                banderaVV = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!banderaVV) {
+                                            mensaje = mensaje + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n";
+                                            jTProgramaSemantico.setText(mensaje);
+                                            operacion = operacion + "\"error\"";
+                                            banderaErrores = false;
+                                        }
+                                    } else {
+                                        operacion = operacion + palabra;
+                                    }
+                                    try {
+                                        String res = objSem.calcular(operacion, jTabbedPane1, tablaIdenCol, tablaIdenCol.get(j)[2]);
+                                        num = String.valueOf(objLexico.Etiquetar(res).numero);
+                                        if (objSem.operCompatibles(tablaIdenCol.get(j)[1], num)) {
+                                            tablaIdenCol.get(j)[3] = res;
+                                            tablaIdenCol.get(j)[4] = num;
+                                            break;
+                                        } else {
+                                            mensaje = mensaje + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(num)
+                                                    + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n";
+                                            jTProgramaSemantico.setText(mensaje);
+                                            banderaErrores = false;
+                                        }
+                                    } catch (Exception ex) {
+                                        banderaErrores = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        mensaje = mensaje + "Variable " + palabra + " no declarada en la linea " + String.valueOf(i + 1) + "\n";
+                        banderaErrores = false;
+                        jTProgramaSemantico.setText(mensaje);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < tablaIdenCol.size(); i++) {
+            for (int j = 0; j < tablaIdenCol.get(i).length; j++) {
+                System.out.print(tablaIdenCol.get(i)[j] + " ");
+            }
+            System.out.println("");
+        }
+        if (banderaErrores) {
+            lbSem.setText("Semánticamente Correcto");
+            jTProgramaSemantico.setText(mensaje);
+        }
+        
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_lbSemanticoMouseClicked
 
@@ -1074,6 +1279,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextArea jTProgramaFuente;
     private javax.swing.JTextArea jTProgramaSemantico;
     private javax.swing.JTextArea jTProgramaSintactico;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbCargar;
     private javax.swing.JLabel lbGuardar;
     private javax.swing.JLabel lbIntermedio;
