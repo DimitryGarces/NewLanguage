@@ -1147,13 +1147,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         }
                     }
                     /*Si la variable fue declarada, por el momento es correcto y 
-                    se validaran sus operaciones correspondientes a la asignacion*/
+                    se validaran sus operaciones correspondientes a la*/
                     if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
                     } else {
                         lbSem.setText("Semantico: Incorrecto");
-                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable repetida "
-                                + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
+                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
+                                + palabra+ " en la linea " + (i+1) + "\n");
                         banderaErrores = false;
                     }
                 }
