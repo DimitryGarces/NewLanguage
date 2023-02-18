@@ -25,7 +25,7 @@ public class Lexico {
         {"CASO", "Case", "8", "PR"},
         {"CAMBIO", "Cambio", "9", "PR"},
         {"PREDET", "Predet", "10", "PR"},
-        {"DESCANSO", "Break", "11", "PR"},
+        {"DESCANSO", "Descanso", "11", "PR"},
         {"CLASE", "Class", "12", "PR"},
         {"IMPLEM", "Implementar", "13", "PR"},
         {"PRINCIPAL", "Principal", "14", "PR"},
@@ -63,39 +63,6 @@ public class Lexico {
         {"#", "Gato", "33", "GATO"},
         {"%", "concatenacion", "34", "CONCAT"},
         {"=", "Igual", "35", "IGUAL"}};
-//    public String dic[][] = {
-//        {"IMP", "Imprimir", "1"},
-//        {"CAP", "Captura", "2"},
-//        {"STF", "Satisfacer", "3"},
-//        {"NSTF", "No Satisface", "4"},
-//        {"(", "Parentesis abre", "5"},
-//        {")", "Parentesis cierra", "6"},
-//        {"{", "Llave abre", "7"},
-//        {"}", "Llave cierra", "8"},
-//        {"CND", "Cuando", "9"},
-//        {"NUM", "Numerico", "10"},
-//        {"CAD", "Cadena", "10"},
-//        {"+", "Suma/Concatenación", "21"},
-//        {"-", "Resta", "12"},
-//        {"*", "Multiplicacion", "12"},
-//        {"/", "Division", "12"},
-//        {"^", "Potencia", "12"},
-//        {"&", "Y", "13"},
-//        {"|", "Or", "13"},
-//        {"<", "Menor que", "14"},
-//        {">", "Mayor que", "14"},
-//        {"<=", "Menor o igual que", "14"},
-//        {">=", "Mayor o igual que", "14"},
-//        {"!", "Diferente que", "14"},
-//        {"==", "Igualdad", "14"},
-//        {"\"", "Comillas", "15"},
-//        {",", "Coma", "16"},
-//        {":", "Dos puntos", "17"},
-//        {";", "Punto y coma", "18"},
-//        {".", "Punto", "19"},
-//        {"#", "Gato", "20"},
-//        {"=", "Igual", "22"}
-//    };
 
     public String EtiquetarInvertido(int token, boolean b) {
         if (b) {

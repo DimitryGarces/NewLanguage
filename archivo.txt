@@ -1,7 +1,6 @@
 CLASE "ejemploDeCodigo" {
     IMPLEM "libreria";
     numero=28;
-NUM BOOL;
 
     NUM suma;
 
@@ -45,4 +44,6 @@ NUM BOOL;
         }
     }
 }
+
+
 

@@ -14,13 +14,14 @@ import javax.swing.JOptionPane;
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
 
-    int vecSal[];
+    int[] vecSal;
     NumLinecita numlinea;
     Lexico lexInv = new Lexico();
     Renglon[] codigoFuente;
 
     String[] tablaIdenFilas;
     ArrayList<String[]> tablaIdenCol = new ArrayList<>();
+    String programaEjecutado = "";
 
     /**
      * Creates new form InterfazPrincipal
@@ -76,6 +77,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTProgramaSemantico = new javax.swing.JTextArea();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        erroresLexicos = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,10 +110,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnContenedor.add(pnCarga1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 240, 70, 30));
 
         jLabel1.setText("Programa Fuente");
-        pnContenedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
+        pnContenedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
         jLabel2.setText("Programa Compilado");
-        pnContenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, -1, -1));
+        pnContenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         lbGuardar.setText("Guardar");
         lbGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -280,13 +283,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTProgramaFuente);
 
-        pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 40, 510, 230));
+        pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 490, 230));
 
         jTProgramaCompilado.setColumns(20);
         jTProgramaCompilado.setRows(5);
         jScrollPane2.setViewportView(jTProgramaCompilado);
 
-        pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 300, 100));
+        pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 240, 220));
 
         lbLex.setText("Lexico:");
         pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 280, -1, -1));
@@ -308,7 +311,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTProgramaSemantico);
 
         pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 330, 260, 100));
-        pnContenedor.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 170, 210));
+        pnContenedor.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 110, 210));
+
+        erroresLexicos.setColumns(20);
+        erroresLexicos.setRows(5);
+        jScrollPane5.setViewportView(erroresLexicos);
+
+        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 300, 100));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -331,8 +340,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbSin.setText("Sintactico:");
         lbSem.setText("Semantico:");
         jTProgramaSintactico.setText("");
-        String[] divisionRenglones = {jTProgramaFuente.getText()};
+        jTProgramaSemantico.setText("");
+        erroresLexicos.setText("");
+        programaEjecutado = jTProgramaFuente.getText();
+        String[] divisionRenglones = programaEjecutado.split("(?<=\\n)");
         String resultadoLexico = "";
+        boolean b = true;
         codigoFuente = new Renglon[divisionRenglones.length + 1];
         Renglon renglon;
         for (int i = 0; i < divisionRenglones.length; i++) {
@@ -406,41 +419,39 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                 }
             }
-            StringTokenizer st2 = new StringTokenizer(texto, "\n\r\f");
+            StringTokenizer st2 = new StringTokenizer(texto, " \n\t\r");
             Lexico objLex2 = new Lexico();
-            vecSal = new int[st2.countTokens() + 1];
+            vecSal = new int[st2.countTokens()];
             int j = 0;
             while (st2.hasMoreElements()) {
                 objLex2 = objLex2.Etiquetar(st2.nextToken());
                 resultadoLexico = resultadoLexico + objLex2.lexema + "\t" + objLex2.nombre + "\n";
                 vecSal[j] = objLex2.numero;
-                j++;
-            }
-            renglon = new Renglon(vecSal);
-            codigoFuente[i] = renglon;
-        }
-        //////
-        if (vecSal != null) {
-            vecSal[vecSal.length - 1] = 53;
-            boolean b = true;
-            for (int j = 0; j < vecSal.length; j++) {
                 switch (vecSal[j]) {
-                    case 105:
                     case 100:
                     case 101:
                     case 102:
                     case 103:
                     case 104:
+                    case 105:
                         b = false;
+                        erroresLexicos.setText(erroresLexicos.getText() + "\n" + objLex2.nombre + " en linea: " + (i + 1));
                         break;
                 }
+                j++;
+
             }
-            if (b) {
-                lbLex.setText("Lexicamente: Correcto.");
-                pnSintactico.setVisible(true);
-            } else {
-                lbLex.setText("Lexicamente: Incorrecto.");
-            }
+            renglon = new Renglon(vecSal);
+            codigoFuente[i] = renglon;
+
+        }
+//            vecSal[vecSal.length - 1] = 53;
+        if (b) {
+            lbLex.setText("Lexicamente: Correcto.");
+            pnSintactico.setVisible(true);
+        } else {
+            lbLex.setText("Lexicamente: Incorrecto.");
+            pnSintactico.setVisible(false);
         }
         jTProgramaCompilado.setText(resultadoLexico);
 //        jTProgramaCompilado.setText(texto);
@@ -451,29 +462,15 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnIntermedio.setVisible(false);
         pnOptimizacion.setVisible(false);
         pnObjeto.setVisible(false);
-
         jTProgramaSintactico.setText("");
         jTProgramaSemantico.setText("");
-
+        String cadena = "";
         int[] pp
                 = {
-                    56
+                    45
                 };
-
         Renglon p = new Renglon(pp);
         codigoFuente[codigoFuente.length - 1] = p;
-
-        String cadena = "";
-        for (int i = 0; i < vecSal.length; i++) {
-            cadena = cadena + vecSal[i] + " ";
-        }
-        cadena += "$";
-        String fuente = "$ 150";
-
-//        jTProgramaCompilado.setText(cadena);
-//        jLabel1.setText("Movimiento");
-//        jLabel2.setText("Cadena a validar");
-//        jTProgramaSintactico.setText("$ 150");
         int mg[][] = {{},
         {23, 188, 152, 151, 22, 51, 12},
         {151, 31, 51, 13},
@@ -732,181 +729,138 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         mt[43][20] = 77;
         mt[43][35] = 78;
 
-        int vecMov[] = {0, 150};
+        int vecMov[]
+                = {
+                    45, 150
+                };
         int vecMovAux[];
-        int i = 0;
-        int prmReng;
-        int prmColum = 0;
-        int noLin = 0; //no. Produccion
-        int tv = 0; //Movimientos del vector auxiliar
-        cadena = "";
-        ////////////////////////////////////////////////////////////Modificacion
-        String vEsp = "";
-        String pF = jTProgramaFuente.getText() + "\n";
-        String pC = "";
+        int pr;
+        int pc;
+        int nl;
+        int tv;
         Lexico le = new Lexico();
-        int lin = 1;
+        boolean banderaErrores = true;
+        int[] palabras;
 
-        do {
-            prmReng = vecMov[vecMov.length - 1];
-            //Si esta entre 1 y 50, es token fijo
-            //Si esta entre 50 y 99, token variable
-            //Si esta entre 100 y 149, error lexico
-            //Si esta encima del 150, no terminal
-            if (prmReng >= 150) {
-                //Para la tabla de transiciones
-                prmReng = prmReng - 150; //Obtenemos el numero de renglon
-                prmColum = vecSal[i]; //Obtenemos el numero de columna
-
-                noLin = mt[prmReng][prmColum];
-                //Verifiamos que movimiento existe o no en dicha posicion
-                if (noLin != -1) {
-                    if (vecMov.equals("31")) {
-                        lin++;
-                    }
-                    vecMovAux = vecMov;
-                    /*Como existe movimiento lo que se hace es tomar la longitud ya existente de nuestro Vector de Salida
-                    posteriormente se agregara la longitud de nuestra matriz de gramatica en ese movimiento,
-                    es decir, cuantos movimientos nuevos posibles tendremos, esto menos 1*/
-                    vecMov = new int[(vecMovAux.length + mg[noLin].length) - 1];
-                    tv = 0;
-                    //Copiamos los movimientos anteriores excepto la ultima posicion
-                    for (int j = 0; j < vecMovAux.length - 1; j++) {
-                        vecMov[j] = vecMovAux[j];
-                    }
-                    /*Ingresamos movimientos de la gramatica desde donde se quedo vecMovAux,
-                    hasta la longitud del vecMov nuevo, tomando los nuevos posibles movimientos 
-                    en esa posicion de nuestra matriz de gramatica*/
-                    for (int j = vecMovAux.length - 1; j < vecMov.length; j++) {
-                        vecMov[j] = mg[noLin][tv];
-                        tv++;
-                    }
-
-                    cadena = pF + "\n";
-
-                    for (int j = 0; j < vecMov.length; j++) {
-                        cadena = cadena + vecMov[j] + " ";
-                    }
-
-                    pF = cadena;
-
-                    cadena = pC + "\n";
-                    //
-                    for (int j = i; j < vecSal.length - 1; j++) {
-                        cadena = cadena + vecSal[j] + " ";
-                    }
-                    cadena = cadena + "$";
-                    pC = cadena;
-                } else {
-                    //Existe error de tipo sintactico
-                    lbSin.setText("Sintactico: Incorrecto.");
-                    int sep = 0;
-                    vEsp = le.EtiquetarInvertido(vecSal[i], false);
-                    cadena = pF + "\nError sintactico al recibir [" + noLin + "] se esperaba ";
-
-                    //Vamos a buscar todos los movimientos esperados en la matriz de translacion
-                    String movEsperados = "";
-                    for (int j = 0; j < 55; j++) {
-                        if (mt[prmReng][j] != -1) {
-                            movEsperados = movEsperados + le.EtiquetarInvertido(j, false) + " ";
-                        }
-                    }
-                    cadena += movEsperados;
-                    jTProgramaSintactico.setText(jTProgramaSintactico.getText()
-                            + "Error sintactico en linea " + lin + "se esperaba: " + movEsperados);
-                    pF = cadena;
+//        int[] pa;
+//        for (int i = 0; i < codigoFuente.length; i++) {
+//            pa = codigoFuente[i].getPalabras();
+//            for (int j = 0; j < pa.length; j++) {
+//                System.out.println("Linea "+i+" co"+pa[j]);
+//            }
+//        }
+        for (int h = 0; h < codigoFuente.length; h++) {
+            palabras = codigoFuente[h].getPalabras();
+            int i = 0;
+            do {
+                if (palabras.length == 0) {
                     break;
                 }
-            } else {
-                //Preguntamos si nuestro vector de salida es igual a nuestro vector de movimiento en su ultima pos
-                if (vecSal[i] == vecMov[vecMov.length - 1]) {
-                    //Se deberan de eliminar
-                    i++;
-                    vecMovAux = vecMov;
-                    if (vecMov.equals("31")) {
-                        lin++;
-                    }
-                    vecMov = new int[vecMovAux.length - 1];
-                    //Hacemos la copia
-                    for (int j = 0; j < vecMov.length; j++) {
-                        vecMov[j] = vecMovAux[j];
-                    }
+                pr = vecMov[vecMov.length - 1];
+                if (pr >= 150) {
+                    pr = pr - 150;
+                    pc = palabras[i];
+                    nl = mt[pr][pc];
+                    if (nl != -1) {
+                        vecMovAux = vecMov;
+                        vecMov = new int[(vecMovAux.length + mg[nl].length) - 1];
+                        tv = 0;
+                        for (int j = 0; j < vecMovAux.length - 1; j++) {
+                            vecMov[j] = vecMovAux[j];
+                        }
+                        for (int j = vecMovAux.length - 1; j < vecMov.length; j++) {
+                            vecMov[j] = mg[nl][tv];
+                            tv++;
+                        }
+                    } else {
+                        lbSin.setText("Sintactico: Incorrecto.");
+                        banderaErrores = false;
+                        String b = le.EtiquetarInvertido(palabras[i], false);
 
-                    cadena = pF + "\n";
+                        jTProgramaSintactico.setText(jTProgramaSintactico.getText()
+                                + "Error sintactico en linea " + (h + 1) + " al recibir " + b + "\n");
+                        int contador = 0;
 
-                    for (int j = 0; j < vecMov.length; j++) {
-                        cadena = cadena + vecMov[j] + " ";
-                    }
-                    pF = cadena;
-
-                    cadena = pC + "\n";
-                    for (int j = i; j < vecSal.length - 1; j++) {
-                        cadena = cadena + vecSal[j] + " ";
-                    }
-                    cadena = cadena + "$";
-                    pC = cadena;
-                    //Si logra terminar es por que no hubo error satisfactoriamente 
-                } else {
-                    //Existe error sintactico
-                    lbSin.setText("Sintactico: Incorrecto.");
-                    Lexico obLex = new Lexico();
-                    if (vecSal[i] == 53 && vecMov[vecMov.length - 1] == 0) {
-                        lin++;
+                        i++;
+                        vecMovAux = vecMov;
+                        vecMov = new int[vecMovAux.length - contador];
+                        for (int j = 0; j < vecMov.length; j++) {
+                            vecMov[j] = vecMovAux[j];
+                        }
                         break;
                     }
-                    String vM = le.EtiquetarInvertido(vecMov[vecMov.length - 1], false);;
-                    cadena = pF + "\nError sintactico al recibir: " + obLex.nombre;
+                } else {
+                    if (palabras[i] == vecMov[vecMov.length - 1]) {
+                        i++;
+                        vecMovAux = vecMov;
+                        vecMov = new int[vecMovAux.length - 1];
+                        for (int j = 0; j < vecMov.length; j++) {
+                            vecMov[j] = vecMovAux[j];
+                        }
+                    } else {
+                        lbSin.setText("Sintactico: Incorrecto.");
+                        banderaErrores = false;
+                        String b = le.EtiquetarInvertido(palabras[i], false);
 
-                    jTProgramaSintactico.setText(jTProgramaSintactico.getText()
-                            + "Error sintactico en linea " + lin + "se esperaba " + vM);
-
-//                    if (!vM.equals("Caracter desconocido")) {
-//                        cadena = cadena + "\nSe esperaba: " + obLex.nombre;
-//                        jTProgramaSintactico.setText(jTProgramaSintactico.getText()+
-//                            "Error sintactico en linea "+lin +"se esperaba "+vM);
-//                    }
-                    pF = cadena;
-                    break;
+                        jTProgramaSintactico.setText(jTProgramaSintactico.getText()
+                                + "Error sintactico en linea " + (h + 1) + " con: " + b + "\n");
+                        i++;
+                        int contador = 0;
+                        vecMovAux = vecMov;
+                        vecMov = new int[vecMovAux.length - contador];
+                        for (int j = 0; j < vecMov.length; j++) {
+                            vecMov[j] = vecMovAux[j];
+                        }
+                        break;
+                    }
                 }
-            }
-        } while (i < vecSal.length);
-        if (vecMov[vecMov.length - 1] == 0 && !pF.contains("Error")) {
-            cadena = pF + "\nSintacticamente Correcto";
+            } while (i < palabras.length);
+        }
+        if (vecMov.length == 0 && banderaErrores == true) {
             lbSin.setText("Sintactico: Correcto.");
             pnSemantico.setVisible(true);
-            pF = cadena;
         }
     }//GEN-LAST:event_lbSintacticoMouseClicked
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
-        pnIntermedio.setVisible(true);
-        String text = jTProgramaFuente.getText();
+//        pnIntermedio.setVisible(true);
+        String text = programaEjecutado;
         Semantico objSem = new Semantico();
-        Lexico objLexico = new Lexico();
-        String[] divisionRenglones = jTProgramaFuente.getText().split("\n;");
+        //Dividimos nuestro programa de acuerdo a los renglones
+        String[] divisionRenglones = programaEjecutado.split("(?<=\\n)");
         StringTokenizer palabras, palabrasOper, palabrasAux;
+
+        tablaIdenCol = new ArrayList<>();
         String palabra = "", texto = "";
         String mensaje = "";
         boolean palRep, varDec, banderaErrores = true, banderaVE = false;
+        int palabrasAsig[];
+        //Iniciamos el recorrido de los renglones
         for (int i = 0; i < divisionRenglones.length; i++) {
-            palabras = new StringTokenizer(divisionRenglones[i], " ;\n");
-            palabrasAux = new StringTokenizer(divisionRenglones[i], " ;\n");
+            //Separamos las palabras en un arreglo, de un renglon determinado por el ciclo 
+            palabras = new StringTokenizer(divisionRenglones[i].replaceAll(" ", ""), "=;");
+            palabrasAux = new StringTokenizer(divisionRenglones[i].replaceAll(" ", ""), "=;");
             texto = "";
+            //Concatenamos en una cadena las palabras encontradas
             while (palabrasAux.hasMoreElements()) {
                 texto = texto + palabrasAux.nextToken();
             }
-            palabrasOper = new StringTokenizer(texto, "=+-*/%", true);
-            palabra = palabras.nextToken().replaceAll("\n", "");
+            //Guardamos tambien en otro arreglo los operadores sin contar los espacios en blanco
+            palabrasOper = new StringTokenizer(texto, "=+-*/", false);
+            palabra = palabras.nextToken().replaceAll("\\n", "");
             if (palabra.equals("NUM") || palabra.equals("CAD")
                     || palabra.equals("CHAR") || palabra.equals("BOOL")) {
                 //Encuentra declaracion de dato, almacenamos a que tipo se refiere
                 String tipo = palabra;
                 palRep = false;
                 tablaIdenFilas = new String[5];
+                //Agregamos en que linea de codigo fue hallado, ademas a que tipo de dato se refiere
                 tablaIdenFilas[0] = String.valueOf(i + 1);
                 tablaIdenFilas[1] = objSem.conversionNum(palabra);
                 tablaIdenFilas[2] = palabras.nextToken();
-                if (!tablaIdenCol.isEmpty()) {
+                //Validamos que no haya variables agregadas previamente a nuestro array
+                if (!tablaIdenCol.isEmpty() && !tablaIdenFilas.equals("=")) {
+                    //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
                     for (int j = 0; j < tablaIdenCol.size(); j++) {
                         if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
                             mensaje = mensaje + "Variable repetida " + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n";
@@ -918,6 +872,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                 }
                 if (!palRep) {
+                    //Si la palabra no estaba repetida en declaracion, ahora se guardara para validar mas tarde su duplicidad
                     tablaIdenCol.add(tablaIdenFilas);
                 }
                 while (palabras.hasMoreElements()) {
@@ -926,7 +881,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     tablaIdenFilas[0] = String.valueOf(i + 1);
                     tablaIdenFilas[1] = objSem.conversionNum(tipo);
                     tablaIdenFilas[2] = palabras.nextToken();
-                    if (!tablaIdenCol.isEmpty()) {
+                    if (!tablaIdenCol.isEmpty() && !tablaIdenFilas.equals("=")) {
                         for (int j = 0; j < tablaIdenCol.size(); j++) {
                             if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
                                 mensaje = mensaje + "Variable repetida " + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n";
@@ -943,17 +898,34 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         }
                     }
                 }
-            } else {
-
+            }//Si no se esta declarando verificaremos si se realiza alguna accion con la variable
+            else {
+                varDec = false;
+                palabrasAsig = codigoFuente[i].getPalabras();
+                //Verificamos que haya variables declaradas anteriormente
+                if (palabrasAsig.length != 0 && palabrasAsig[0] == 52 && palabrasAsig[1] == 35) {
+                    //Verificamos que la variable haya sido declarada
+                    int y = 0;
+                    for (int j = 0; j < tablaIdenCol.size(); j++) {
+                        if (tablaIdenCol.get(j)[2].equals(palabra)) {
+                            banderaVE = true;
+                            y = j;
+                            break;
+                        }
+                        banderaVE = false;
+                    }
+                    //Si la variable fue declarada
+                    if (banderaVE) {
+                    } else {
+                        //La variable no fue declarada
+                        mensaje = mensaje + "Variable " + palabra + " no declarada en la linea " + String.valueOf(i + 1) + "\n";
+                        banderaErrores = false;
+                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + mensaje);
+                    }
+                }
             }
         }
 
-        for (int i = 0; i < tablaIdenCol.size(); i++) {
-            for (int j = 0; j < tablaIdenCol.get(i).length; j++) {
-                System.out.print(tablaIdenCol.get(i)[j] + " ");
-            }
-            System.out.println("");
-        }
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
             jTProgramaSemantico.setText(mensaje);
@@ -984,6 +956,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaCompilado.setText("");
         jTProgramaSintactico.setText("");
         jTProgramaSemantico.setText("");
+        erroresLexicos.setText("");
         // TODO add your handling code here:
         jTProgramaFuente.setText(ManejoArchivos.cargarArchivo());
     }//GEN-LAST:event_lbCargarMouseClicked
@@ -1054,12 +1027,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea erroresLexicos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextArea jTProgramaCompilado;
     private javax.swing.JTextArea jTProgramaFuente;
     private javax.swing.JTextArea jTProgramaSemantico;
