@@ -845,144 +845,26 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         String rango[];
         List<String[]> rangosAsig = new ArrayList<>();
 
-        //Iniciamos un recorrido para ver el rango de variables utilizadas en funciones
+        //Iniciamos un recorrido para ver el rango de variables utilizadas en funciones y ademas declararlas
         for (int i = 0; i < divisionRenglones.length; i++) {
             palabras = new StringTokenizer(divisionRenglones[i], " =;(),");
             palabra = palabras.nextToken().replaceAll("\n", "");
             if (palabra.equals("FUN")) {
-                texto = palabras.nextToken();
                 /*Si encontramos la declaracion de una funcion entonces capturamos el renglon y el nombre de la funcion
-                y empezamos a buscar las llaves que determinan cuando inicia y cuando termina esa funcion*/
-                rango = new String[3];
-                rango[0] = palabras.nextToken();
-                rango[1] = (i + 1) + "";
-                int lla = 1;
-                for (int j = i + 1; j < divisionRenglones.length; j++) {
-                    palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
-                    texto = "";
-                    while (palabras.hasMoreElements()) {
-                        texto = texto + palabras.nextToken();
-                    }
-                    if (texto.contains("{")) {
-                        lla++;
-                    } else if (texto.contains("}")) {
-                        lla--;
-                    }
-                    if (lla == 0) {
-                        rango[2] = (j + 1) + "";
-                        rangosAsig.add(rango);
-                        i = j;
-                        break;
-                    }
-                }
-
-            } else if (palabra.equals("MET")) {
-                texto = palabras.nextToken().replaceAll("\"", "");
-                /*Si encontramos la declaracion de una funcion entonces capturamos el renglon y el nombre de la funcion
-                y empezamos a buscar las llaves que determinan cuando inicia y cuando termina esa funcion*/
-                rango = new String[3];
-                rango[0] = texto;
-                rango[1] = (i + 1) + "";
-                int lla = 1;
-                for (int j = i + 1; j < divisionRenglones.length; j++) {
-                    palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
-                    texto = "";
-                    while (palabras.hasMoreElements()) {
-                        texto = texto + palabras.nextToken();
-                    }
-                    if (texto.contains("{")) {
-                        lla++;
-                    } else if (texto.contains("}")) {
-                        lla--;
-                    }
-                    if (lla == 0) {
-                        rango[2] = (j + 1) + "";
-                        rangosAsig.add(rango);
-                        i = j;
-                        break;
-                    }
-                }
-
-            }
-        }
-        for (int i = 0; i < rangosAsig.size(); i++) {
-            System.out.println("Funcion: " + rangosAsig.get(i)[0] + " de linea: " + rangosAsig.get(i)[1] + " a " + rangosAsig.get(i)[2]);
-        }
-
-        //Iniciamos el recorrido de los renglones
-        for (int i = 0; i < divisionRenglones.length; i++) {
-            //Separamos las palabras en un arreglo, de un renglon determinado por el ciclo 
-            palabras = new StringTokenizer(divisionRenglones[i], " =;(),");
-            palabrasAux = new StringTokenizer(divisionRenglones[i], " =;(),");
-
-            texto = "";
-            while (palabrasAux.hasMoreElements()) {
-                texto = texto + palabrasAux.nextToken();
-            }
-            //Guardamos tambien en otro arreglo los operadores sin contar los espacios en blanco
-            palabrasOper = new StringTokenizer(texto, "=+-*/", true);
-            palabra = palabras.nextToken().replaceAll("\n", "");
-            if (palabra.equals("NUM") || palabra.equals("CAD")
-                    || palabra.equals("CHAR") || palabra.equals("BOOL")) {
-                //Encuentra declaracion de dato, almacenamos a que tipo se refiere
-                String tipo = palabra;
-                palRep = false;
-                tablaIdenFilas = new String[5];
-                //Agregamos en que linea de codigo fue hallado, ademas a que tipo de dato se refiere
-                tablaIdenFilas[0] = String.valueOf(i + 1);
-                tablaIdenFilas[1] = objSem.conversionNum(palabra);
-                tablaIdenFilas[2] = palabras.nextToken();
-                //Validamos que no haya variables agregadas previamente a nuestro array
-                if (!tablaIdenCol.isEmpty() && !tablaIdenFilas.equals("=")) {
-                    //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
-                    for (int j = 0; j < tablaIdenCol.size(); j++) {
-                        if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
-                            lbSem.setText("Semantico: Incorrecto");
-                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable repetida "
-                                    + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
-                            palRep = true;
-                            banderaErrores = false;
-                        }
-                    }
-                }
-                if (!palRep) {
-                    //Si la palabra no estaba repetida en declaracion, ahora se guardara para validar mas tarde su duplicidad
-                    tablaIdenCol.add(tablaIdenFilas);
-                }
-                while (palabras.hasMoreElements()) {
-                    palRep = false;
-                    tablaIdenFilas = new String[5];
-                    tablaIdenFilas[0] = String.valueOf(i + 1);
-                    tablaIdenFilas[1] = objSem.conversionNum(tipo);
-                    tablaIdenFilas[2] = palabras.nextToken();
-                    if (!tablaIdenCol.isEmpty() && !tablaIdenFilas.equals("=")) {
-                        for (int j = 0; j < tablaIdenCol.size(); j++) {
-                            if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
-                                lbSem.setText("Semantico: Incorrecto");
-                                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable repetida "
-                                        + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
-                                palRep = true;
-                                banderaErrores = false;
-                            }
-                        }
-                    }
-                    if (!palRep) {
-                        if (!tablaIdenFilas[2].matches("\n")) {
-                            tablaIdenCol.add(tablaIdenFilas);
-                        }
-                    }
-                }
-            }//Validamos si lo que se esta declarando es una funcion o un metodo para obtener parametros
-            else if (palabra.equals("FUN")) {
-                //Creamos un arraylist para almacenar las palabras de ese renglon
+                y empezamos a buscar las llaves que determinan cuando inicia y cuando termina esa funcion
+                Creamos un arraylist para almacenar las palabras de ese renglon*/
                 List<String> func = new ArrayList<>();
                 String nom = "";
                 palRep = false;
                 while (palabras.hasMoreElements()) {
                     func.add(palabras.nextToken());
                 }
-                //Salvamos el nombre de la funcion
                 nom = func.get(1);
+                rango = new String[3];
+                rango[0] = nom;
+                rango[1] = (i + 1) + "";
+                //Salvamos el nombre de la funcion
+
                 tablaIdenFilas = new String[5];
                 //Agregamos en que linea de codigo fue hallado, ademas a que tipo de dato se refiere
                 tablaIdenFilas[0] = String.valueOf(i + 1);
@@ -1034,8 +916,30 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                 }
 
+                int lla = 1;
+                for (int j = i + 1; j < divisionRenglones.length; j++) {
+                    palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
+                    texto = "";
+                    while (palabras.hasMoreElements()) {
+                        texto = texto + palabras.nextToken();
+                    }
+                    if (texto.contains("{")) {
+                        lla++;
+                    } else if (texto.contains("}")) {
+                        lla--;
+                    }
+                    if (lla == 0) {
+                        rango[2] = (j + 1) + "";
+                        rangosAsig.add(rango);
+                        i = j;
+                        break;
+                    }
+                }
+
             } else if (palabra.equals("MET")) {
-                //Creamos un arraylist para almacenar las palabras de ese renglon
+                /*Si encontramos la declaracion de una funcion entonces capturamos el renglon y el nombre de la funcion
+                y empezamos a buscar las llaves que determinan cuando inicia y cuando termina esa funcion
+                un arraylist para almacenar las palabras de ese renglon*/
                 List<String> met = new ArrayList<>();
                 String nom = "";
                 palRep = false;
@@ -1044,6 +948,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }
                 //Salvamos el nombre del metodo eliminando los " ya que es una cadena
                 nom = met.get(0).replaceAll("\"", "");
+                rango = new String[3];
+                rango[0] = nom;
+                rango[1] = (i + 1) + "";
+                int lla = 1;
                 tablaIdenFilas = new String[5];
                 //Agregamos en que linea de codigo fue hallado, ademas creamos un tipo de dato MET 60 por si se requiere
                 tablaIdenFilas[0] = String.valueOf(i + 1);
@@ -1094,49 +1002,171 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         tablaIdenFilas = new String[3];
                     }
                 }
-            } //Si no se esta declarando verificaremos si se realiza alguna accion con la variable
+
+                for (int j = i + 1; j < divisionRenglones.length; j++) {
+                    palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
+                    texto = "";
+                    while (palabras.hasMoreElements()) {
+                        texto = texto + palabras.nextToken();
+                    }
+                    if (texto.contains("{")) {
+                        lla++;
+                    } else if (texto.contains("}")) {
+                        lla--;
+                    }
+                    if (lla == 0) {
+                        rango[2] = (j + 1) + "";
+                        rangosAsig.add(rango);
+                        i = j;
+                        break;
+                    }
+                }
+
+            }
+        }
+        for (int i = 0; i < rangosAsig.size(); i++) {
+            System.out.println("Funcion: " + rangosAsig.get(i)[0] + " de linea: " + rangosAsig.get(i)[1] + " a " + rangosAsig.get(i)[2]);
+        }
+        //Fin de la primera fase e inicio de la segunda
+
+        //Iniciamos el recorrido de los renglones
+        for (int i = 0; i < divisionRenglones.length; i++) {
+            //Separamos las palabras en un arreglo, de un renglon determinado por el ciclo 
+            palabras = new StringTokenizer(divisionRenglones[i], " =;(),");
+            palabrasAux = new StringTokenizer(divisionRenglones[i], " =;(),");
+
+            texto = "";
+            while (palabrasAux.hasMoreElements()) {
+                texto = texto + palabrasAux.nextToken();
+            }
+            //Guardamos tambien en otro arreglo los operadores sin contar los espacios en blanco
+            palabrasOper = new StringTokenizer(texto, "=+-*/", true);
+            palabra = palabras.nextToken().replaceAll("\n", "");
+            if (palabra.equals("NUM") || palabra.equals("CAD")
+                    || palabra.equals("CHAR") || palabra.equals("BOOL")) {
+                //Encuentra declaracion de dato, almacenamos a que tipo se refiere
+                String tipo = palabra;
+                palRep = false;
+                tablaIdenFilas = new String[5];
+                //Agregamos en que linea de codigo fue hallado, ademas a que tipo de dato se refiere
+                tablaIdenFilas[0] = String.valueOf(i + 1);
+                tablaIdenFilas[1] = objSem.conversionNum(palabra);
+                tablaIdenFilas[2] = palabras.nextToken();
+
+                //Validamos que existan o no funciones/metodos
+                if (!rangosAsig.isEmpty()) {
+                    String l = " ";
+                    for (int j = 0; j < rangosAsig.size(); j++) {
+                        /*Si al recorrer los rangos agregados comprobamos que 
+                        la delcaracion esta entre el rango de alguna funcion entonces llamaremos a sus parametros*/
+                        if (i >= Integer.parseInt(rangosAsig.get(j)[1])
+                                && i <= Integer.parseInt(rangosAsig.get(j)[2])) {
+                            l = rangosAsig.get(j)[0];
+                            break;
+                        }
+                    }
+                    /*Una vez que haya encontrado el nombre del metodo podra ir comparando ahora el nombre de las 
+                    variables que tengan esos parametros y determinar si ya a sido declarada antes*/
+                    if (!l.equals(" ")) {
+                        for (int j = 0; j < tablaIdenParam.size(); j++) {
+                            if (tablaIdenParam.get(j)[0].equals(l)) {
+                                if (tablaIdenFilas[2].equals(tablaIdenParam.get(j)[2])) {
+                                    lbSem.setText("Semantico: Incorrecto");
+                                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable en parametro de funcion "
+                                            + tablaIdenParam.get(j)[0] + " en la linea " + tablaIdenFilas[0] + "\n");
+                                    palRep = true;
+                                    banderaErrores = false;
+                                }
+                            }
+                        }
+                    }
+                }
+                //Validamos que no haya variables agregadas previamente a nuestro array
+                if (!tablaIdenCol.isEmpty() && !tablaIdenFilas.equals("=") && !palRep) {
+                    //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
+                    for (int j = 0; j < tablaIdenCol.size(); j++) {
+                        if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
+                            lbSem.setText("Semantico: Incorrecto");
+                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable repetida "
+                                    + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
+                            palRep = true;
+                            banderaErrores = false;
+                        }
+                    }
+                }
+                if (!palRep) {
+                    //Si la palabra no estaba repetida en declaracion, ahora se guardara para validar mas tarde su duplicidad
+                    tablaIdenCol.add(tablaIdenFilas);
+                }
+            }//Validamos si lo que se esta declarando es una funcion o un metodo para obtener parametros
+            //Si no se esta declarando verificaremos si se realiza alguna accion con la variable
             else {
                 varDec = false;
+                int y = 0;
+                banderaVE = false;
                 //Obtenemos las palabras de ese renglon
                 palabrasAsig = codigoFuente[i].getPalabras();
                 //Verificamos que se trate de una asignacion
                 if (palabrasAsig.length != 0 && palabrasAsig[0] == 52 && palabrasAsig[1] == 35) {
                     //Verificamos que la variable haya sido declarada
-                    int y = 0;
-                    banderaVE = false;
+                    if (!rangosAsig.isEmpty()) {
+                        String l = " ";
+                        for (int j = 0; j < rangosAsig.size(); j++) {
+                            /*Si al recorrer los rangos agregados comprobamos que 
+                                la delcaracion esta entre el rango de alguna funcion entonces llamaremos a sus parametros*/
+                            if (i >= Integer.parseInt(rangosAsig.get(j)[1])
+                                    && i <= Integer.parseInt(rangosAsig.get(j)[2])) {
+                                l = rangosAsig.get(j)[0];
+                                break;
+                            }
+                        }
+                        /*Una vez que haya encontrado el nombre del metodo podra ir comparando ahora el nombre de las 
+                            variables que tengan esos parametros y determinar si ya a sido declarada antes*/
+                        if (!l.equals(" ")) {
+                            for (int j = 0; j < tablaIdenParam.size(); j++) {
+                                if (tablaIdenParam.get(j)[0].equals(l)) {
+                                    if (palabra.equals(tablaIdenParam.get(j)[2])) {
+                                        banderaVE = true;
+//                                            lbSem.setText("Semantico: Correcto");
+                                        //Variable declarada continua procedimiento
+                                    }
+                                }
+                            }
+                        }
+                    }
                     /*Como se trata de asignacion verificaremos que la palabra anteriormente guardada
                     este declarada en nuestra lista de variables
                      */
-                    for (int j = 0; j < tablaIdenCol.size(); j++) {
-
-                        if (tablaIdenCol.get(j)[2].equals(palabra)) {
-                            banderaVE = true;
-                            y = j;
-                            break;
+                    if (!banderaVE) {
+                        for (int j = 0; j < tablaIdenCol.size(); j++) {
+                            if (tablaIdenCol.get(j)[2].equals(palabra)) {
+                                banderaVE = true;
+                                y = j;
+                                break;
+                            }
                         }
                     }
-                    //Si la variable fue declarada
+                    /*Si la variable fue declarada, por el momento es correcto y 
+                    se validaran sus operaciones correspondientes a la asignacion*/
                     if (banderaVE) {
-
+//                        lbSem.setText("Semantico: Correcto");
                     } else {
-                        //La variable no fue declarada
+                        lbSem.setText("Semantico: Incorrecto");
+                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable repetida "
+                                + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
                         banderaErrores = false;
-                        jTProgramaSemantico.setText(jTProgramaSemantico.getText()
-                                + "Variable " + palabra + " no declarada en la linea " + String.valueOf(i + 1) + "\n");
                     }
                 }
             }
         }
-
         for (int i = 0; i < tablaIdenCol.size(); i++) {
             System.out.println("Variables declaradas: " + tablaIdenCol.get(i)[2]);
         }
         for (int i = 0; i < tablaIdenParam.size(); i++) {
-            System.out.println("Llamada " + tablaIdenParam.get(i)[0] + " parametro " + tablaIdenParam.get(i)[2]);
+            System.out.println("Llamada " + tablaIdenParam.get(i)[0] + " con parametro " + tablaIdenParam.get(i)[2]);
         }
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
-            jTProgramaSemantico.setText(mensaje);
         }
 
         // TODO add your handling code here:
