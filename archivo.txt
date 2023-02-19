@@ -1,5 +1,8 @@
 CLASE "ejemploDeCodigo" {
     IMPLEM "libreria";
+    CAD cadena;
+    CAD otraCadena;
+    CAD otraCadena1;
     numero=28;
 
     NUM suma;
@@ -18,6 +21,9 @@ CLASE "ejemploDeCodigo" {
         num=24;
     }
     PRINCIPAL{
+
+        CAP(cadena);
+
         STF(numero==28){
             suma=numero+1;
         }NSTF{
@@ -45,6 +51,9 @@ CLASE "ejemploDeCodigo" {
         }
     }
 }
+
+
+
 
 
 

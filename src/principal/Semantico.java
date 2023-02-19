@@ -407,4 +407,61 @@ public class Semantico {
         }
         return prf;
     }
+    
+    /**
+     * Obtiene el nombre de cada variable declarada de tipo CADENA y los guarda
+     * en un ArrayList
+     *
+     * @param texto el texto que se quiere analizar para guardar las variables
+     * de tipo CADENA
+     * @return ArrayList con todos las variables de tipo CADENA que se
+     * escribieron
+     */
+    static ArrayList<String> obtNomVar(String texto) {
+        ArrayList<String> arrVariables = new ArrayList<String>();
+        String[] subCad = texto.split("\\s*[;| |\n|(|)]\\s*");
+
+        for (int i = 0; i < subCad.length; i++) {
+            if (subCad[i].equals("CAD")) {
+                arrVariables.add(subCad[i + 1]);
+            }
+        }
+
+        return arrVariables;
+    }
+    
+    static String verificaCAP(String texto, ArrayList<String> cadeVariables) {
+        String error = "";
+        ArrayList<String> arrVariables = new ArrayList<String>();
+        String[] subCad = texto.split("\\s*[;| |\n|(|)]\\s*");
+
+        String[] lineasError = texto.split("\n");
+        int numLinErr = 0;
+
+        for (int i = 0; i < subCad.length; i++) {
+            if (subCad[i].equals("CAP") && cadeVariables.contains(subCad[i + 1])) {
+                arrVariables.add(subCad[i + 1]);
+            }
+            if (subCad[i].equals("CAP") && !cadeVariables.contains(subCad[i + 1])) {
+                for (int j = 0; j < lineasError.length; j++) {
+                    lineasError[j] = lineasError[j].replace(" ", "");
+                    if (lineasError[j].contains("CAP("+subCad[i+1]+")")) {
+                        numLinErr=j+1;
+                    }
+                }
+                error = "Error, no se encontro la variable [" + subCad[i + 1] + "] en la linea " + numLinErr + "\n";
+            }
+        }
+        return error;
+    }
+    
+    static ArrayList<String> elimNomFunCad(String texto, ArrayList<String> variables){
+        String[] subCad = texto.split("\\s*[;| |\n|(|)]\\s*");
+        for (int i = 0; i < subCad.length; i++) {
+            if (subCad[i].equals("FUN")) {
+                variables.remove(subCad[i+2]);
+            }
+        }
+        return variables;
+    }
 }

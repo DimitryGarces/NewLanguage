@@ -830,6 +830,18 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //        pnIntermedio.setVisible(true);
         String text = programaEjecutado;
         Semantico objSem = new Semantico();
+        
+        //Guarda las variables de tipo CAD
+        ArrayList<String> variables = objSem.obtNomVar(programaEjecutado);
+        
+        //Elimina el nombre de las funciones en donde se guardo las variables de tipo CAD
+        variables = objSem.elimNomFunCad(programaEjecutado,variables);
+        
+        //Verificación de la entrada de datos
+        String error = objSem.verificaCAP(programaEjecutado, variables);
+        if (!error.equals("")) {
+            jTProgramaSemantico.setText(error);
+        }
 
         int rang[];
         //Dividimos nuestro programa de acuerdo a los renglones
@@ -1240,8 +1252,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
         }
-
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_lbSemanticoMouseClicked
 
     public void pruebaImplementarValidacionTipoDatos(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
