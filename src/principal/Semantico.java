@@ -90,7 +90,7 @@ public class Semantico {
     public boolean operCompatibles(String fila, String colum) {
         int f = Integer.parseInt(fila) - 50;
         int c = Integer.parseInt(colum) - 50;
-        if (c != 54 && c != -1 && asig[f][c] == 1) {
+        if (c != 52 && c != -1 && asig[f][c] == 1) {
             return true;
         } else {
             return false;

@@ -24,6 +24,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     ArrayList<String[]> tablaIdenFunMet = new ArrayList<>();
     ArrayList<String[]> tablaIdenParam = new ArrayList<>();
     ArrayList<int[]> rangoFunMet = new ArrayList<>();
+    List<String[]> rangosAsig = new ArrayList<>();
     String programaEjecutado = "";
 
     /**
@@ -829,7 +830,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //        pnIntermedio.setVisible(true);
         String text = programaEjecutado;
         Semantico objSem = new Semantico();
-        rangoFunMet = new ArrayList<>();
+
         int rang[];
         //Dividimos nuestro programa de acuerdo a los renglones
         String[] divisionRenglones = programaEjecutado.split("(?<=\\n)");
@@ -838,12 +839,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         tablaIdenCol = new ArrayList<>();
         tablaIdenFunMet = new ArrayList<>();
         tablaIdenParam = new ArrayList<>();
-        String palabra = "", texto = "";
-        String mensaje = "";
+        rangosAsig = new ArrayList<>();
+        rangoFunMet = new ArrayList<>();
+        String palabra = "", texto = "", mensaje = "";
         boolean palRep, varDec, banderaErrores = true, banderaVE = false;
         int palabrasAsig[];
         String rango[];
-        List<String[]> rangosAsig = new ArrayList<>();
 
         //Iniciamos un recorrido para ver el rango de variables utilizadas en funciones y ademas declararlas
         for (int i = 0; i < divisionRenglones.length; i++) {
@@ -1098,65 +1099,136 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     //Si la palabra no estaba repetida en declaracion, ahora se guardara para validar mas tarde su duplicidad
                     tablaIdenCol.add(tablaIdenFilas);
                 }
-            }//Validamos si lo que se esta declarando es una funcion o un metodo para obtener parametros
-            //Si no se esta declarando verificaremos si se realiza alguna accion con la variable
-            else {
+            } /*Validamos si lo que se esta declarando es una funcion o un metodo para obtener parametros
+            Si no se esta declarando verificaremos si se realiza alguna accion con la variable*/ else {
+                int pos = -1;
+
                 varDec = false;
                 int y = 0;
                 banderaVE = false;
                 //Obtenemos las palabras de ese renglon
                 palabrasAsig = codigoFuente[i].getPalabras();
-                //Verificamos que se trate de una asignacion
-                if (palabrasAsig.length != 0 && palabrasAsig[0] == 52 && palabrasAsig[1] == 35) {
-                    //Verificamos que la variable haya sido declarada
-                    if (!rangosAsig.isEmpty()) {
-                        String l = " ";
-                        for (int j = 0; j < rangosAsig.size(); j++) {
-                            /*Si al recorrer los rangos agregados comprobamos que 
+                for (int j = 0; j < palabrasAsig.length; j++) {
+                    switch (palabrasAsig[j]) {
+                        case 50:
+                        case 51:
+                        case 52:
+                        case 53:
+                            pos = j;
+                            break;
+
+                    }
+                    if (pos != -1) {
+                        break;
+                    }
+                }
+
+                if (pos != -1) {
+                    //Verificamos que se trate de una asignacion
+                    if (palabrasAsig[0] == 52 && palabrasAsig[1] == 35) {
+                        //Verificamos que la variable haya sido declarada
+                        if (!rangosAsig.isEmpty()) {
+                            String l = " ";
+                            for (int j = 0; j < rangosAsig.size(); j++) {
+                                /*Si al recorrer los rangos agregados comprobamos que 
                                 la delcaracion esta entre el rango de alguna funcion entonces llamaremos a sus parametros*/
-                            if (i >= Integer.parseInt(rangosAsig.get(j)[1])
-                                    && i <= Integer.parseInt(rangosAsig.get(j)[2])) {
-                                l = rangosAsig.get(j)[0];
-                                break;
+                                if (i >= Integer.parseInt(rangosAsig.get(j)[1])
+                                        && i <= Integer.parseInt(rangosAsig.get(j)[2])) {
+                                    l = rangosAsig.get(j)[0];
+                                    break;
+                                }
                             }
-                        }
-                        /*Una vez que haya encontrado el nombre del metodo podra ir comparando ahora el nombre de las 
+                            /*Una vez que haya encontrado el nombre del metodo podra ir comparando ahora el nombre de las 
                             variables que tengan esos parametros y determinar si ya a sido declarada antes*/
-                        if (!l.equals(" ")) {
-                            for (int j = 0; j < tablaIdenParam.size(); j++) {
-                                if (tablaIdenParam.get(j)[0].equals(l)) {
-                                    if (palabra.equals(tablaIdenParam.get(j)[2])) {
-                                        banderaVE = true;
-//                                            lbSem.setText("Semantico: Correcto");
-                                        //Variable declarada continua procedimiento
+                            if (!l.equals(" ")) {
+                                for (int j = 0; j < tablaIdenParam.size(); j++) {
+                                    if (tablaIdenParam.get(j)[0].equals(l)) {
+                                        if (palabra.equals(tablaIdenParam.get(j)[2])) {
+                                            banderaVE = true;
+                                            //Variable declarada continua procedimiento
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    /*Como se trata de asignacion verificaremos que la palabra anteriormente guardada
+                        /*Como se trata de asignacion verificaremos que la palabra anteriormente guardada
                     este declarada en nuestra lista de variables
-                     */
-                    if (!banderaVE) {
-                        for (int j = 0; j < tablaIdenCol.size(); j++) {
-                            if (tablaIdenCol.get(j)[2].equals(palabra)) {
-                                banderaVE = true;
-                                y = j;
-                                break;
+                         */
+                        if (!banderaVE) {
+                            for (int j = 0; j < tablaIdenCol.size(); j++) {
+                                if (tablaIdenCol.get(j)[2].equals(palabra)) {
+                                    banderaVE = true;
+                                    y = j;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    /*Si la variable fue declarada, por el momento es correcto y 
+                        /*Si la variable fue declarada, por el momento es correcto y 
                     se validaran sus operaciones correspondientes a la*/
-                    if (banderaVE) {
+                        if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
-                    } else {
-                        lbSem.setText("Semantico: Incorrecto");
-                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
-                                + palabra+ " en la linea " + (i+1) + "\n");
-                        banderaErrores = false;
+                        } else {
+                            lbSem.setText("Semantico: Incorrecto");
+                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
+                                    + palabra + " en la linea " + (i + 1) + "\n");
+                            banderaErrores = false;
+                        }
+                    }//Verificamos ademas los ciclos o condicionales que ocupen variables 
+                    else if (palabrasAsig[pos] == 52 && palabrasAsig[pos + 1] == 27
+                            && (palabrasAsig[pos + 2] >= 50 && palabrasAsig[pos + 2] <= 53)) {
+                        for (int j = 0; j < pos - 1; j++) {
+                            palabra = palabras.nextToken();
+                        }
+                        //Verificamos que la variable haya sido declarada
+                        if (!rangosAsig.isEmpty()) {
+                            String l = " ";
+                            for (int j = 0; j < rangosAsig.size(); j++) {
+                                /*Si al recorrer los rangos agregados comprobamos que 
+                                la delcaracion esta entre el rango de alguna funcion entonces llamaremos a sus parametros*/
+                                if (i >= Integer.parseInt(rangosAsig.get(j)[1])
+                                        && i <= Integer.parseInt(rangosAsig.get(j)[2])) {
+                                    l = rangosAsig.get(j)[0];
+                                    break;
+                                }
+                            }
+                            /*Una vez que haya encontrado el nombre del metodo podra ir comparando ahora el nombre de las 
+                            variables que tengan esos parametros y determinar si ya a sido declarada antes*/
+                            if (!l.equals(" ")) {
+                                for (int j = 0; j < tablaIdenParam.size(); j++) {
+                                    if (tablaIdenParam.get(j)[0].equals(l)) {
+                                        if (palabra.equals(tablaIdenParam.get(j)[2])) {
+                                            banderaVE = true;
+                                            //Variable declarada continua procedimiento
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        /*Como se trata de asignacion verificaremos que la palabra anteriormente guardada
+                    este declarada en nuestra lista de variables
+                         */
+                        if (!banderaVE) {
+                            for (int j = 0; j < tablaIdenCol.size(); j++) {
+                                if (tablaIdenCol.get(j)[2].equals(palabra)) {
+                                    banderaVE = true;
+                                    y = j;
+                                    break;
+                                }
+                            }
+                        }
+                        /*Si la variable fue declarada, por el momento es correcto y 
+                    se validaran sus operaciones correspondientes a la*/
+                        if (banderaVE) {
+//                        lbSem.setText("Semantico: Correcto");
+                        } else {
+                            lbSem.setText("Semantico: Incorrecto");
+                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
+                                    + palabra + " en la linea " + (i + 1) + "\n");
+                            banderaErrores = false;
+                        }
                     }
                 }
+
             }
         }
         for (int i = 0; i < tablaIdenCol.size(); i++) {
@@ -1172,6 +1244,111 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lbSemanticoMouseClicked
 
+    public void pruebaImplementarValidacionTipoDatos(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
+            StringTokenizer palabrasOper, String palabra, boolean banderaVV, int i, boolean banderaErrores) {
+        Lexico lex = new Lexico();
+        Semantico objSem = new Semantico();
+        /*Como tendremos una asignacion y nos quedamos en el formato de
+        TipoDato Variable = asignacion..
+        Nosotros estabamos en el token Variable, por lo que ahora tendremos que avanzar hacia asignacion
+         */
+        palabras.nextToken();
+        palabras.nextToken();
+        palabrasOper.nextToken();
+        palabrasOper.nextToken();
+        palabra = palabrasOper.nextToken().replaceAll("\n", "");
+        if (!palabrasOper.hasMoreElements()) {
+            String num = String.valueOf(lex.Etiquetar(palabra).numero);
+            if ("52".equals(num)) {
+                for (int n = 0; n < tablaIdenCol.size(); n++) {
+                    if (tablaIdenCol.get(n)[2].equals(palabra)) {
+                        if (objSem.operCompatibles(tablaIdenCol.get(j)[1], tablaIdenCol.get(n)[1])) {
+                            if (tablaIdenCol.get(n)[3] == null && tablaIdenCol.get(n)[4] == null) {
+                                break;
+                            } else {
+                                tablaIdenCol.get(j)[3] = tablaIdenCol.get(n)[3];
+                                tablaIdenCol.get(j)[4] = tablaIdenCol.get(n)[4];
+                                banderaVV = true;
+                                break;
+                            }
+                        } else {
+                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(tablaIdenCol.get(n)[4])
+                                    + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n");
+                            banderaErrores = false;
+                        }
+                        break;
+                    }
+                }
+                if (!banderaVV) {
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n");
+
+                }
+            } else {
+                if (!banderaVV) {
+                    if (objSem.operCompatibles(tablaIdenCol.get(j)[1], num)) {
+                        tablaIdenCol.get(j)[3] = palabra;
+                        tablaIdenCol.get(j)[4] = num;
+                    } else {
+                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(num)
+                                + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n");
+                        banderaErrores = false;
+                    }
+                }
+            }
+        } else {
+            String operacion = "", num;
+            while (palabrasOper.hasMoreElements()) {
+                if (lex.Etiquetar(palabra).numero == 50) {
+                    for (int n = 0; n < tablaIdenCol.size(); n++) {
+                        if (tablaIdenCol.get(n)[2].equals(palabra)) {
+                            operacion = operacion + palabra;
+                            banderaVV = true;
+                            palabra = palabrasOper.nextToken().replaceAll("\n", "");
+                            break;
+                        }
+                    }
+                    if (!banderaVV) {
+                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n");
+
+                        banderaErrores = false;
+                    }
+                } else {
+                    operacion = operacion + palabra;
+                    palabra = palabrasOper.nextToken().replaceAll("\n", "");
+                }
+            }
+            if (lex.Etiquetar(palabra).numero == 50) {
+                for (int n = 0; n < tablaIdenCol.size(); n++) {
+                    if (tablaIdenCol.get(n)[2].equals(palabra)) {
+                        operacion = operacion + palabra;
+                        banderaVV = true;
+                        break;
+                    }
+                }
+                if (!banderaVV) {
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n");
+                    banderaErrores = false;
+                }
+            } else {
+                operacion = operacion + palabra;
+            }
+            try {
+                String res = objSem.calcular(operacion, jTabbedPane1, tablaIdenCol, tablaIdenCol.get(j)[2]);
+                num = String.valueOf(lex.Etiquetar(res).numero);
+                if (objSem.operCompatibles(tablaIdenCol.get(j)[1], num)) {
+                    tablaIdenCol.get(j)[3] = res;
+                    tablaIdenCol.get(j)[4] = num;
+                } else {
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(num)
+                            + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n");
+                    banderaErrores = false;
+                }
+            } catch (Exception ex) {
+
+            }
+        }
+
+    }
 
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
         pnOptimizacion.setVisible(true);

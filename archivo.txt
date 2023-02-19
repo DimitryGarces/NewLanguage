@@ -35,7 +35,8 @@ CLASE "ejemploDeCodigo" {
 
         HACER{
 
-        }MIENTRAS(numero==28);
+        }
+        MIENTRAS(numero==28);
 
         CAMBIO (numero) {
             CASO 28: 
@@ -44,6 +45,7 @@ CLASE "ejemploDeCodigo" {
         }
     }
 }
+
 
 
 
