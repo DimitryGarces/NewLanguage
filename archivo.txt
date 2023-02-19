@@ -31,7 +31,7 @@ CLASE "ejemploDeCodigo" {
            x34 = 56;
 
             IMP(2+4%5*8);
-            IMP(x34);
+            IMP(x34+5-8*7/6);
             IMP(variableNoExistente);
             CAP(captura);
         }
@@ -56,11 +56,4 @@ CLASE "ejemploDeCodigo" {
         }
     }
 }
-
-
-
-
-
-
-
 

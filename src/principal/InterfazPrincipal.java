@@ -846,24 +846,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (!errorCAP.equals("")) {
             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorCAP);
         }
-        
-        //Guardar nombre de las variables de cada tipo de dato
-        ArrayList<String> numerosVar = objSem.obtNomVar(programaEjecutado, "NUM");
-        ArrayList<String> boolsVar = objSem.obtNomVar(programaEjecutado, "BOOL");
-        ArrayList<String> carsVar = objSem.obtNomVar(programaEjecutado, "CHAR");
-        ArrayList<String> cadenasVar = objSem.obtNomVar(programaEjecutado, "CAD");
-        
-        //Eliminar nombre de funciones en ArrayList de cada tipo de dato
-        numerosVar = objSem.elimNomFunCad(programaEjecutado, numerosVar);
-        boolsVar = objSem.elimNomFunCad(programaEjecutado, boolsVar);
-        carsVar = objSem.elimNomFunCad(programaEjecutado, carsVar);
-        cadenasVar = objSem.elimNomFunCad(programaEjecutado, cadenasVar);
-        
-        //Se obtiene el error si es que existe y se manda a la caja de texto
-        String errorIMP = objSem.verificaIMP(programaEjecutado, numerosVar, boolsVar, carsVar, cadenasVar);
-        if (!errorIMP.equals("")) {
-            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorIMP);
-        }
 
         int rang[];
         //Dividimos nuestro programa de acuerdo a los renglones
@@ -1273,6 +1255,24 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         }
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
+        }
+        
+        //Guardar nombre de las variables de cada tipo de dato
+        ArrayList<String> numerosVar = objSem.obtNomVar(programaEjecutado, "NUM");
+        ArrayList<String> boolsVar = objSem.obtNomVar(programaEjecutado, "BOOL");
+        ArrayList<String> carsVar = objSem.obtNomVar(programaEjecutado, "CHAR");
+        ArrayList<String> cadenasVar = objSem.obtNomVar(programaEjecutado, "CAD");
+        
+        //Eliminar nombre de funciones en ArrayList de cada tipo de dato
+        numerosVar = objSem.elimNomFunCad(programaEjecutado, numerosVar);
+        boolsVar = objSem.elimNomFunCad(programaEjecutado, boolsVar);
+        carsVar = objSem.elimNomFunCad(programaEjecutado, carsVar);
+        cadenasVar = objSem.elimNomFunCad(programaEjecutado, cadenasVar);
+        
+        //Se obtiene el error si es que existe y se manda a la caja de texto
+        String errorIMP = objSem.verificaIMP(programaEjecutado, numerosVar, boolsVar, carsVar, cadenasVar, tablaIdenCol);
+        if (!errorIMP.equals("")) {
+            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorIMP);
         }
         
     }//GEN-LAST:event_lbSemanticoMouseClicked
