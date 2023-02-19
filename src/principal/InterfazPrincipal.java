@@ -828,6 +828,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
 //        pnIntermedio.setVisible(true);
+
         String text = programaEjecutado;
         Semantico objSem = new Semantico();
         
@@ -838,9 +839,27 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         variables = objSem.elimNomFunCad(programaEjecutado,variables);
         
         //Verificación de la entrada de datos
-        String error = objSem.verificaCAP(programaEjecutado, variables);
-        if (!error.equals("")) {
-            jTProgramaSemantico.setText(error);
+        String errorCAP = objSem.verificaCAP(programaEjecutado, variables);
+        if (!errorCAP.equals("")) {
+            jTProgramaSemantico.setText(errorCAP);
+        }
+        
+        //Guardar nombre de las variables de cada tipo de dato
+        ArrayList<String> numerosVar = objSem.obtNomVar(programaEjecutado, "NUM");
+        ArrayList<String> boolsVar = objSem.obtNomVar(programaEjecutado, "BOOL");
+        ArrayList<String> carsVar = objSem.obtNomVar(programaEjecutado, "CHAR");
+        ArrayList<String> cadenasVar = objSem.obtNomVar(programaEjecutado, "CAD");
+        
+        //Eliminar nombre de funciones en ArrayList de cada tipo de dato
+        numerosVar = objSem.elimNomFunCad(programaEjecutado, numerosVar);
+        boolsVar = objSem.elimNomFunCad(programaEjecutado, boolsVar);
+        carsVar = objSem.elimNomFunCad(programaEjecutado, carsVar);
+        cadenasVar = objSem.elimNomFunCad(programaEjecutado, cadenasVar);
+        
+        //Se obtiene el error si es que existe y se manda a la caja de texto
+        String errorIMP = objSem.verificaIMP(programaEjecutado, numerosVar, boolsVar, carsVar, cadenasVar);
+        if (!errorIMP.equals("")) {
+            jTProgramaSemantico.setText(errorIMP);
         }
 
         int rang[];

@@ -27,7 +27,12 @@ CLASE "ejemploDeCodigo" {
         STF(numero==28){
             suma=numero+1;
         }NSTF{
+           NUM x34;
+           x34 = 56;
+
             IMP(2+4%5*8);
+            IMP(x34);
+            IMP(variableNoExistente);
             CAP(captura);
         }
 
@@ -51,6 +56,7 @@ CLASE "ejemploDeCodigo" {
         }
     }
 }
+
 
 
 

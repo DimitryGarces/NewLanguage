@@ -455,6 +455,12 @@ public class Semantico {
         return error;
     }
     
+    /**
+     * Elimina el nombre de las funciones que se guardaron en algun ArrayList de variables
+     * @param texto Texto del codigo
+     * @param variables ArrayList del nombre de las variables
+     * @return 
+     */
     static ArrayList<String> elimNomFunCad(String texto, ArrayList<String> variables){
         String[] subCad = texto.split("\\s*[;| |\n|(|)]\\s*");
         for (int i = 0; i < subCad.length; i++) {
@@ -463,5 +469,143 @@ public class Semantico {
             }
         }
         return variables;
+    }
+    
+    /**
+     * Obtiene el nombre de la variable dependiendo el tipo de dato y los guarda en un ArrayList
+     * @param texto Texto del codigo
+     * @param tipoDato El tipo de dato de las variables
+     * @return ArrayList con todos los nombres de la variable segun su tipo de dato
+     */
+    static ArrayList<String> obtNomVar(String texto, String tipoDato) {
+        ArrayList<String> arrVariables = new ArrayList<String>();
+        String[] subCad = texto.split("\\s*[;| |\n|(|)]\\s*");
+
+        for (int i = 0; i < subCad.length; i++) {
+            if (subCad[i].equals(tipoDato)) {
+                arrVariables.add(subCad[i + 1]);
+            }
+        }
+
+        return arrVariables;
+    }
+    
+    /**
+     * Verifica que exista la variable
+     * @param variable Variable que se quiera verificar
+     * @param numerosVar ArrayList con los nombres de las variables de tipo NUMERICO
+     * @param boolsVar ArrayList con los nombres de las variables de tipo BOOLEANO
+     * @param carsVar ArrayList con los nombres de las variables de tipo CARACTER
+     * @param cadenasVar ArrayList con los nombres de las variables de tipo CADENA
+     * @return 
+     */
+    static String verificaExistVaria(String variable, ArrayList<String> numerosVar, ArrayList<String> boolsVar, ArrayList<String> carsVar, ArrayList<String> cadenasVar) {
+        String variExist = "";
+
+        //Verifica que exista la variables
+        if (numerosVar.contains(variable) | boolsVar.contains(variable) | carsVar.contains(variable) | cadenasVar.contains(variable)) {
+            variExist = variable;
+        }
+
+        return variExist;
+    }
+    
+    /**
+     * Verifica que se haya hecho una asignación de la variable
+     * @param texto Texto del codigo
+     * @param variable Variable que se quiere revisar su asignación
+     * @return 
+     */
+    static boolean verifAsignacion(String texto, String variable) {
+
+        if (variable.equals("")) {
+            return false;
+        }
+
+        String[] subCad = texto.split("\\s*[\n]\\s*");
+
+        //Revisa que tenga asignacion la variable por tener un "=" 
+        for (int i = 0; i < subCad.length; i++) {
+            if (subCad[i].contains(variable)) {
+                if (subCad[i].contains("=")) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
+     /**
+     * Verificacion de la salidad de datos
+     * @param texto Texto del codigo
+     * @param numerosVar ArrayList con los nombres de las variables de tipo NUMERICO
+     * @param boolsVar ArrayList con los nombres de las variables de tipo BOOLEANO
+     * @param carsVar ArrayList con los nombres de las variables de tipo CARACTER
+     * @param cadenasVar ArrayList con los nombres de las variables de tipo CADENA
+     */
+    static String verificaIMP(String texto, ArrayList<String> numerosVar, ArrayList<String> boolsVar, ArrayList<String> carsVar, ArrayList<String> cadenasVar) {
+        String mensajeError = "";
+        
+        String[] lineasError = texto.split("\n");
+        int numLinErr = 0;
+
+        //Divide el texto por cada ;, espacio blanco, salto o parentesis
+        String[] subCad = texto.split("\\s*[;|\n|(|)]\\s*");
+
+        String[] concatSep = null;
+
+        //Detectar si hay una impresion
+        for (int i = 0; i < subCad.length; i++) {
+            if (subCad[i].equals("IMP")) {
+
+                //Divide el contenido de la IMP sin concatenar
+                concatSep = subCad[i + 1].split("%");
+
+                //Verifica si es una operacion aritmetica o no
+                for (int j = 0; j < concatSep.length; j++) {
+                    if (concatSep[j].contains("+") | concatSep[j].contains("-") | concatSep[j].contains("*") | concatSep[j].contains("/")) {
+                        System.out.println("Operacion aritmetica = " + concatSep[j]);
+                    } else {
+                        //Verifica si es un numero
+                        boolean esNum = false;
+                        try {
+                            int numero = Integer.parseInt(concatSep[i]);
+                            esNum = true;
+                        } catch (Exception e) {
+                        }
+
+                        //Revisa que la variable exista
+                        if (!(concatSep[j].contains("\"") | concatSep[j].contains("'") | esNum)) {
+                            System.out.println("Es variable = " + concatSep[j]);
+                            String verifDecl = verificaExistVaria(concatSep[j], numerosVar, boolsVar, carsVar, cadenasVar);
+                            if (verifDecl.equals("")) {
+
+                                //Revisa en que linea estuvo el error
+                                for (int k = 0; k < lineasError.length; k++) {
+                                    if (lineasError[k].contains("IMP(") && lineasError[k].contains(verifDecl)) {
+                                        numLinErr = k + 1;
+                                    }
+                                }
+                                mensajeError = "Error en la linea " + numLinErr + " [" + concatSep[j] + "] no existe\n";
+                            }
+                            boolean asignado = verifAsignacion(texto, verifDecl);
+                            if (!asignado && !verifDecl.equals("")) {
+                                
+                                //Revisa en que linea estuvo el error
+                                for (int k = 0; k < lineasError.length; k++) {
+                                    if (lineasError[k].contains("IMP(") && lineasError[k].contains(verifDecl)) {
+                                        numLinErr = k + 1;
+                                    }
+                                }
+                                
+                                mensajeError = "Error en la linea " + numLinErr + " [" + concatSep[j] + "] sin asignación";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return mensajeError;
     }
 }
