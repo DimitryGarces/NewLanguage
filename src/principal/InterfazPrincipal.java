@@ -397,14 +397,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                             }
                         } else if (cadena.equals("\"")) {
                             texto = texto + cadena;
-                            while (st.hasMoreElements()) {
-                                cadena = st.nextToken();
-                                if (cadena.equals("\"")) {
+                                    while (st.hasMoreElements()) {
+                                        cadena = st.nextToken();
+                                        if (cadena.equals("\"") || cadena.equals("\r") || cadena.equals("\n")) {
+                                            break;
+                                        }
+                                        if (cadena.equals(" ") || cadena.equals("\t")) {
+                                            cadena = "";
+                                        }
+                                        texto = texto + cadena;
+                                    }
                                     texto = texto + cadena + "\n";
-                                    break;
-                                }
-                                texto = texto + cadena;
-                            }
                         } else if (cadena.equals(" ") || cadena.equals("\t")) {
                             cadena = "";
                         } else if (cadena.equals("'")) {
