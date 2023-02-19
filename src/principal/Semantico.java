@@ -449,7 +449,7 @@ public class Semantico {
                         numLinErr=j+1;
                     }
                 }
-                error = "Error, no se encontro la variable [" + subCad[i + 1] + "] en la linea " + numLinErr + "\n";
+                error += "Error, no se encontro la variable [" + subCad[i + 1] + "] en la linea " + numLinErr + "\n";
             }
         }
         return error;
@@ -577,7 +577,6 @@ public class Semantico {
 
                         //Revisa que la variable exista
                         if (!(concatSep[j].contains("\"") | concatSep[j].contains("'") | esNum)) {
-                            System.out.println("Es variable = " + concatSep[j]);
                             String verifDecl = verificaExistVaria(concatSep[j], numerosVar, boolsVar, carsVar, cadenasVar);
                             if (verifDecl.equals("")) {
 
@@ -587,7 +586,7 @@ public class Semantico {
                                         numLinErr = k + 1;
                                     }
                                 }
-                                mensajeError = "Error en la linea " + numLinErr + " [" + concatSep[j] + "] no existe\n";
+                                mensajeError += "Error en la linea " + numLinErr + " [" + concatSep[j] + "] no existe\n";
                             }
                             boolean asignado = verifAsignacion(texto, verifDecl);
                             if (!asignado && !verifDecl.equals("")) {
@@ -599,7 +598,7 @@ public class Semantico {
                                     }
                                 }
                                 
-                                mensajeError = "Error en la linea " + numLinErr + " [" + concatSep[j] + "] sin asignación";
+                                mensajeError += "Error en la linea " + numLinErr + " [" + concatSep[j] + "] sin asignación";
                             }
                         }
                     }

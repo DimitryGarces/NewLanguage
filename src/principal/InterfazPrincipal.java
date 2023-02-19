@@ -841,7 +841,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         //Verificación de la entrada de datos
         String errorCAP = objSem.verificaCAP(programaEjecutado, variables);
         if (!errorCAP.equals("")) {
-            jTProgramaSemantico.setText(errorCAP);
+            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorCAP);
         }
         
         //Guardar nombre de las variables de cada tipo de dato
@@ -859,7 +859,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         //Se obtiene el error si es que existe y se manda a la caja de texto
         String errorIMP = objSem.verificaIMP(programaEjecutado, numerosVar, boolsVar, carsVar, cadenasVar);
         if (!errorIMP.equals("")) {
-            jTProgramaSemantico.setText(errorIMP);
+            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorIMP);
         }
 
         int rang[];
