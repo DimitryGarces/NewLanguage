@@ -403,7 +403,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                                             break;
                                         }
                                         if (cadena.equals(" ") || cadena.equals("\t")) {
-                                            cadena = "";
+                                            cadena = " ";
                                         }
                                         texto = texto + cadena;
                                     }
@@ -426,7 +426,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                 }
             }
-            StringTokenizer st2 = new StringTokenizer(texto, " \n\t\r");
+            StringTokenizer st2 = new StringTokenizer(texto, "\n\t\r");
             Lexico objLex2 = new Lexico();
             vecSal = new int[st2.countTokens()];
             int j = 0;
