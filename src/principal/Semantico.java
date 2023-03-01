@@ -3,6 +3,8 @@ package principal;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,39 +29,45 @@ public class Semantico {
     int asig[][]
             = {
                 {
-                    1, -1, -1, -1
+                    1, -1, -1, -1,-1
                 },
                 {
-                    -1, 1, -1, -1
+                    -1, 1, -1, -1,-1
                 },
                 {
-                    -1, -1, 1, -1
+                    -1, -1, 1, -1,-1
                 },
                 {
-                    -1, -1, -1, 1
+                    -1, -1, -1, 1,-1
+                }
+                ,
+                {
+                    -1, -1, -1, -1,1
                 }
             };
     int operAri[][]
             = {
                 {
-                    1, -1, -1, -1
+                    1, -1, -1, -1,-1
                 },
                 {
-                    -1, -1, -1, -1
+                    -1, -1, -1, -1,-1
                 },
                 {
-                    -1, -1, -1, -1
+                    -1, -1, -1, -1,-1
                 },
                 {
-                    -1, -1, 1, -1
+                    -1, -1, 1, -1,-1
                 }
             };
 
     public String conversionNum(String s) {
         switch (s) {
             case "NUM":
-                return "51";
+                return "50";
             case "CAD":
+                return "51";
+            case "VAR":
                 return "52";
             case "CHAR":
                 return "53";
@@ -74,10 +82,12 @@ public class Semantico {
 
     public String conversionString(String s) {
         switch (s) {
-            case "51":
+            case "50":
                 return "NUM";
-            case "52":
+            case "51":
                 return "CAD";
+            case "52":
+                return "VAR";
             case "53":
                 return "CHAR";
             case "54":
@@ -88,13 +98,14 @@ public class Semantico {
     }
 
     public boolean operCompatibles(String fila, String colum) {
+        if (fila.equals("54") && (colum.equals("17") || colum.equals( "18"))) {
+            return true;
+        }
+         
+        
         int f = Integer.parseInt(fila) - 50;
         int c = Integer.parseInt(colum) - 50;
-        if (c != 52 && c != -1 && asig[f][c] == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return asig[f][c] == 1;
     }
 
     public String calcular(String expresion, JTabbedPane tabPanel, ArrayList<String[]> arrlist, String var) throws Exception {
@@ -141,7 +152,7 @@ public class Semantico {
         panel.add(label);
         panel.add(labelPost);
         panel.add(scroll);
-        panel.setSize(100, 100);
+        panel.setSize(50, 50);
         tabPanel.addTab("Expresión " + contExp, panel);
         contExp++;
         return res;
@@ -253,7 +264,7 @@ public class Semantico {
 
     private String cal(String a, String b, String oper) {
         Lexico objLex = new Lexico();
-        if (objLex.Etiquetar(a).numero == 51 && objLex.Etiquetar(b).numero == 51) {
+        if (objLex.Etiquetar(a).numero == 50 && objLex.Etiquetar(b).numero == 50) {
             int tempValue1Int = Integer.parseInt(a);
             int tempValue2Int = Integer.parseInt(b);
             if (oper.equals("+")) {
@@ -277,8 +288,8 @@ public class Semantico {
             if (oper.equals("%")) {
                 return String.valueOf(tempValue2Int % tempValue1Int);
             }
-        } else if ((objLex.Etiquetar(a).numero == 54 || objLex.Etiquetar(a).numero == 53)
-                && (objLex.Etiquetar(b).numero == 54 || objLex.Etiquetar(b).numero == 53)) {
+        } else if ((objLex.Etiquetar(a).numero == 51 || objLex.Etiquetar(a).numero == 53)
+                && (objLex.Etiquetar(b).numero == 53 || objLex.Etiquetar(b).numero == 51)) {
             String tempValStr1 = a.substring(1, a.length() - 1);
             String tempValStr2 = b.substring(1, b.length() - 1);
             if (oper.equals("+")) {
@@ -430,6 +441,13 @@ public class Semantico {
         return arrVariables;
     }
 
+    /**
+     * Verificación de Captura CAP
+     *
+     * @param texto Texto de codigo
+     * @param cadeVariables Array con las variables de tipo de dato CAD
+     * @return
+     */
     static String verificaCAP(String texto, ArrayList<String> cadeVariables) {
         String error = "";
         ArrayList<String> arrVariables = new ArrayList<String>();
@@ -535,9 +553,12 @@ public class Semantico {
 
         String[] subCad = texto.split("\\s*[\n]\\s*");
 
+        Pattern pattern = Pattern.compile("^[^=]*=[^=]*$");
+        Matcher matcher = pattern.matcher(variable);
+
         //Revisa que tenga asignacion la variable por tener un "=" 
         for (int i = 0; i < subCad.length; i++) {
-            if (subCad[i].contains(variable)) {
+            if (matcher.find()) {
                 if (subCad[i].contains("=")) {
                     return true;
                 }
@@ -583,18 +604,25 @@ public class Semantico {
                     if (concatSep[j].contains("+") | concatSep[j].contains("-") | concatSep[j].contains("*") | concatSep[j].contains("/")) {
                         String operaAritVerf = verificaOperacion(concatSep[j], tablaIdentCol, numerosVar, texto);
                         if (!operaAritVerf.equals("")) {
-                            String[] separacion = operaAritVerf.split("\\s*[/]\\s*");
+                            String[] separacion = operaAritVerf.split("\\s*[/|\n]\\s*");
                             
                             String variableError = separacion[0];
                             String tipoError = separacion[1];
-                            
+
                             //Revisa en que linea estuvo el error
                             for (int k = 0; k < lineasError.length; k++) {
                                 if (lineasError[k].contains("IMP(") && lineasError[k].contains(variableError)) {
                                     numLinErr = k + 1;
                                 }
                             }
-                            mensajeError += "Error en la linea "+ numLinErr + " con [" + variableError + "] la variable " + tipoError + "\n"; 
+                            
+                            for (int k = 0; k < separacion.length; k++) {
+                                if (k%2==0) {
+                                    variableError = separacion[k];
+                                    tipoError = separacion[k+1];
+                                    mensajeError += "Error en la linea " + numLinErr + " con [" + variableError + "] " + tipoError + "\n";
+                                }
+                            }
                         }
                     } else {
                         //Verifica si es un numero
@@ -628,7 +656,7 @@ public class Semantico {
                                     }
                                 }
 
-                                mensajeError += "Error en la linea " + numLinErr + " [" + concatSep[j] + "] sin asignación";
+                                mensajeError += "Error en la linea " + numLinErr + " [" + concatSep[j] + "] sin asignación\n";
                             }
                         }
                     }
@@ -638,35 +666,58 @@ public class Semantico {
         return mensajeError;
     }
 
+    /**
+     * Verificación de que las operaciones sean de tipo de dato NUM
+     *
+     * @param operacionAritmetica Operacion aritmetica
+     * @param tablaIdenCol Array con arreglos de las variables, tipo de dato y
+     * lineas
+     * @param variablesNumericos Array con las variables de tipo de dato NUM
+     * @param texto Texto del codigo
+     * @return Tipo de error
+     */
     static String verificaOperacion(String operacionAritmetica, ArrayList<String[]> tablaIdenCol, ArrayList<String> variablesNumericos, String texto) {
         System.out.println("Se va a verificar = " + operacionAritmetica);
+        
+        String tipoError = "";
 
         String[] datos = operacionAritmetica.split("[+|\\-|*|/]");
 
+        Pattern pattern = Pattern.compile("\\b(FALS|VERD)");
+        Matcher matcher;
+
         for (String dato : datos) {
+
+            matcher = pattern.matcher(dato);
             try {
                 int num = Integer.parseInt(dato);
             } catch (Exception e) {
                 //Aqui se verifica que lo que esta dentro sea una variable de tipo NUMERICO
                 for (int i = 0; i < tablaIdenCol.size(); i++) {
+                    System.out.println(tablaIdenCol.get(i)[2] + " comparando con " + dato);
                     if (tablaIdenCol.get(i)[2].equals(dato)) {
-                        System.out.println(tablaIdenCol.get(i)[1] + " " + tablaIdenCol.get(i)[2]);
+                        System.out.println("Encontrado");
                         if (tablaIdenCol.get(i)[1].equals("50")) {
                             System.out.println("Es numerico");
                         }
                     }
                 }
-                if (!variablesNumericos.contains(dato)) {
-                    return dato + "/no existe";
-                }
-                //Verifica que despues la variables que se encuentren sean asignados a un numero
-                boolean asignado = verifAsignacion(texto, dato);
-                if (!asignado) {
-                    return dato + "/no se asigno";
+                if (dato.contains("\"") | dato.contains("'") | matcher.find()) {
+                    tipoError += dato + "/tipo de dato incorrecto\n";
+                } else {
+                    if (!variablesNumericos.contains(dato)) {
+                        tipoError += dato + "/ la variable no existe\n";
+                    } else {
+                        //Verifica que despues la variables que se encuentren sean asignados a un numero
+                        boolean asignado = verifAsignacion(texto, dato);
+                        if (!asignado) {
+                            tipoError += dato + "/la variable no tiene asignación\n";
+                        }
+                    }
                 }
             }
         }
 
-        return "";
+        return tipoError;
     }
 }

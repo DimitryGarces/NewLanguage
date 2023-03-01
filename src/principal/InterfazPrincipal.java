@@ -18,7 +18,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     NumLinecita numlinea;
     Lexico lexInv = new Lexico();
     Renglon[] codigoFuente;
-
+String[] divisionRenglones;
     String[] tablaIdenFilas;
     ArrayList<String[]> tablaIdenCol = new ArrayList<>();
     ArrayList<String[]> tablaIdenFunMet = new ArrayList<>();
@@ -849,7 +849,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         int rang[];
         //Dividimos nuestro programa de acuerdo a los renglones
-        String[] divisionRenglones = programaEjecutado.split("(?<=\\n)");
+        divisionRenglones = programaEjecutado.split("(?<=\\n)");
         StringTokenizer palabras, palabrasOper, palabrasAux;
 
         tablaIdenCol = new ArrayList<>();
@@ -1383,6 +1383,104 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     }
 
+    public void pruebaImplementarValidacionTipoDatos1(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
+            StringTokenizer palabrasOper, String palabra, boolean banderaVV, int i, boolean banderaErrores) {
+        Lexico lex = new Lexico();
+        Semantico objSem = new Semantico();
+        /*Como tendremos una asignacion y nos quedamos en el formato de
+        TipoDato Variable = asignacion..
+        Nosotros estabamos en el token Variable, por lo que ahora tendremos que avanzar hacia asignacion
+         */
+
+        palabras = new StringTokenizer(divisionRenglones[i], ";=(),+-*/^", true);
+        StringTokenizer p = new StringTokenizer(divisionRenglones[i], ";=(),", true);
+        String variableAsig = palabras.nextToken().replaceAll("\\n", "");
+        p.nextToken();
+        variableAsig = variableAsig.replaceAll(" ", "");
+        //Validemos que no se trate de una operacion relacional
+        if (variableAsig.equals("MIENTRAS") || variableAsig.equals("STF")) {
+
+        } else {
+            //Si es asignacion
+            String expresion = "", aux = "";
+            palabras.nextToken();
+            p.nextToken();
+            List<String[]> tipo = new ArrayList<>();
+            do {
+                //Empezaremos a buscar las expresiones utilizadas en su asignacion separadas por operadores
+                int c = 1;
+                aux = palabras.nextToken().replaceAll("\\n", "");
+//                System.out.println("a" + aux + "a" + c); 
+                if (!aux.equals(" ") && !aux.equals(";") && !aux.equals("")) {
+                    expresion += aux;
+//                    System.out.println("b" + aux + "b" + (c + 1));
+                    if (!aux.equals("+") && !aux.equals("-")
+                            && !aux.equals("*") && !aux.equals("/") && !aux.equals(" ")) {
+                        aux = aux.replaceAll(" ", "");
+                        String[] temp = new String[2];
+                        temp[0] = lex.Etiquetar(aux).numero + "";
+                        temp[1] = aux;
+                        tipo.add(temp);
+//                        System.out.println("c" + aux + "c" + (c + 2));
+                    }
+                }
+            } while (palabras.hasMoreElements());
+
+            /*Hemos guardado los tipos de dato correspondientes a las expresiones halladas pero hasta ahora
+            las variables tienen como tipo de dato asignado 52 por lo que queda buscarlas y obtener su tipo de dato
+            */
+            for (int k = 0; k < tipo.size(); k++) {
+                if (tipo.get(k)[0].equals("52")) {
+                    boolean dec = false;
+                    for (int l = 0; l < tablaIdenCol.size(); l++) {
+                        if (tablaIdenCol.get(l)[2].equals(tipo.get(k)[1])) {
+                            String[] temp1 = new String[2];
+                            temp1[0] = tablaIdenCol.get(l)[1];
+                            temp1[1] = tipo.get(k)[1];
+                            tipo.add(k, temp1);
+                            tipo.remove(k + 1);
+                            dec = true;
+                        }
+                    }
+                    if (!dec) {
+                        for (int l = 0; l < tablaIdenParam.size(); l++) {
+                            if (tablaIdenParam.get(l)[2].equals(tipo.get(k)[1])) {
+                                String[] temp1 = new String[2];
+                                temp1[0] = tablaIdenCol.get(l)[1];
+                                temp1[1] = tipo.get(k)[1];
+                                tipo.add(k, temp1);
+                                tipo.remove(k + 1);
+                            }
+                        }
+                    } else {
+                        //Error de variable no declarada
+                    }
+
+                }
+//                System.out.println("m" + tipo.get(k)[0]);
+            }
+
+            /*Una vez halladas se valida que cada uno sea compatible con el tipo de dato definido a la primera variable
+            Si se termina el recorrido con true significa que todos los datos son del mismo tipo y esta listo para realizar
+            su operacion.
+            */
+            
+            System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
+            boolean b = true;
+            for (int k = 0; k < tipo.size(); k++) {
+                if (!objSem.operCompatibles(tablaIdenCol.get(j)[1], tipo.get(k)[0])) {
+                    b = false;
+                }
+            }
+            if (b) {
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea" + (i + 1) + "\n");
+            } else {
+                lbSem.setText("Semantico: Incorrecto");
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea" + (i + 1) + "\n");
+            }
+
+        }
+    }
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
         pnOptimizacion.setVisible(true);
         // TODO add your handling code here:
