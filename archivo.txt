@@ -1,59 +1,80 @@
 CLASE "ejemploDeCodigo" {
-    IMPLEM "libreria";
-    CAD cadena;
-    CAD otraCadena;
-    CAD otraCadena1;
-    numero=28;
+ IMPLEM "libreria";
+ CAD cadena; 
+CAD otraCadena;
+ CAD otraCadena1;
+NUM numero; 
+numero=28; 
+NUM suma;
+NUM ayuda;
+ BOOL booleano; 
+CAD captura;
+ FUN CAD prueba(CAD cadena){ 
+cadena = "c";
+ RETORNA cadena;
+ } 
+MET "prueba2"(NUM num){ 
+num= "24";
+ }
+ PRINCIPAL{ 
+CAD prueba1;
+ CAP(cadena); 
+prueba1= "No sirve";
+ STF(numero==28){ 
+suma=numero+1;
+ }
+NSTF{
+ NUM x34; 
+x34 = 56;
+ NUM variableNoExistente; 
+IMP(2+4%5*8); 
+CAP(captura); 
+} 
+CND(1:5){ 
+IMP("Holaaaa"); 
+IMP("Este es mi primer programa"); 
+}
+ MIENTRAS(numero==28){
+CAMBIO (numero) { 
 
-    NUM suma;
-
-    BOOL booleano;
-
-    CAD captura;
-
-    FUN CAD prueba(CAD cadena){
-        CAD cadena;
-        cadena = 'c';
-        RETORNA cadena;
-    }
-
-    MET "prueba2"(NUM num){
-        num=24;
-    }
-    PRINCIPAL{
-
-        CAP(cadena);
-
-        STF(numero==28){
-            suma=numero+1;
-        }NSTF{
-           NUM x34;
-           x34 = 56;
-
-            IMP(2+4%5*8);
-            IMP(x34+5-8*7/6);
-            IMP(variableNoExistente);
-            CAP(captura);
-        }
-
-        CND(1:5){
-
-        }
-
-        MIENTRAS(numero==28){
-
-        }
-
-        HACER{
-
-        }
-        MIENTRAS(numero==28);
-
-        CAMBIO (numero) {
-            CASO 28: 
-                booleano=VER;
-            DESCANSO;
-        }
-    }
+CASO 1:  STF(suma==1){
+ suma=numero;
+ }
+NSTF{ 
+ }
+ DESCANSO;
+CASO 2: 
+ CND(1:8,2){
+ IMP("Funcionaa"); 
+IMP("Help");
+ }
+ DESCANSO;
+CASO 3:  
+CND(1:100,1){
+ IMP("Prueba definitiva"); 
+} 
+DESCANSO;
+PREDET:
+STF(suma==10){ 
+suma=numero+1;
+HACER{
+MIENTRAS(numero==5){
+numero=numero+1;
+}
+suma=suma+1;
+}
+MIENTRAS(suma==11); 
+}
+ } 
+} 
+HACER{
+ } 
+MIENTRAS(numero==28);
+ CAMBIO (numero) { 
+CASO 28:
+  booleano=VER;
+DESCANSO;
+ } 
+}
 }
 

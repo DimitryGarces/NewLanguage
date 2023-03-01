@@ -13,12 +13,12 @@ import javax.swing.JOptionPane;
  * @author Diego
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
-
+    
     int[] vecSal;
     NumLinecita numlinea;
     Lexico lexInv = new Lexico();
     Renglon[] codigoFuente;
-String[] divisionRenglones;
+    String[] divisionRenglones;
     String[] tablaIdenFilas;
     ArrayList<String[]> tablaIdenCol = new ArrayList<>();
     ArrayList<String[]> tablaIdenFunMet = new ArrayList<>();
@@ -86,10 +86,14 @@ String[] divisionRenglones;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        pnContenedor.setBackground(new java.awt.Color(255, 255, 255));
+        pnContenedor.setBackground(new java.awt.Color(204, 204, 204));
         pnContenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbCargar.setText("Cargar");
+        pnCarga1.setBackground(new java.awt.Color(204, 204, 204));
+
+        lbCargar.setBackground(new java.awt.Color(204, 204, 204));
+        lbCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/jugar.png"))); // NOI18N
+        lbCargar.setText("Compilar");
         lbCargar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbCargarMouseClicked(evt);
@@ -100,9 +104,9 @@ String[] divisionRenglones;
         pnCarga1.setLayout(pnCarga1Layout);
         pnCarga1Layout.setHorizontalGroup(
             pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCarga1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnCarga1Layout.createSequentialGroup()
+                .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnCarga1Layout.setVerticalGroup(
             pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,14 +115,21 @@ String[] divisionRenglones;
                 .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnCarga1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 240, 70, 30));
+        pnContenedor.add(pnCarga1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 60, 80, 30));
 
+        jLabel1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel1.setText("Programa Fuente");
-        pnContenedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+        pnContenedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel2.setText("Programa Compilado");
         pnContenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
+        pnGuardar.setBackground(new java.awt.Color(204, 204, 204));
+
+        lbGuardar.setBackground(new java.awt.Color(255, 255, 255));
+        lbGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar-el-archivo.png"))); // NOI18N
         lbGuardar.setText("Guardar");
         lbGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -130,16 +141,27 @@ String[] divisionRenglones;
         pnGuardar.setLayout(pnGuardarLayout);
         pnGuardarLayout.setHorizontalGroup(
             pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+            .addGroup(pnGuardarLayout.createSequentialGroup()
+                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnGuardarLayout.setVerticalGroup(
             pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGuardarLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, 70, 30));
+        pnContenedor.add(pnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, 80, 30));
 
+        pnSintactico.setBackground(new java.awt.Color(255, 255, 255));
+        pnSintactico.setMinimumSize(new java.awt.Dimension(83, 28));
+
+        lbSintactico.setBackground(new java.awt.Color(255, 255, 255));
+        lbSintactico.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        lbSintactico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/sintaxis (1).png"))); // NOI18N
         lbSintactico.setText("Sintactico");
+        lbSintactico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lbSintactico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbSintacticoMouseClicked(evt);
@@ -150,9 +172,7 @@ String[] divisionRenglones;
         pnSintactico.setLayout(pnSintacticoLayout);
         pnSintacticoLayout.setHorizontalGroup(
             pnSintacticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSintacticoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbSintactico, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(lbSintactico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnSintacticoLayout.setVerticalGroup(
             pnSintacticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,9 +181,15 @@ String[] divisionRenglones;
                 .addComponent(lbSintactico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnSintactico, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 450, 70, 30));
+        pnContenedor.add(pnSintactico, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 440, 100, 30));
 
+        pnSemantico.setBackground(new java.awt.Color(255, 255, 255));
+
+        lbSemantico.setBackground(new java.awt.Color(255, 255, 255));
+        lbSemantico.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        lbSemantico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/semantica.png"))); // NOI18N
         lbSemantico.setText("Semantico");
+        lbSemantico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lbSemantico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbSemanticoMouseClicked(evt);
@@ -175,8 +201,8 @@ String[] divisionRenglones;
         pnSemanticoLayout.setHorizontalGroup(
             pnSemanticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSemanticoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbSemantico, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lbSemantico, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnSemanticoLayout.setVerticalGroup(
             pnSemanticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,7 +211,7 @@ String[] divisionRenglones;
                 .addComponent(lbSemantico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnSemantico, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 440, 70, 30));
+        pnContenedor.add(pnSemantico, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 440, 90, 30));
 
         lbOptimizacion.setText("Optimizacion");
         lbOptimizacion.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -235,6 +261,12 @@ String[] divisionRenglones;
 
         pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 190, 70, 30));
 
+        pnLexico.setBackground(new java.awt.Color(255, 255, 255));
+        pnLexico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lbLexico.setBackground(new java.awt.Color(255, 255, 255));
+        lbLexico.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        lbLexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eleccion-de-idioma.png"))); // NOI18N
         lbLexico.setText("Lexico");
         lbLexico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -257,7 +289,7 @@ String[] divisionRenglones;
                 .addComponent(lbLexico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnLexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 70, 30));
+        pnContenedor.add(pnLexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, -1, 30));
 
         lbObjeto.setText("Objeto");
 
@@ -276,9 +308,13 @@ String[] divisionRenglones;
                 .addComponent(lbObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 80, 70, 30));
+        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 100, 70, 30));
 
+        jScrollPane1.setBackground(new java.awt.Color(51, 51, 51));
+
+        jTProgramaFuente.setBackground(new java.awt.Color(102, 102, 102));
         jTProgramaFuente.setColumns(20);
+        jTProgramaFuente.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaFuente.setRows(5);
         jTProgramaFuente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -287,47 +323,59 @@ String[] divisionRenglones;
         });
         jScrollPane1.setViewportView(jTProgramaFuente);
 
-        pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 490, 230));
+        pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 450, 230));
 
+        jTProgramaCompilado.setBackground(new java.awt.Color(102, 102, 102));
         jTProgramaCompilado.setColumns(20);
+        jTProgramaCompilado.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaCompilado.setRows(5);
         jScrollPane2.setViewportView(jTProgramaCompilado);
 
-        pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 240, 220));
+        pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 260, 220));
 
+        lbLex.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbLex.setText("Lexico:");
         pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 280, -1, -1));
 
+        lbSin.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbSin.setText("Sintactico:");
         pnContenedor.add(lbSin, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 280, -1, -1));
 
+        lbSem.setBackground(new java.awt.Color(255, 255, 255));
+        lbSem.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbSem.setText("Semantico:");
         pnContenedor.add(lbSem, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 280, -1, -1));
 
+        jTProgramaSintactico.setBackground(new java.awt.Color(102, 102, 102));
         jTProgramaSintactico.setColumns(20);
+        jTProgramaSintactico.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaSintactico.setRows(5);
         jScrollPane3.setViewportView(jTProgramaSintactico);
 
-        pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 330, 310, 100));
+        pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 320, 310, 110));
 
+        jTProgramaSemantico.setBackground(new java.awt.Color(102, 102, 102));
         jTProgramaSemantico.setColumns(20);
+        jTProgramaSemantico.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaSemantico.setRows(5);
         jScrollPane4.setViewportView(jTProgramaSemantico);
 
-        pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 330, 260, 100));
+        pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 320, 260, 110));
         pnContenedor.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 110, 210));
 
+        erroresLexicos.setBackground(new java.awt.Color(102, 102, 102));
         erroresLexicos.setColumns(20);
+        erroresLexicos.setForeground(new java.awt.Color(204, 255, 255));
         erroresLexicos.setRows(5);
         jScrollPane5.setViewportView(erroresLexicos);
 
-        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 300, 100));
+        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 300, 110));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+            .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 1170, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +427,7 @@ String[] divisionRenglones;
                                 texto = texto + cadena + "\n";
                             } else if (!(cadena.equals(" ") || cadena.equals("\t"))) {
                                 texto = texto + "\n" + cadena + "\n";
-
+                                
                             } else {
                                 texto = texto + "\n";
                             }
@@ -397,17 +445,17 @@ String[] divisionRenglones;
                             }
                         } else if (cadena.equals("\"")) {
                             texto = texto + cadena;
-                                    while (st.hasMoreElements()) {
-                                        cadena = st.nextToken();
-                                        if (cadena.equals("\"") || cadena.equals("\r") || cadena.equals("\n")) {
-                                            break;
-                                        }
-                                        if (cadena.equals(" ") || cadena.equals("\t")) {
-                                            cadena = " ";
-                                        }
-                                        texto = texto + cadena;
-                                    }
-                                    texto = texto + cadena + "\n";
+                            while (st.hasMoreElements()) {
+                                cadena = st.nextToken();
+                                if (cadena.equals("\"") || cadena.equals("\r") || cadena.equals("\n")) {
+                                    break;
+                                }
+                                if (cadena.equals(" ") || cadena.equals("\t")) {
+                                    cadena = " ";
+                                }
+                                texto = texto + cadena;
+                            }
+                            texto = texto + cadena + "\n";
                         } else if (cadena.equals(" ") || cadena.equals("\t")) {
                             cadena = "";
                         } else if (cadena.equals("'")) {
@@ -446,11 +494,11 @@ String[] divisionRenglones;
                         break;
                 }
                 j++;
-
+                
             }
             renglon = new Renglon(vecSal);
             codigoFuente[i] = renglon;
-
+            
         }
 //            vecSal[vecSal.length - 1] = 53;
         if (b) {
@@ -558,7 +606,7 @@ String[] divisionRenglones;
         {189},
         {157}
         };
-
+        
         int mt[][] = new int[45][55];
         for (int i = 0; i < 45; i++) {
             for (int j = 0; j < 55; j++) {
@@ -609,13 +657,13 @@ String[] divisionRenglones;
         mt[7][35] = 22;
         mt[8][17] = 24;
         mt[8][18] = 25;
-
+        
         mt[8][50] = 23;
         mt[8][51] = 23;
         mt[8][52] = 23;
         mt[8][53] = 23;
         mt[8][54] = 23;
-
+        
         mt[9][3] = 26;
         mt[10][1] = 28;
         mt[10][2] = 28;
@@ -630,7 +678,7 @@ String[] divisionRenglones;
         mt[10][23] = 28;
         mt[10][24] = 28;
         mt[10][52] = 28;
-
+        
         mt[11][50] = 29;
         mt[11][51] = 29;
         mt[11][52] = 29;
@@ -643,15 +691,15 @@ String[] divisionRenglones;
 //        mt[11][34] = 29;
         mt[12][21] = 31;
         mt[12][26] = 30;
-
+        
         mt[13][50] = 32;
         mt[13][51] = 33;
         mt[13][52] = 34;
         mt[13][53] = 35;
         mt[13][54] = 36;
-
+        
         mt[14][52] = 37;
-
+        
         mt[15][20] = 38;
         mt[15][21] = 39;
         mt[15][25] = 39;
@@ -659,83 +707,83 @@ String[] divisionRenglones;
         mt[15][27] = 39;
         mt[15][31] = 39;
         mt[15][34] = 39;
-
+        
         mt[16][50] = 40;
         mt[16][51] = 40;
         mt[16][52] = 40;
         mt[16][53] = 40;
         mt[16][54] = 40;
-
+        
         mt[17][21] = 42;
         mt[17][25] = 41;
         mt[17][26] = 42;
         mt[17][27] = 42;
         mt[17][31] = 42;
         mt[17][34] = 42;
-
+        
         mt[18][1] = 43;
-
+        
         mt[19][21] = 45;
         mt[19][34] = 44;
-
+        
         mt[20][2] = 46;
-
+        
         mt[21][5] = 47;
-
+        
         mt[22][21] = 49;
         mt[22][29] = 48;
-
+        
         mt[23][6] = 50;
-
+        
         mt[24][7] = 51;
-
+        
         mt[25][8] = 52;
-
+        
         mt[26][53] = 53;
         mt[26][51] = 54;
         mt[26][50] = 55;
-
+        
         mt[27][9] = 56;
-
+        
         mt[28][8] = 57;
         mt[28][10] = 58;
         mt[28][23] = 58;
-
+        
         mt[29][10] = 59;
         mt[29][23] = 60;
-
+        
         mt[30][24] = 61;
-
+        
         mt[31][16] = 62;
-
+        
         mt[32][16] = 63;
-
+        
         mt[33][24] = 64;
-
+        
         mt[34][29] = 65;
         mt[34][21] = 66;
-
+        
         mt[35][15] = 67;
-
+        
         mt[36][24] = 68;
-
+        
         mt[37][29] = 69;
         mt[37][21] = 70;
-
+        
         mt[38][14] = 71;
-
+        
         mt[39][20] = 72;
-
+        
         mt[40][52] = 73;
-
+        
         mt[41][29] = 74;
         mt[41][21] = 75;
-
+        
         mt[42][52] = 76;
-
+        
         mt[43][20] = 77;
         mt[43][35] = 78;
-
+        
         int vecMov[]
                 = {
                     45, 150
@@ -783,11 +831,11 @@ String[] divisionRenglones;
                         lbSin.setText("Sintactico: Incorrecto.");
                         banderaErrores = false;
                         String b = le.EtiquetarInvertido(palabras[i], false);
-
+                        
                         jTProgramaSintactico.setText(jTProgramaSintactico.getText()
                                 + "Error sintactico en linea " + (h + 1) + " al recibir " + b + "\n");
                         int contador = 0;
-
+                        
                         i++;
                         vecMovAux = vecMov;
                         vecMov = new int[vecMovAux.length - contador];
@@ -808,7 +856,7 @@ String[] divisionRenglones;
                         lbSin.setText("Sintactico: Incorrecto.");
                         banderaErrores = false;
                         String b = le.EtiquetarInvertido(palabras[i], false);
-
+                        
                         jTProgramaSintactico.setText(jTProgramaSintactico.getText()
                                 + "Error sintactico en linea " + (h + 1) + " con: " + b + "\n");
                         i++;
@@ -834,24 +882,24 @@ String[] divisionRenglones;
 
         String text = programaEjecutado;
         Semantico objSem = new Semantico();
-        
+
         //Guarda las variables de tipo CAD
         ArrayList<String> variables = objSem.obtNomVar(programaEjecutado);
-        
+
         //Elimina el nombre de las funciones en donde se guardo las variables de tipo CAD
-        variables = objSem.elimNomFunCad(programaEjecutado,variables);
-        
+        variables = objSem.elimNomFunCad(programaEjecutado, variables);
+
         //Verificación de la entrada de datos
         String errorCAP = objSem.verificaCAP(programaEjecutado, variables);
         if (!errorCAP.equals("")) {
             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorCAP);
         }
-
+        
         int rang[];
         //Dividimos nuestro programa de acuerdo a los renglones
         divisionRenglones = programaEjecutado.split("(?<=\\n)");
         StringTokenizer palabras, palabrasOper, palabrasAux;
-
+        
         tablaIdenCol = new ArrayList<>();
         tablaIdenFunMet = new ArrayList<>();
         tablaIdenParam = new ArrayList<>();
@@ -925,14 +973,14 @@ String[] divisionRenglones;
                     if (j % 2 == 0) {
                         tablaIdenFilas[0] = nom;
                         tablaIdenFilas[1] = objSem.conversionNum(func.get(j));
-
+                        
                     } else {
                         tablaIdenFilas[2] = func.get(j);
                         tablaIdenParam.add(tablaIdenFilas);
                         tablaIdenFilas = new String[3];
                     }
                 }
-
+                
                 int lla = 1;
                 for (int j = i + 1; j < divisionRenglones.length; j++) {
                     palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
@@ -952,7 +1000,7 @@ String[] divisionRenglones;
                         break;
                     }
                 }
-
+                
             } else if (palabra.equals("MET")) {
                 /*Si encontramos la declaracion de una funcion entonces capturamos el renglon y el nombre de la funcion
                 y empezamos a buscar las llaves que determinan cuando inicia y cuando termina esa funcion
@@ -1012,14 +1060,14 @@ String[] divisionRenglones;
                     if (j % 2 != 0) {
                         tablaIdenFilas[0] = nom;
                         tablaIdenFilas[1] = objSem.conversionNum(met.get(j));
-
+                        
                     } else {
                         tablaIdenFilas[2] = met.get(j);
                         tablaIdenParam.add(tablaIdenFilas);
                         tablaIdenFilas = new String[3];
                     }
                 }
-
+                
                 for (int j = i + 1; j < divisionRenglones.length; j++) {
                     palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
                     texto = "";
@@ -1038,7 +1086,7 @@ String[] divisionRenglones;
                         break;
                     }
                 }
-
+                
             }
         }
         for (int i = 0; i < rangosAsig.size(); i++) {
@@ -1051,7 +1099,7 @@ String[] divisionRenglones;
             //Separamos las palabras en un arreglo, de un renglon determinado por el ciclo 
             palabras = new StringTokenizer(divisionRenglones[i], " =;(),");
             palabrasAux = new StringTokenizer(divisionRenglones[i], " =;(),");
-
+            
             texto = "";
             while (palabrasAux.hasMoreElements()) {
                 texto = texto + palabrasAux.nextToken();
@@ -1118,7 +1166,7 @@ String[] divisionRenglones;
             } /*Validamos si lo que se esta declarando es una funcion o un metodo para obtener parametros
             Si no se esta declarando verificaremos si se realiza alguna accion con la variable*/ else {
                 int pos = -1;
-
+                
                 varDec = false;
                 int y = 0;
                 banderaVE = false;
@@ -1132,13 +1180,13 @@ String[] divisionRenglones;
                         case 53:
                             pos = j;
                             break;
-
+                        
                     }
                     if (pos != -1) {
                         break;
                     }
                 }
-
+                
                 if (pos != -1) {
                     //Verificamos que se trate de una asignacion
                     if (palabrasAsig[0] == 52 && palabrasAsig[1] == 35) {
@@ -1183,6 +1231,7 @@ String[] divisionRenglones;
                     se validaran sus operaciones correspondientes a la*/
                         if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
+                            pruebaImplementarValidacionTipoDatos1(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
                         } else {
                             lbSem.setText("Semantico: Incorrecto");
                             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
@@ -1236,6 +1285,7 @@ String[] divisionRenglones;
                     se validaran sus operaciones correspondientes a la*/
                         if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
+                            pruebaImplementarValidacionTipoDatos1(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
                         } else {
                             lbSem.setText("Semantico: Incorrecto");
                             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
@@ -1244,7 +1294,7 @@ String[] divisionRenglones;
                         }
                     }
                 }
-
+                
             }
         }
         for (int i = 0; i < tablaIdenCol.size(); i++) {
@@ -1256,19 +1306,19 @@ String[] divisionRenglones;
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
         }
-        
+
         //Guardar nombre de las variables de cada tipo de dato
         ArrayList<String> numerosVar = objSem.obtNomVar(programaEjecutado, "NUM");
         ArrayList<String> boolsVar = objSem.obtNomVar(programaEjecutado, "BOOL");
         ArrayList<String> carsVar = objSem.obtNomVar(programaEjecutado, "CHAR");
         ArrayList<String> cadenasVar = objSem.obtNomVar(programaEjecutado, "CAD");
-        
+
         //Eliminar nombre de funciones en ArrayList de cada tipo de dato
         numerosVar = objSem.elimNomFunCad(programaEjecutado, numerosVar);
         boolsVar = objSem.elimNomFunCad(programaEjecutado, boolsVar);
         carsVar = objSem.elimNomFunCad(programaEjecutado, carsVar);
         cadenasVar = objSem.elimNomFunCad(programaEjecutado, cadenasVar);
-        
+
         //Se obtiene el error si es que existe y se manda a la caja de texto
         String errorIMP = objSem.verificaIMP(programaEjecutado, numerosVar, boolsVar, carsVar, cadenasVar, tablaIdenCol);
         if (!errorIMP.equals("")) {
@@ -1276,7 +1326,7 @@ String[] divisionRenglones;
         }
         
     }//GEN-LAST:event_lbSemanticoMouseClicked
-
+    
     public void pruebaImplementarValidacionTipoDatos(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
             StringTokenizer palabrasOper, String palabra, boolean banderaVV, int i, boolean banderaErrores) {
         Lexico lex = new Lexico();
@@ -1314,7 +1364,7 @@ String[] divisionRenglones;
                 }
                 if (!banderaVV) {
                     jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n");
-
+                    
                 }
             } else {
                 if (!banderaVV) {
@@ -1342,7 +1392,7 @@ String[] divisionRenglones;
                     }
                     if (!banderaVV) {
                         jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n");
-
+                        
                         banderaErrores = false;
                     }
                 } else {
@@ -1377,12 +1427,12 @@ String[] divisionRenglones;
                     banderaErrores = false;
                 }
             } catch (Exception ex) {
-
+                
             }
         }
-
+        
     }
-
+    
     public void pruebaImplementarValidacionTipoDatos1(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
             StringTokenizer palabrasOper, String palabra, boolean banderaVV, int i, boolean banderaErrores) {
         Lexico lex = new Lexico();
@@ -1391,7 +1441,7 @@ String[] divisionRenglones;
         TipoDato Variable = asignacion..
         Nosotros estabamos en el token Variable, por lo que ahora tendremos que avanzar hacia asignacion
          */
-
+        
         palabras = new StringTokenizer(divisionRenglones[i], ";=(),+-*/^", true);
         StringTokenizer p = new StringTokenizer(divisionRenglones[i], ";=(),", true);
         String variableAsig = palabras.nextToken().replaceAll("\\n", "");
@@ -1399,7 +1449,7 @@ String[] divisionRenglones;
         variableAsig = variableAsig.replaceAll(" ", "");
         //Validemos que no se trate de una operacion relacional
         if (variableAsig.equals("MIENTRAS") || variableAsig.equals("STF")) {
-
+            
         } else {
             //Si es asignacion
             String expresion = "", aux = "";
@@ -1428,7 +1478,7 @@ String[] divisionRenglones;
 
             /*Hemos guardado los tipos de dato correspondientes a las expresiones halladas pero hasta ahora
             las variables tienen como tipo de dato asignado 52 por lo que queda buscarlas y obtener su tipo de dato
-            */
+             */
             for (int k = 0; k < tipo.size(); k++) {
                 if (tipo.get(k)[0].equals("52")) {
                     boolean dec = false;
@@ -1455,7 +1505,7 @@ String[] divisionRenglones;
                     } else {
                         //Error de variable no declarada
                     }
-
+                    
                 }
 //                System.out.println("m" + tipo.get(k)[0]);
             }
@@ -1463,8 +1513,7 @@ String[] divisionRenglones;
             /*Una vez halladas se valida que cada uno sea compatible con el tipo de dato definido a la primera variable
             Si se termina el recorrido con true significa que todos los datos son del mismo tipo y esta listo para realizar
             su operacion.
-            */
-            
+             */
             System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
             boolean b = true;
             for (int k = 0; k < tipo.size(); k++) {
@@ -1478,7 +1527,7 @@ String[] divisionRenglones;
                 lbSem.setText("Semantico: Incorrecto");
                 jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea" + (i + 1) + "\n");
             }
-
+            
         }
     }
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
@@ -1525,7 +1574,7 @@ String[] divisionRenglones;
         lbSintactico.setText("Sintactico:");
         lbSemantico.setText("Semantico:");
     }//GEN-LAST:event_jTProgramaFuenteKeyTyped
-
+    
     private void cambiaC(int l) {
         jTProgramaFuente.getLineCount();
     }
@@ -1544,21 +1593,21 @@ String[] divisionRenglones;
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
+                    
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
