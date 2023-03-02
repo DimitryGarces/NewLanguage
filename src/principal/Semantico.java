@@ -29,35 +29,34 @@ public class Semantico {
     int asig[][]
             = {
                 {
-                    1, -1, -1, -1,-1
+                    1, -1, -1, -1, -1
                 },
                 {
-                    -1, 1, -1, -1,-1
+                    -1, 1, -1, -1, -1
                 },
                 {
-                    -1, -1, 1, -1,-1
+                    -1, -1, 1, -1, -1
                 },
                 {
-                    -1, -1, -1, 1,-1
-                }
-                ,
-                {
-                    -1, -1, -1, -1,1
+                    -1, -1, -1, 1, -1
+                },
+                 {
+                    -1, -1, -1, -1, 1
                 }
             };
     int operAri[][]
             = {
                 {
-                    1, -1, -1, -1,-1
+                    1, -1, -1, -1, -1
                 },
                 {
-                    -1, -1, -1, -1,-1
+                    -1, -1, -1, -1, -1
                 },
                 {
-                    -1, -1, -1, -1,-1
+                    -1, -1, -1, -1, -1
                 },
                 {
-                    -1, -1, 1, -1,-1
+                    -1, -1, 1, -1, -1
                 }
             };
 
@@ -98,11 +97,14 @@ public class Semantico {
     }
 
     public boolean operCompatibles(String fila, String colum) {
-        if (fila.equals("54") && (colum.equals("17") || colum.equals( "18"))) {
+        if (fila.equals("54") && (colum.equals("17") || colum.equals("18"))) {
             return true;
         }
-         
-        
+//        if ((fila.equals("17") || fila.equals("18")) 
+//                && (colum.equals("17") || colum.equals("18"))) {
+//            return true;
+//        }
+
         int f = Integer.parseInt(fila) - 50;
         int c = Integer.parseInt(colum) - 50;
         return asig[f][c] == 1;
@@ -605,7 +607,7 @@ public class Semantico {
                         String operaAritVerf = verificaOperacion(concatSep[j], tablaIdentCol, numerosVar, texto);
                         if (!operaAritVerf.equals("")) {
                             String[] separacion = operaAritVerf.split("\\s*[/|\n]\\s*");
-                            
+
                             String variableError = separacion[0];
                             String tipoError = separacion[1];
 
@@ -615,11 +617,11 @@ public class Semantico {
                                     numLinErr = k + 1;
                                 }
                             }
-                            
+
                             for (int k = 0; k < separacion.length; k++) {
-                                if (k%2==0) {
+                                if (k % 2 == 0) {
                                     variableError = separacion[k];
-                                    tipoError = separacion[k+1];
+                                    tipoError = separacion[k + 1];
                                     mensajeError += "Error en la linea " + numLinErr + " con [" + variableError + "] " + tipoError + "\n";
                                 }
                             }
@@ -678,7 +680,7 @@ public class Semantico {
      */
     static String verificaOperacion(String operacionAritmetica, ArrayList<String[]> tablaIdenCol, ArrayList<String> variablesNumericos, String texto) {
         System.out.println("Se va a verificar = " + operacionAritmetica);
-        
+
         String tipoError = "";
 
         String[] datos = operacionAritmetica.split("[+|\\-|*|/]");

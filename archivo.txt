@@ -69,7 +69,7 @@ MIENTRAS(suma==11);
 } 
 HACER{
  } 
-MIENTRAS(numero==28);
+MIENTRAS(numero==28 && num>5);
  CAMBIO (numero) { 
 CASO 28:
   booleano=VER;
@@ -77,4 +77,5 @@ DESCANSO;
  } 
 }
 }
+
 

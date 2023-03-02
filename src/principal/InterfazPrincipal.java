@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author Diego
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
-    
+
     int[] vecSal;
     NumLinecita numlinea;
     Lexico lexInv = new Lexico();
@@ -401,7 +401,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         codigoFuente = new Renglon[divisionRenglones.length + 1];
         Renglon renglon;
         for (int i = 0; i < divisionRenglones.length; i++) {
-            StringTokenizer st = new StringTokenizer(divisionRenglones[i], "+-^*/()%#;=<>{}& \n\b\r\t\",:'", true);
+            StringTokenizer st = new StringTokenizer(divisionRenglones[i], "+-^*/()%#;=<>{}&| \n\b\r\t\",:'", true);
             String texto = "";
             String cadena;
             while (st.hasMoreElements()) {
@@ -427,7 +427,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                                 texto = texto + cadena + "\n";
                             } else if (!(cadena.equals(" ") || cadena.equals("\t"))) {
                                 texto = texto + "\n" + cadena + "\n";
-                                
+
                             } else {
                                 texto = texto + "\n";
                             }
@@ -438,6 +438,16 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                             if (st.hasMoreElements()) {
                                 cadena = st.nextToken();
                                 if (cadena.equals("&")) {
+                                    texto = texto + cadena + "\n";
+                                } else {
+                                    texto = texto + "\n" + cadena + "\n";
+                                }
+                            }
+                        } else if (cadena.equals("|")) {
+                            texto = texto + cadena;
+                            if (st.hasMoreElements()) {
+                                cadena = st.nextToken();
+                                if (cadena.equals("|")) {
                                     texto = texto + cadena + "\n";
                                 } else {
                                     texto = texto + "\n" + cadena + "\n";
@@ -494,11 +504,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         break;
                 }
                 j++;
-                
+
             }
             renglon = new Renglon(vecSal);
             codigoFuente[i] = renglon;
-            
+
         }
 //            vecSal[vecSal.length - 1] = 53;
         if (b) {
@@ -606,7 +616,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         {189},
         {157}
         };
-        
+
         int mt[][] = new int[45][55];
         for (int i = 0; i < 45; i++) {
             for (int j = 0; j < 55; j++) {
@@ -657,13 +667,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         mt[7][35] = 22;
         mt[8][17] = 24;
         mt[8][18] = 25;
-        
+
         mt[8][50] = 23;
         mt[8][51] = 23;
         mt[8][52] = 23;
         mt[8][53] = 23;
         mt[8][54] = 23;
-        
+
         mt[9][3] = 26;
         mt[10][1] = 28;
         mt[10][2] = 28;
@@ -678,7 +688,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         mt[10][23] = 28;
         mt[10][24] = 28;
         mt[10][52] = 28;
-        
+
         mt[11][50] = 29;
         mt[11][51] = 29;
         mt[11][52] = 29;
@@ -691,15 +701,15 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //        mt[11][34] = 29;
         mt[12][21] = 31;
         mt[12][26] = 30;
-        
+
         mt[13][50] = 32;
         mt[13][51] = 33;
         mt[13][52] = 34;
         mt[13][53] = 35;
         mt[13][54] = 36;
-        
+
         mt[14][52] = 37;
-        
+
         mt[15][20] = 38;
         mt[15][21] = 39;
         mt[15][25] = 39;
@@ -707,83 +717,83 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         mt[15][27] = 39;
         mt[15][31] = 39;
         mt[15][34] = 39;
-        
+
         mt[16][50] = 40;
         mt[16][51] = 40;
         mt[16][52] = 40;
         mt[16][53] = 40;
         mt[16][54] = 40;
-        
+
         mt[17][21] = 42;
         mt[17][25] = 41;
         mt[17][26] = 42;
         mt[17][27] = 42;
         mt[17][31] = 42;
         mt[17][34] = 42;
-        
+
         mt[18][1] = 43;
-        
+
         mt[19][21] = 45;
         mt[19][34] = 44;
-        
+
         mt[20][2] = 46;
-        
+
         mt[21][5] = 47;
-        
+
         mt[22][21] = 49;
         mt[22][29] = 48;
-        
+
         mt[23][6] = 50;
-        
+
         mt[24][7] = 51;
-        
+
         mt[25][8] = 52;
-        
+
         mt[26][53] = 53;
         mt[26][51] = 54;
         mt[26][50] = 55;
-        
+
         mt[27][9] = 56;
-        
+
         mt[28][8] = 57;
         mt[28][10] = 58;
         mt[28][23] = 58;
-        
+
         mt[29][10] = 59;
         mt[29][23] = 60;
-        
+
         mt[30][24] = 61;
-        
+
         mt[31][16] = 62;
-        
+
         mt[32][16] = 63;
-        
+
         mt[33][24] = 64;
-        
+
         mt[34][29] = 65;
         mt[34][21] = 66;
-        
+
         mt[35][15] = 67;
-        
+
         mt[36][24] = 68;
-        
+
         mt[37][29] = 69;
         mt[37][21] = 70;
-        
+
         mt[38][14] = 71;
-        
+
         mt[39][20] = 72;
-        
+
         mt[40][52] = 73;
-        
+
         mt[41][29] = 74;
         mt[41][21] = 75;
-        
+
         mt[42][52] = 76;
-        
+
         mt[43][20] = 77;
         mt[43][35] = 78;
-        
+
         int vecMov[]
                 = {
                     45, 150
@@ -831,11 +841,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         lbSin.setText("Sintactico: Incorrecto.");
                         banderaErrores = false;
                         String b = le.EtiquetarInvertido(palabras[i], false);
-                        
+
                         jTProgramaSintactico.setText(jTProgramaSintactico.getText()
                                 + "Error sintactico en linea " + (h + 1) + " al recibir " + b + "\n");
                         int contador = 0;
-                        
+
                         i++;
                         vecMovAux = vecMov;
                         vecMov = new int[vecMovAux.length - contador];
@@ -856,7 +866,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         lbSin.setText("Sintactico: Incorrecto.");
                         banderaErrores = false;
                         String b = le.EtiquetarInvertido(palabras[i], false);
-                        
+
                         jTProgramaSintactico.setText(jTProgramaSintactico.getText()
                                 + "Error sintactico en linea " + (h + 1) + " con: " + b + "\n");
                         i++;
@@ -894,12 +904,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (!errorCAP.equals("")) {
             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorCAP);
         }
-        
+
         int rang[];
         //Dividimos nuestro programa de acuerdo a los renglones
         divisionRenglones = programaEjecutado.split("(?<=\\n)");
         StringTokenizer palabras, palabrasOper, palabrasAux;
-        
+
         tablaIdenCol = new ArrayList<>();
         tablaIdenFunMet = new ArrayList<>();
         tablaIdenParam = new ArrayList<>();
@@ -914,183 +924,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         for (int i = 0; i < divisionRenglones.length; i++) {
             palabras = new StringTokenizer(divisionRenglones[i], " =;(),");
             palabra = palabras.nextToken().replaceAll("\n", "");
-            if (palabra.equals("FUN")) {
-                /*Si encontramos la declaracion de una funcion entonces capturamos el renglon y el nombre de la funcion
-                y empezamos a buscar las llaves que determinan cuando inicia y cuando termina esa funcion
-                Creamos un arraylist para almacenar las palabras de ese renglon*/
-                List<String> func = new ArrayList<>();
-                String nom = "";
-                palRep = false;
-                while (palabras.hasMoreElements()) {
-                    func.add(palabras.nextToken());
-                }
-                nom = func.get(1);
-                rango = new String[3];
-                rango[0] = nom;
-                rango[1] = (i + 1) + "";
-                //Salvamos el nombre de la funcion
-
-                tablaIdenFilas = new String[5];
-                //Agregamos en que linea de codigo fue hallado, ademas a que tipo de dato se refiere
-                tablaIdenFilas[0] = String.valueOf(i + 1);
-                tablaIdenFilas[1] = objSem.conversionNum(func.get(0));
-                tablaIdenFilas[2] = func.get(1);
-                tablaIdenFilas[3] = "FUN";
-                //Validamos que no haya variables agregadas previamente a nuestro array
-                if (!tablaIdenFunMet.isEmpty()) {
-                    //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
-                    for (int j = 0; j < tablaIdenFunMet.size(); j++) {
-                        if (tablaIdenFunMet.get(j)[2].equals(tablaIdenFilas[2])) {
-                            lbSem.setText("Semantico: Incorrecto");
-                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Expresion de llamada repetida "
-                                    + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
-                            palRep = true;
-                            banderaErrores = false;
-                        }
-                    }
-                }
-                if (!tablaIdenCol.isEmpty()) {
-                    //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
-                    for (int j = 0; j < tablaIdenCol.size(); j++) {
-                        if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
-                            lbSem.setText("Semantico: Incorrecto");
-                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Expresion de llamada usada en variable "
-                                    + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
-                            palRep = true;
-                            banderaErrores = false;
-                        }
-                    }
-                }
-                if (!palRep) {
-                    //Si la palabra no estaba repetida en fun/met, ahora se guardara para validar mas tarde su duplicidad
-                    tablaIdenFunMet.add(tablaIdenFilas);
-                    tablaIdenCol.add(tablaIdenFilas);
-                }
-                //Una vez que la funcion a sido guardada toca agregar los parametros de dicha funcion
-                tablaIdenFilas = new String[3];
-                for (int j = 2; j < func.size(); j++) {
-                    //Cada dos datos es un parametro ya que se compone de TipoDato nombre
-                    if (j % 2 == 0) {
-                        tablaIdenFilas[0] = nom;
-                        tablaIdenFilas[1] = objSem.conversionNum(func.get(j));
-                        
-                    } else {
-                        tablaIdenFilas[2] = func.get(j);
-                        tablaIdenParam.add(tablaIdenFilas);
-                        tablaIdenFilas = new String[3];
-                    }
-                }
-                
-                int lla = 1;
-                for (int j = i + 1; j < divisionRenglones.length; j++) {
-                    palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
-                    texto = "";
-                    while (palabras.hasMoreElements()) {
-                        texto = texto + palabras.nextToken();
-                    }
-                    if (texto.contains("{")) {
-                        lla++;
-                    } else if (texto.contains("}")) {
-                        lla--;
-                    }
-                    if (lla == 0) {
-                        rango[2] = (j + 1) + "";
-                        rangosAsig.add(rango);
-                        i = j;
-                        break;
-                    }
-                }
-                
-            } else if (palabra.equals("MET")) {
-                /*Si encontramos la declaracion de una funcion entonces capturamos el renglon y el nombre de la funcion
-                y empezamos a buscar las llaves que determinan cuando inicia y cuando termina esa funcion
-                un arraylist para almacenar las palabras de ese renglon*/
-                List<String> met = new ArrayList<>();
-                String nom = "";
-                palRep = false;
-                while (palabras.hasMoreElements()) {
-                    met.add(palabras.nextToken());
-                }
-                //Salvamos el nombre del metodo eliminando los " ya que es una cadena
-                nom = met.get(0).replaceAll("\"", "");
-                rango = new String[3];
-                rango[0] = nom;
-                rango[1] = (i + 1) + "";
-                int lla = 1;
-                tablaIdenFilas = new String[5];
-                //Agregamos en que linea de codigo fue hallado, ademas creamos un tipo de dato MET 60 por si se requiere
-                tablaIdenFilas[0] = String.valueOf(i + 1);
-                tablaIdenFilas[1] = objSem.conversionNum("MET");
-                tablaIdenFilas[2] = nom;
-                tablaIdenFilas[3] = "MET";
-                //Validamos que no haya variables o metodos agregadas previamente a nuestro array
-                if (!tablaIdenFunMet.isEmpty()) {
-                    //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
-                    for (int j = 0; j < tablaIdenFunMet.size(); j++) {
-                        if (tablaIdenFunMet.get(j)[2].equals(tablaIdenFilas[2])) {
-                            lbSem.setText("Semantico: Incorrecto");
-                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Expresion de llamada repetida "
-                                    + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
-                            palRep = true;
-                            banderaErrores = false;
-                        }
-                    }
-                }
-                if (!tablaIdenCol.isEmpty()) {
-                    //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
-                    for (int j = 0; j < tablaIdenCol.size(); j++) {
-                        if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
-                            lbSem.setText("Semantico: Incorrecto");
-                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Expresion de llamada usada en variable "
-                                    + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
-                            palRep = true;
-                            banderaErrores = false;
-                        }
-                    }
-                }
-                if (!palRep) {
-                    //Si la palabra no estaba repetida en fun/met, ahora se guardara para validar mas tarde su duplicidad
-                    tablaIdenFunMet.add(tablaIdenFilas);
-                    tablaIdenCol.add(tablaIdenFilas);
-                }
-                //Una vez que la funcion a sido guardada toca agregar los parametros de dicha funcion
-                tablaIdenFilas = new String[3];
-                for (int j = 1; j < met.size(); j++) {
-                    //Cada dos datos es un parametro ya que se compone de TipoDato nombre
-                    if (j % 2 != 0) {
-                        tablaIdenFilas[0] = nom;
-                        tablaIdenFilas[1] = objSem.conversionNum(met.get(j));
-                        
-                    } else {
-                        tablaIdenFilas[2] = met.get(j);
-                        tablaIdenParam.add(tablaIdenFilas);
-                        tablaIdenFilas = new String[3];
-                    }
-                }
-                
-                for (int j = i + 1; j < divisionRenglones.length; j++) {
-                    palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
-                    texto = "";
-                    while (palabras.hasMoreElements()) {
-                        texto = texto + palabras.nextToken();
-                    }
-                    if (texto.contains("{")) {
-                        lla++;
-                    } else if (texto.contains("}")) {
-                        lla--;
-                    }
-                    if (lla == 0) {
-                        rango[2] = (j + 1) + "";
-                        rangosAsig.add(rango);
-                        i = j;
-                        break;
-                    }
-                }
-                
+            //Cada que hallemos una declaracion de funcion/metodo haremos sus operaciones necesarias atravez de funAmet
+            if (palabra.equals("FUN") || palabra.equals("MET")) {
+                banderaErrores = funAmet(palabra, palabras, i, texto);
             }
         }
+
         for (int i = 0; i < rangosAsig.size(); i++) {
-            System.out.println("Funcion: " + rangosAsig.get(i)[0] + " de linea: " + rangosAsig.get(i)[1] + " a " + rangosAsig.get(i)[2]);
+            System.out.println("Llamada: " + rangosAsig.get(i)[0] + " de linea: " + rangosAsig.get(i)[1] + " a " + rangosAsig.get(i)[2]);
         }
         //Fin de la primera fase e inicio de la segunda
 
@@ -1099,7 +940,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             //Separamos las palabras en un arreglo, de un renglon determinado por el ciclo 
             palabras = new StringTokenizer(divisionRenglones[i], " =;(),");
             palabrasAux = new StringTokenizer(divisionRenglones[i], " =;(),");
-            
+
             texto = "";
             while (palabrasAux.hasMoreElements()) {
                 texto = texto + palabrasAux.nextToken();
@@ -1166,7 +1007,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             } /*Validamos si lo que se esta declarando es una funcion o un metodo para obtener parametros
             Si no se esta declarando verificaremos si se realiza alguna accion con la variable*/ else {
                 int pos = -1;
-                
+
                 varDec = false;
                 int y = 0;
                 banderaVE = false;
@@ -1180,13 +1021,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         case 53:
                             pos = j;
                             break;
-                        
+
                     }
                     if (pos != -1) {
                         break;
                     }
                 }
-                
+
                 if (pos != -1) {
                     //Verificamos que se trate de una asignacion
                     if (palabrasAsig[0] == 52 && palabrasAsig[1] == 35) {
@@ -1231,7 +1072,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     se validaran sus operaciones correspondientes a la*/
                         if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
-                            pruebaImplementarValidacionTipoDatos1(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
+                            validarOperaciones(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
                         } else {
                             lbSem.setText("Semantico: Incorrecto");
                             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
@@ -1285,7 +1126,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     se validaran sus operaciones correspondientes a la*/
                         if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
-                            pruebaImplementarValidacionTipoDatos1(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
+                            validarOperaciones(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
                         } else {
                             lbSem.setText("Semantico: Incorrecto");
                             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
@@ -1294,7 +1135,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         }
                     }
                 }
-                
+
             }
         }
         for (int i = 0; i < tablaIdenCol.size(); i++) {
@@ -1324,116 +1165,129 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (!errorIMP.equals("")) {
             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorIMP);
         }
-        
+
     }//GEN-LAST:event_lbSemanticoMouseClicked
-    
-    public void pruebaImplementarValidacionTipoDatos(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
-            StringTokenizer palabrasOper, String palabra, boolean banderaVV, int i, boolean banderaErrores) {
-        Lexico lex = new Lexico();
+
+    public boolean funAmet(String tipo, StringTokenizer palabras, int i, String texto) {
+        /*Si encontramos la declaracion de una funcion/metodo entonces capturamos el renglon y el nombre de la funcion
+                y empezamos a buscar las llaves que determinan cuando inicia y cuando termina esa funcion
+                Creamos un arraylist para almacenar las palabras de ese renglon*/
+        List<String> funcAmet = new ArrayList<>();
+        String nom = "";
+        boolean palRep = false, banderaErrores = true;
         Semantico objSem = new Semantico();
-        /*Como tendremos una asignacion y nos quedamos en el formato de
-        TipoDato Variable = asignacion..
-        Nosotros estabamos en el token Variable, por lo que ahora tendremos que avanzar hacia asignacion
-         */
-        palabras.nextToken();
-        palabras.nextToken();
-        palabrasOper.nextToken();
-        palabrasOper.nextToken();
-        palabra = palabrasOper.nextToken().replaceAll("\n", "");
-        if (!palabrasOper.hasMoreElements()) {
-            String num = String.valueOf(lex.Etiquetar(palabra).numero);
-            if ("52".equals(num)) {
-                for (int n = 0; n < tablaIdenCol.size(); n++) {
-                    if (tablaIdenCol.get(n)[2].equals(palabra)) {
-                        if (objSem.operCompatibles(tablaIdenCol.get(j)[1], tablaIdenCol.get(n)[1])) {
-                            if (tablaIdenCol.get(n)[3] == null && tablaIdenCol.get(n)[4] == null) {
-                                break;
-                            } else {
-                                tablaIdenCol.get(j)[3] = tablaIdenCol.get(n)[3];
-                                tablaIdenCol.get(j)[4] = tablaIdenCol.get(n)[4];
-                                banderaVV = true;
-                                break;
-                            }
-                        } else {
-                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(tablaIdenCol.get(n)[4])
-                                    + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n");
-                            banderaErrores = false;
-                        }
-                        break;
-                    }
+        String rango[];
+        List<String> met = new ArrayList<>();
+
+        //Agregamos en que linea de codigo fue hallado nuestra funcion/metodo
+        tablaIdenFilas = new String[6];
+        tablaIdenFilas[0] = String.valueOf(i + 1);
+        if (tipo.equals("FUN")) {
+            while (palabras.hasMoreElements()) {
+                funcAmet.add(palabras.nextToken());
+            }
+            //Salvamos el nombre de la funcion
+            nom = funcAmet.get(1);
+            tablaIdenFilas[1] = objSem.conversionNum(funcAmet.get(0));
+            tablaIdenFilas[2] = funcAmet.get(1);
+        } else {
+            while (palabras.hasMoreElements()) {
+                met.add(palabras.nextToken());
+            }
+            //Salvamos el nombre del metodo eliminando los " ya que es una cadena
+            nom = met.get(0).replaceAll("\"", "");
+            tablaIdenFilas[1] = objSem.conversionNum("MET");
+            tablaIdenFilas[2] = nom;
+        }
+        tablaIdenFilas[3] = tipo;
+        
+        //Validamos que no haya variables agregadas previamente a nuestro array
+        if (!tablaIdenFunMet.isEmpty()) {
+            //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
+            for (int j = 0; j < tablaIdenFunMet.size(); j++) {
+                if (tablaIdenFunMet.get(j)[2].equals(tablaIdenFilas[2])) {
+                    lbSem.setText("Semantico: Incorrecto");
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Expresion de llamada repetida "
+                            + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
+                    palRep = true;
+                    banderaErrores = false;
                 }
-                if (!banderaVV) {
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n");
-                    
+            }
+        }
+        if (!tablaIdenCol.isEmpty() && banderaErrores) {
+            //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
+            for (int j = 0; j < tablaIdenCol.size(); j++) {
+                if (tablaIdenCol.get(j)[2].equals(tablaIdenFilas[2])) {
+                    lbSem.setText("Semantico: Incorrecto");
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Expresion de llamada usada en variable "
+                            + tablaIdenFilas[2] + " en la linea " + tablaIdenFilas[0] + "\n");
+                    palRep = true;
+                    banderaErrores = false;
                 }
-            } else {
-                if (!banderaVV) {
-                    if (objSem.operCompatibles(tablaIdenCol.get(j)[1], num)) {
-                        tablaIdenCol.get(j)[3] = palabra;
-                        tablaIdenCol.get(j)[4] = num;
-                    } else {
-                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(num)
-                                + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n");
-                        banderaErrores = false;
-                    }
+            }
+        }
+        if (!palRep) {
+            //Si la palabra no estaba repetida en fun/met, ahora se guardara para validar mas tarde su duplicidad
+            tablaIdenFunMet.add(tablaIdenFilas);
+            tablaIdenCol.add(tablaIdenFilas);
+        }
+        //Una vez que la funcion a sido guardada toca agregar los parametros de dicha funcion/metodo
+        tablaIdenFilas = new String[3];
+        if (tipo.equals("FUN")) {
+            for (int j = 2; j < funcAmet.size(); j++) {
+                //Cada dos datos es un parametro ya que se compone de TipoDato nombre
+                if (j % 2 == 0) {
+                    tablaIdenFilas[0] = nom;
+                    tablaIdenFilas[1] = objSem.conversionNum(funcAmet.get(j));
+
+                } else {
+                    tablaIdenFilas[2] = funcAmet.get(j);
+                    tablaIdenParam.add(tablaIdenFilas);
+                    tablaIdenFilas = new String[3];
                 }
             }
         } else {
-            String operacion = "", num;
-            while (palabrasOper.hasMoreElements()) {
-                if (lex.Etiquetar(palabra).numero == 50) {
-                    for (int n = 0; n < tablaIdenCol.size(); n++) {
-                        if (tablaIdenCol.get(n)[2].equals(palabra)) {
-                            operacion = operacion + palabra;
-                            banderaVV = true;
-                            palabra = palabrasOper.nextToken().replaceAll("\n", "");
-                            break;
-                        }
-                    }
-                    if (!banderaVV) {
-                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n");
-                        
-                        banderaErrores = false;
-                    }
+            //Una vez que la funcion a sido guardada toca agregar los parametros de dicho metodo
+            for (int j = 1; j < met.size(); j++) {
+                //Cada dos datos es un parametro ya que se compone de TipoDato nombre
+                if (j % 2 != 0) {
+                    tablaIdenFilas[0] = nom;
+                    tablaIdenFilas[1] = objSem.conversionNum(met.get(j));
+
                 } else {
-                    operacion = operacion + palabra;
-                    palabra = palabrasOper.nextToken().replaceAll("\n", "");
+                    tablaIdenFilas[2] = met.get(j);
+                    tablaIdenParam.add(tablaIdenFilas);
+                    tablaIdenFilas = new String[3];
                 }
-            }
-            if (lex.Etiquetar(palabra).numero == 50) {
-                for (int n = 0; n < tablaIdenCol.size(); n++) {
-                    if (tablaIdenCol.get(n)[2].equals(palabra)) {
-                        operacion = operacion + palabra;
-                        banderaVV = true;
-                        break;
-                    }
-                }
-                if (!banderaVV) {
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación de variable no declarada en la linea " + String.valueOf(i + 1) + "\n");
-                    banderaErrores = false;
-                }
-            } else {
-                operacion = operacion + palabra;
-            }
-            try {
-                String res = objSem.calcular(operacion, jTabbedPane1, tablaIdenCol, tablaIdenCol.get(j)[2]);
-                num = String.valueOf(lex.Etiquetar(res).numero);
-                if (objSem.operCompatibles(tablaIdenCol.get(j)[1], num)) {
-                    tablaIdenCol.get(j)[3] = res;
-                    tablaIdenCol.get(j)[4] = num;
-                } else {
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignación inválida en la linea " + String.valueOf(i + 1) + ", " + objSem.conversionString(num)
-                            + " no se puede convertir a " + objSem.conversionString(tablaIdenCol.get(j)[1]) + "\n");
-                    banderaErrores = false;
-                }
-            } catch (Exception ex) {
-                
             }
         }
+        rango = new String[3];
+        rango[0] = nom;
+        rango[1] = (i + 1) + "";
+        int lla = 1;
         
+        for (int j = i + 1; j < divisionRenglones.length; j++) {
+            palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
+            texto = "";
+            while (palabras.hasMoreElements()) {
+                texto = texto + palabras.nextToken();
+            }
+            if (texto.contains("{")) {
+                lla++;
+            } else if (texto.contains("}")) {
+                lla--;
+            }
+            if (lla == 0) {
+                rango[2] = (j + 1) + "";
+                rangosAsig.add(rango);
+                i = j;
+                break;
+            }
+        }
+        return banderaErrores;
     }
-    
-    public void pruebaImplementarValidacionTipoDatos1(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
+
+    public void validarOperaciones(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
             StringTokenizer palabrasOper, String palabra, boolean banderaVV, int i, boolean banderaErrores) {
         Lexico lex = new Lexico();
         Semantico objSem = new Semantico();
@@ -1441,21 +1295,65 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         TipoDato Variable = asignacion..
         Nosotros estabamos en el token Variable, por lo que ahora tendremos que avanzar hacia asignacion
          */
-        
-        palabras = new StringTokenizer(divisionRenglones[i], ";=(),+-*/^", true);
-        StringTokenizer p = new StringTokenizer(divisionRenglones[i], ";=(),", true);
+
+        palabras = new StringTokenizer(divisionRenglones[i], ";=(),+-*/^&|><", true);
+        StringTokenizer p = new StringTokenizer(divisionRenglones[i], ";=(),&|><", true);
         String variableAsig = palabras.nextToken().replaceAll("\\n", "");
         p.nextToken();
         variableAsig = variableAsig.replaceAll(" ", "");
         //Validemos que no se trate de una operacion relacional
+        String expresion = "", aux = "";
+        palabras.nextToken();
+        p.nextToken();
+        List<String[]> tipo = new ArrayList<>();
         if (variableAsig.equals("MIENTRAS") || variableAsig.equals("STF")) {
-            
+            //Si es operador relacional
+            do {
+                //Empezaremos a buscar las expresiones utilizadas en su condicion
+                int c = 1;
+                aux = palabras.nextToken().replaceAll("\\n", "").replaceAll(" ", "");
+//                System.out.println("a" + aux + "a" + c);
+                if (!aux.equals(" ") && !aux.equals(";") && !aux.equals("")
+                        && !aux.equals("{") && !aux.equals("}")) {
+
+                    if (aux.equals("&") || aux.equals("|")) {
+
+                    } else {
+                        expresion += aux;
+//                        System.out.println("b" + aux + "b" + (c + 1));
+                        if (aux.equals("(") || aux.equals(")")) {
+                            //Se establece prioridad
+                        } else if (!aux.equals("<") && !aux.equals(">")
+                                && !aux.equals("=") && !aux.equals("!")) {
+                            aux = aux.replaceAll(" ", "");
+                            String[] temp = new String[2];
+                            temp[0] = lex.Etiquetar(aux).numero + "";
+                            temp[1] = aux;
+                            tipo.add(temp);
+//                            System.out.println("c" + aux + "c" + (c + 2));
+                        }
+                    }
+
+                }
+            } while (palabras.hasMoreElements());
+
+            tipo = obtenTipo(tipo, i);
+
+            System.out.println("Linea " + i + " Infijo:" + variableAsig + " opRel " + expresion);
+            boolean b = true;
+            for (int k = 0; k < tipo.size(); k++) {
+                if (!objSem.operCompatibles(tablaIdenCol.get(j)[1], tipo.get(k)[0])) {
+                    b = false;
+                }
+            }
+            if (b) {
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional correcta en linea " + (i + 1) + "\n");
+            } else {
+                lbSem.setText("Semantico: Incorrecto");
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
+            }
         } else {
             //Si es asignacion
-            String expresion = "", aux = "";
-            palabras.nextToken();
-            p.nextToken();
-            List<String[]> tipo = new ArrayList<>();
             do {
                 //Empezaremos a buscar las expresiones utilizadas en su asignacion separadas por operadores
                 int c = 1;
@@ -1479,36 +1377,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             /*Hemos guardado los tipos de dato correspondientes a las expresiones halladas pero hasta ahora
             las variables tienen como tipo de dato asignado 52 por lo que queda buscarlas y obtener su tipo de dato
              */
-            for (int k = 0; k < tipo.size(); k++) {
-                if (tipo.get(k)[0].equals("52")) {
-                    boolean dec = false;
-                    for (int l = 0; l < tablaIdenCol.size(); l++) {
-                        if (tablaIdenCol.get(l)[2].equals(tipo.get(k)[1])) {
-                            String[] temp1 = new String[2];
-                            temp1[0] = tablaIdenCol.get(l)[1];
-                            temp1[1] = tipo.get(k)[1];
-                            tipo.add(k, temp1);
-                            tipo.remove(k + 1);
-                            dec = true;
-                        }
-                    }
-                    if (!dec) {
-                        for (int l = 0; l < tablaIdenParam.size(); l++) {
-                            if (tablaIdenParam.get(l)[2].equals(tipo.get(k)[1])) {
-                                String[] temp1 = new String[2];
-                                temp1[0] = tablaIdenCol.get(l)[1];
-                                temp1[1] = tipo.get(k)[1];
-                                tipo.add(k, temp1);
-                                tipo.remove(k + 1);
-                            }
-                        }
-                    } else {
-                        //Error de variable no declarada
-                    }
-                    
-                }
-//                System.out.println("m" + tipo.get(k)[0]);
-            }
+            tipo = obtenTipo(tipo, i);
 
             /*Una vez halladas se valida que cada uno sea compatible con el tipo de dato definido a la primera variable
             Si se termina el recorrido con true significa que todos los datos son del mismo tipo y esta listo para realizar
@@ -1522,13 +1391,58 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }
             }
             if (b) {
-                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea" + (i + 1) + "\n");
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea " + (i + 1) + "\n");
             } else {
                 lbSem.setText("Semantico: Incorrecto");
-                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea" + (i + 1) + "\n");
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
             }
-            
+
         }
+    }
+
+    public List<String[]> obtenTipo(List<String[]> tipo, int i) {
+        for (int k = 0; k < tipo.size(); k++) {
+            if (tipo.get(k)[0].equals("52")) {
+                boolean dec = false;
+                for (int l = 0; l < tablaIdenCol.size(); l++) {
+                    if (tablaIdenCol.get(l)[2].equals(tipo.get(k)[1])) {
+                        String[] temp1 = new String[2];
+                        temp1[0] = tablaIdenCol.get(l)[1];
+                        temp1[1] = tipo.get(k)[1];
+                        tipo.add(k, temp1);
+                        tipo.remove(k + 1);
+                        dec = true;
+                    }
+                }
+                //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
+                if (!dec) {
+                    int y=-1;
+                    for (int j = 0; j < rangosAsig.size(); j++) {
+                        if (rangosAsig.get(j)[0].equals(tipo.get(k)[1])) {
+                            y=j;
+                        }
+                    }
+                    for (int l = 0; l < tablaIdenParam.size(); l++) {
+                        if (tablaIdenParam.get(l)[2].equals(tipo.get(k)[1]) && y!=-1 
+                        && (Integer.getInteger(rangosAsig.get(y)[1])<=(i+1) && Integer.getInteger(rangosAsig.get(y)[2])>=(i+1))) {
+                            String[] temp1 = new String[2];
+                            temp1[0] = tablaIdenCol.get(l)[1];
+                            temp1[1] = tipo.get(k)[1];
+                            tipo.add(k, temp1);
+                            tipo.remove(k + 1);
+                            dec = true;
+                        }
+                    }
+                }
+                if (!dec) {
+                    //Error de variable no declarada
+                    lbSem.setText("Semantico: Incorrecto");
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada en linea " + (i + 1) + "\n");
+                }
+
+            }
+        }
+        return tipo;
     }
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
         pnOptimizacion.setVisible(true);
@@ -1574,7 +1488,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbSintactico.setText("Sintactico:");
         lbSemantico.setText("Semantico:");
     }//GEN-LAST:event_jTProgramaFuenteKeyTyped
-    
+
     private void cambiaC(int l) {
         jTProgramaFuente.getLineCount();
     }
@@ -1593,21 +1507,21 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(InterfazPrincipal.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
