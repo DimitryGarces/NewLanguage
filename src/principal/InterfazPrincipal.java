@@ -80,9 +80,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSintactico = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTProgramaSemantico = new javax.swing.JTextArea();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane5 = new javax.swing.JScrollPane();
         erroresLexicos = new javax.swing.JTextArea();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaIntermedia = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,7 +116,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnCarga1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 60, 80, 30));
+        pnContenedor.add(pnCarga1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 70, 80, 30));
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel1.setText("Programa Fuente");
@@ -142,8 +143,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnGuardarLayout.setHorizontalGroup(
             pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnGuardarLayout.createSequentialGroup()
-                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnGuardarLayout.setVerticalGroup(
             pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +154,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, 80, 30));
+        pnContenedor.add(pnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 20, 80, 30));
 
         pnSintactico.setBackground(new java.awt.Color(255, 255, 255));
         pnSintactico.setMinimumSize(new java.awt.Dimension(83, 28));
@@ -235,7 +237,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbOptimizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnOptimizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 140, 70, 30));
+        pnContenedor.add(pnOptimizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 190, 70, 30));
 
         lbIntermedio.setText("Intermedio");
         lbIntermedio.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -248,9 +250,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnIntermedio.setLayout(pnIntermedioLayout);
         pnIntermedioLayout.setHorizontalGroup(
             pnIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnIntermedioLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbIntermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnIntermedioLayout.createSequentialGroup()
+                .addComponent(lbIntermedio)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         pnIntermedioLayout.setVerticalGroup(
             pnIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +261,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbIntermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 190, 70, 30));
+        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 290, 70, 30));
 
         pnLexico.setBackground(new java.awt.Color(255, 255, 255));
         pnLexico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -308,7 +310,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 100, 70, 30));
+        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 130, 70, 30));
 
         jScrollPane1.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -361,7 +363,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTProgramaSemantico);
 
         pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 320, 260, 110));
-        pnContenedor.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 110, 210));
 
         erroresLexicos.setBackground(new java.awt.Color(102, 102, 102));
         erroresLexicos.setColumns(20);
@@ -371,11 +372,35 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 300, 110));
 
+        tablaIntermedia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tablaIntermedia.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Temp", "Valor 1", "Operador", "Valor 2", "Resultado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(tablaIntermedia);
+
+        pnContenedor.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 40, 360, 230));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 1170, Short.MAX_VALUE)
+            .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 1302, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -958,7 +983,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 tablaIdenFilas[0] = String.valueOf(i + 1);
                 tablaIdenFilas[1] = objSem.conversionNum(palabra);
                 tablaIdenFilas[2] = palabras.nextToken();
-
+                tablaIdenFilas[3] = "Null";
                 //Validamos que existan o no funciones/metodos
                 if (!rangosAsig.isEmpty()) {
                     String l = " ";
@@ -1180,7 +1205,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         List<String> met = new ArrayList<>();
 
         //Agregamos en que linea de codigo fue hallado nuestra funcion/metodo
-        tablaIdenFilas = new String[6];
+        tablaIdenFilas = new String[5];
         tablaIdenFilas[0] = String.valueOf(i + 1);
         if (tipo.equals("FUN")) {
             while (palabras.hasMoreElements()) {
@@ -1200,7 +1225,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             tablaIdenFilas[2] = nom;
         }
         tablaIdenFilas[3] = tipo;
-        
+
         //Validamos que no haya variables agregadas previamente a nuestro array
         if (!tablaIdenFunMet.isEmpty()) {
             //Si a habido variables declaradas entonces ahora se pregunta si ya esta esa misma variable
@@ -1232,7 +1257,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             tablaIdenCol.add(tablaIdenFilas);
         }
         //Una vez que la funcion a sido guardada toca agregar los parametros de dicha funcion/metodo
-        tablaIdenFilas = new String[3];
+        tablaIdenFilas = new String[4];
+        tablaIdenFilas[3] = String.valueOf(i + 1);
         if (tipo.equals("FUN")) {
             for (int j = 2; j < funcAmet.size(); j++) {
                 //Cada dos datos es un parametro ya que se compone de TipoDato nombre
@@ -1265,7 +1291,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         rango[0] = nom;
         rango[1] = (i + 1) + "";
         int lla = 1;
-        
+
         for (int j = i + 1; j < divisionRenglones.length; j++) {
             palabras = new StringTokenizer(divisionRenglones[j], " =;(),");
             texto = "";
@@ -1305,10 +1331,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         String expresion = "", aux = "";
         palabras.nextToken();
         p.nextToken();
+        boolean bol = true;
         List<String[]> tipo = new ArrayList<>();
         if (variableAsig.equals("MIENTRAS") || variableAsig.equals("STF")) {
             //Si es operador relacional
             do {
+                variableAsig = palabras.nextToken().replaceAll("\\n", "");
                 //Empezaremos a buscar las expresiones utilizadas en su condicion
                 int c = 1;
                 aux = palabras.nextToken().replaceAll("\\n", "").replaceAll(" ", "");
@@ -1317,7 +1345,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         && !aux.equals("{") && !aux.equals("}")) {
 
                     if (aux.equals("&") || aux.equals("|")) {
-
+                        System.out.println("Linea " + i + " Infijo:" + variableAsig + " opRel " + expresion);
                     } else {
                         expresion += aux;
 //                        System.out.println("b" + aux + "b" + (c + 1));
@@ -1339,7 +1367,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
             tipo = obtenTipo(tipo, i);
 
-            System.out.println("Linea " + i + " Infijo:" + variableAsig + " opRel " + expresion);
             boolean b = true;
             for (int k = 0; k < tipo.size(); k++) {
                 if (!objSem.operCompatibles(tablaIdenCol.get(j)[1], tipo.get(k)[0])) {
@@ -1369,6 +1396,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         temp[0] = lex.Etiquetar(aux).numero + "";
                         temp[1] = aux;
                         tipo.add(temp);
+                        switch (temp[0]) {
+                            case "51":
+                            case "53":
+                            case "54":
+                                bol = false;
+                        }
 //                        System.out.println("c" + aux + "c" + (c + 2));
                     }
                 }
@@ -1383,7 +1416,15 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             Si se termina el recorrido con true significa que todos los datos son del mismo tipo y esta listo para realizar
             su operacion.
              */
-            System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
+            if (bol) {
+
+                System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
+                System.out.println("Linea " + i + " PosFijo:" + variableAsig + "=" + objSem.convertInfijPos(expresion));
+                System.out.println("res:" + objSem.evaluar(objSem.convertInfijPos(expresion)));
+
+                modifiarValor(variableAsig, objSem.evaluar(objSem.convertInfijPos(expresion)) + "", i);
+            }
+
             boolean b = true;
             for (int k = 0; k < tipo.size(); k++) {
                 if (!objSem.operCompatibles(tablaIdenCol.get(j)[1], tipo.get(k)[0])) {
@@ -1398,6 +1439,39 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
 
         }
+    }
+
+    public boolean modifiarValor(String variable, String valor, int i) {
+        boolean dec = false;
+        for (int l = 0; l < tablaIdenCol.size(); l++) {
+            if (tablaIdenCol.get(l)[2].equals(variable)) {
+                String[] temp1 = tablaIdenCol.get(l);
+                temp1[4] = valor;
+                tablaIdenCol.add(l, temp1);
+                tablaIdenCol.remove(l + 1);
+                dec = true;
+            }
+        }
+        //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
+        if (!dec) {
+            int y = -1;
+            for (int j = 0; j < rangosAsig.size(); j++) {
+                if (rangosAsig.get(j)[0].equals(variable)) {
+                    y = j;
+                }
+            }
+            for (int l = 0; l < tablaIdenParam.size(); l++) {
+                if (tablaIdenParam.get(l)[2].equals(variable) && y != -1
+                        && (Integer.getInteger(rangosAsig.get(y)[1]) <= (i + 1) && Integer.getInteger(rangosAsig.get(y)[2]) >= (i + 1))) {
+                    String[] temp1 = tablaIdenCol.get(l);
+                    temp1[4] = valor;
+                    tablaIdenCol.add(l, temp1);
+                    tablaIdenCol.remove(l + 1);
+                    dec = true;
+                }
+            }
+        }
+        return dec;
     }
 
     public List<String[]> obtenTipo(List<String[]> tipo, int i) {
@@ -1416,15 +1490,15 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }
                 //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
                 if (!dec) {
-                    int y=-1;
+                    int y = -1;
                     for (int j = 0; j < rangosAsig.size(); j++) {
                         if (rangosAsig.get(j)[0].equals(tipo.get(k)[1])) {
-                            y=j;
+                            y = j;
                         }
                     }
                     for (int l = 0; l < tablaIdenParam.size(); l++) {
-                        if (tablaIdenParam.get(l)[2].equals(tipo.get(k)[1]) && y!=-1 
-                        && (Integer.getInteger(rangosAsig.get(y)[1])<=(i+1) && Integer.getInteger(rangosAsig.get(y)[2])>=(i+1))) {
+                        if (tablaIdenParam.get(l)[2].equals(tipo.get(k)[1]) && y != -1
+                                && (Integer.getInteger(rangosAsig.get(y)[1]) <= (i + 1) && Integer.getInteger(rangosAsig.get(y)[2]) >= (i + 1))) {
                             String[] temp1 = new String[2];
                             temp1[0] = tablaIdenCol.get(l)[1];
                             temp1[1] = tipo.get(k)[1];
@@ -1545,11 +1619,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextArea jTProgramaCompilado;
     private javax.swing.JTextArea jTProgramaFuente;
     private javax.swing.JTextArea jTProgramaSemantico;
     private javax.swing.JTextArea jTProgramaSintactico;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbCargar;
     private javax.swing.JLabel lbGuardar;
     private javax.swing.JLabel lbIntermedio;
@@ -1570,5 +1644,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel pnOptimizacion;
     private javax.swing.JPanel pnSemantico;
     private javax.swing.JPanel pnSintactico;
+    private javax.swing.JTable tablaIntermedia;
     // End of variables declaration//GEN-END:variables
 }

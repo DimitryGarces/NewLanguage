@@ -3,6 +3,7 @@ package principal;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
@@ -13,6 +14,8 @@ import javax.swing.JTable;
 
 public class Semantico {
 
+    Stack<String> stack;
+    StringBuilder postfix;
     Lexico objLexico = new Lexico();
     String[] operadores
             = {
@@ -40,7 +43,7 @@ public class Semantico {
                 {
                     -1, -1, -1, 1, -1
                 },
-                 {
+                {
                     -1, -1, -1, -1, 1
                 }
             };
@@ -722,4 +725,118 @@ public class Semantico {
 
         return tipoError;
     }
+
+    public String convertInfijPos(String infix) {
+        stack = new Stack<>();
+        postfix = new StringBuilder();
+        Pattern variablePattern = Pattern.compile("[a-zA-Z0-9]+");
+
+        for (int i = 0; i < infix.length(); i++) {
+            char c = infix.charAt(i);
+
+            if (Character.isDigit(c)) {
+                postfix.append(c);
+            } else if (Character.isLetter(c)) {
+                // Obtenemos el nombre de la variable
+                Matcher matcher = variablePattern.matcher(infix.substring(i));
+                if (matcher.find()) {
+                    String variable = matcher.group();
+                    postfix.append(variable);
+                    i += variable.length() - 1;
+                }
+            } else if (c == '(') {
+                stack.push(Character.toString(c));
+            } else if (c == ')') {
+                while (!stack.isEmpty() && !stack.peek().equals("(")) {
+                    postfix.append(stack.pop());
+                }
+                if (!stack.isEmpty() && stack.peek().equals("(")) {
+                    stack.pop(); // Pop '('
+                }
+            } else { // c es un operador aritmetico
+                while (!stack.isEmpty() && precedence(c) <= precedence(stack.peek().charAt(0))) {
+                    postfix.append(stack.pop());
+                }
+                stack.push(Character.toString(c));
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            postfix.append(stack.pop());
+        }
+        return postfix.toString();
+    }
+
+    public double evaluar(String postfix) {
+        //x=1;
+        String[] txt = postfix.split("([;=()+\\-*/^&|><])", -1);
+        int cont = 0;
+        if (txt.length == 1) {
+            return Double.parseDouble(txt[0]);
+        } else {
+            Stack<Double> stackAux = new Stack<>();
+
+            for (int i = 0; i < postfix.length(); i++) {
+                char c = postfix.charAt(i);
+
+                if (Character.isDigit(c)) {
+                    stackAux.push(Double.parseDouble(Character.toString(c)));
+                } else if (isOperator(c)) {
+                    double operand2 = stackAux.pop();
+                    double operand1 = stackAux.pop();
+                    double result = opValida(c, operand1, operand2);
+                    stackAux.push(result);
+                }
+            }
+
+            return stackAux.pop();
+        }
+    }
+
+    private boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '<' || c == '>' || c == '=' || c == '&' || c == '|';
+    }
+
+    private double opValida(char operator, double operand1, double operand2) {
+        switch (operator) {
+            case '+':
+                return operand1 + operand2;
+            case '-':
+                return operand1 - operand2;
+            case '*':
+                return operand1 * operand2;
+            case '/':
+                return operand1 / operand2;
+            case '^':
+                return (int) Math.pow(operand1, operand2);
+            case '<':
+                return operand1 < operand2 ? 1 : 0;
+            case '>':
+                return operand1 > operand2 ? 1 : 0;
+            case '=':
+                return operand1 == operand2 ? 1 : 0;
+            case '&':
+                return operand1 != 0 && operand2 != 0 ? 1 : 0;
+            case '|':
+                return operand1 != 0 || operand2 != 0 ? 1 : 0;
+            default:
+                throw new IllegalArgumentException("Operacion invalida: " + operator);
+        }
+    }
+
+    private int precedence(char operator) {
+        switch (operator) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            case '^':
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
 }
