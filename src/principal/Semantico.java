@@ -14,7 +14,6 @@ import javax.swing.JTable;
 
 public class Semantico {
 
-    Stack<String> stack;
     StringBuilder postfix;
     Lexico objLexico = new Lexico();
     String[] operadores
@@ -726,101 +725,99 @@ public class Semantico {
         return tipoError;
     }
 
-    public String convertInfijPos(String infix) {
-        stack = new Stack<>();
-        postfix = new StringBuilder();
-        Pattern variablePattern = Pattern.compile("[a-zA-Z0-9]+");
+    public Pila<String> convertInfijPos(Pila<String> infixPila) {
+        Pila<String> pila = new Pila<>();
+        Pila<String> postfixPila = new Pila<>();
 
-        for (int i = 0; i < infix.length(); i++) {
-            char c = infix.charAt(i);
+        Pattern stringPattern = Pattern.compile("[a-zA-Z0-9]+");
+        Pattern numberPattern = Pattern.compile("\\d+(\\.\\d+)?");
 
-            if (Character.isDigit(c)) {
-                postfix.append(c);
-            } else if (Character.isLetter(c)) {
-                // Obtenemos el nombre de la variable
-                Matcher matcher = variablePattern.matcher(infix.substring(i));
-                if (matcher.find()) {
-                    String variable = matcher.group();
-                    postfix.append(variable);
-                    i += variable.length() - 1;
+        while (!infixPila.estaVacia()) {
+            String elemento = infixPila.pop();
+
+            if (numberPattern.matcher(elemento).matches()) {
+                postfixPila.push(elemento);
+            } else if (stringPattern.matcher(elemento).matches()) {
+                postfixPila.push(elemento);
+            } else if (elemento.equals("(")) {
+                pila.push(elemento);
+            } else if (elemento.equals(")")) {
+                while (!pila.estaVacia() && !pila.peek().equals("(")) {
+                    postfixPila.push(pila.pop());
                 }
-            } else if (c == '(') {
-                stack.push(Character.toString(c));
-            } else if (c == ')') {
-                while (!stack.isEmpty() && !stack.peek().equals("(")) {
-                    postfix.append(stack.pop());
+                if (!pila.estaVacia() && pila.peek().equals("(")) {
+                    pila.pop(); // Pop '('
                 }
-                if (!stack.isEmpty() && stack.peek().equals("(")) {
-                    stack.pop(); // Pop '('
+            } else { // elemento es un operador aritmetico
+                while (!pila.estaVacia() && precedence(elemento.charAt(0)) <= precedence(pila.peek().charAt(0))) {
+                    postfixPila.push(pila.pop());
                 }
-            } else { // c es un operador aritmetico
-                while (!stack.isEmpty() && precedence(c) <= precedence(stack.peek().charAt(0))) {
-                    postfix.append(stack.pop());
-                }
-                stack.push(Character.toString(c));
+                pila.push(elemento);
             }
         }
 
-        while (!stack.isEmpty()) {
-            postfix.append(stack.pop());
+        while (!pila.estaVacia()) {
+            postfixPila.push(pila.pop());
         }
-        return postfix.toString();
+
+        // Invertimos la pila para que quede en el orden correcto
+        Pila<String> reversedPila = new Pila<>();
+        while (!postfixPila.estaVacia()) {
+            reversedPila.push(postfixPila.pop());
+        }
+        return reversedPila;
     }
 
-    public double evaluar(String postfix) {
-        //x=1;
-        String[] txt = postfix.split("([;=()+\\-*/^&|><])", -1);
-        int cont = 0;
-        if (txt.length == 1) {
-            return Double.parseDouble(txt[0]);
-        } else {
-            Stack<Double> stackAux = new Stack<>();
+    public double evaluar(Pila<String> expresionPosfija) {
+//        String[] txt = postfix.split("([;=()+\\-*/^&|><])", -1);
 
-            for (int i = 0; i < postfix.length(); i++) {
-                char c = postfix.charAt(i);
+        Pila<Double> pila = new Pila<>();
 
-                if (Character.isDigit(c)) {
-                    stackAux.push(Double.parseDouble(Character.toString(c)));
-                } else if (isOperator(c)) {
-                    double operand2 = stackAux.pop();
-                    double operand1 = stackAux.pop();
-                    double result = opValida(c, operand1, operand2);
-                    stackAux.push(result);
-                }
+        while (!expresionPosfija.estaVacia()) {
+            String elemento = expresionPosfija.pop();
+
+            if (isOperador(elemento)) {
+                double operand2 = pila.pop();
+                double operand1 = pila.pop();
+                double resultado = opValida(operand1, operand2, elemento);
+                pila.push(resultado);
+            } else {
+                double numero = Double.parseDouble(elemento);
+                pila.push(numero);
             }
-
-            return stackAux.pop();
         }
+
+        return pila.pop();
     }
 
-    private boolean isOperator(char c) {
-        return c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '<' || c == '>' || c == '=' || c == '&' || c == '|';
+    private boolean isOperador(String elemento) {
+        return elemento.equals("+") || elemento.equals("-") || elemento.equals("*") || elemento.equals("/");
     }
 
-    private double opValida(char operator, double operand1, double operand2) {
-        switch (operator) {
-            case '+':
+    private double opValida(double operand1, double operand2, String operador) {
+        switch (operador) {
+            case "+":
                 return operand1 + operand2;
-            case '-':
+            case "-":
                 return operand1 - operand2;
-            case '*':
+            case "*":
                 return operand1 * operand2;
-            case '/':
+            case "/":
                 return operand1 / operand2;
-            case '^':
+            case "^":
                 return (int) Math.pow(operand1, operand2);
-            case '<':
+            case "<":
                 return operand1 < operand2 ? 1 : 0;
-            case '>':
+            case ">":
                 return operand1 > operand2 ? 1 : 0;
-            case '=':
+            case "=":
                 return operand1 == operand2 ? 1 : 0;
-            case '&':
+            case "&":
                 return operand1 != 0 && operand2 != 0 ? 1 : 0;
-            case '|':
+            case "|":
                 return operand1 != 0 || operand2 != 0 ? 1 : 0;
             default:
-                throw new IllegalArgumentException("Operacion invalida: " + operator);
+                throw new IllegalArgumentException("Operacion invalida: " + operador);
         }
     }
 

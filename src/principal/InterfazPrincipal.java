@@ -1417,12 +1417,16 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             su operacion.
              */
             if (bol) {
-
+                Pila<String> pila;
                 System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
-                System.out.println("Linea " + i + " PosFijo:" + variableAsig + "=" + objSem.convertInfijPos(expresion));
-                System.out.println("res:" + objSem.evaluar(objSem.convertInfijPos(expresion)));
-
-                modifiarValor(variableAsig, objSem.evaluar(objSem.convertInfijPos(expresion)) + "", i);
+//                System.out.println("Linea " + i + " PosFijo:" + variableAsig + "=" + objSem.convertInfijPos(expresion));
+                pila = objSem.convertInfijPos(transformar(expresion, i));
+//                System.out.println("res:" + objSem.evaluar(pila));
+//                while (!pila.estaVacia()) {
+//                    System.out.println("EX " + pila.pop());
+//
+//                }
+                modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
             }
 
             boolean b = true;
@@ -1441,15 +1445,86 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         }
     }
 
+    public Pila<String> transformar(String expresion, int i) {
+        StringTokenizer trans = new StringTokenizer(expresion, ";=()+-*/^&|><", true);
+        Pila<String> pila = new Pila<>();
+        boolean dec = false;
+        String aux;
+        do {
+            aux = trans.nextToken();
+            if (esNumero(aux)) {
+                dec = true;
+            } else {
+                for (int l = 0; l < tablaIdenCol.size(); l++) {
+                    if (tablaIdenCol.get(l)[2].equals(aux)) {
+                        if (!tablaIdenCol.get(l)[3].equals("Null")) {
+                            aux = tablaIdenCol.get(l)[3];
+                            dec = true;
+                        } else {
+                            System.out.println("Error");
+                            //Error
+                            break;
+                        }
+                    }
+                }
+
+                //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
+                if (!dec) {
+                    int y = -1;
+                    for (int j = 0; j < rangosAsig.size(); j++) {
+                        if (rangosAsig.get(j)[0].equals(aux)) {
+                            y = j;
+                        }
+                    }
+
+                    for (int l = 0; l < tablaIdenParam.size(); l++) {
+                        if (tablaIdenParam.get(l)[0].equals(aux) && y != -1
+                                && (Integer.getInteger(rangosAsig.get(y)[1]) <= (i + 1) && Integer.getInteger(rangosAsig.get(y)[2]) >= (i + 1))) {
+                            aux = tablaIdenCol.get(l)[3];
+                            dec = true;
+                        }
+                    }
+                }
+            }
+
+            if (dec) {
+                pila.push(aux);
+            } else {
+                //Error
+                System.out.println("Error, variable sin asignacion. " + aux);
+                break;
+            }
+
+        } while (trans.hasMoreElements());
+
+        return pila;
+    }
+
+    public boolean esNumero(String variable) {
+        char[] arrChar = variable.toCharArray();
+        boolean band = true;
+        for (int i = 0; i < arrChar.length; i++) {
+            if (!Character.isDigit(arrChar[i])) {
+                band = false;
+            }
+        }
+        return band;
+    }
+
     public boolean modifiarValor(String variable, String valor, int i) {
+//        for (int j = 0; j < tablaIdenCol.size(); j++) {
+//            System.out.println("Variables: "+ tablaIdenCol.get(j)[2]+" valor: "+tablaIdenCol.get(j)[3]);
+//        }
+
         boolean dec = false;
         for (int l = 0; l < tablaIdenCol.size(); l++) {
             if (tablaIdenCol.get(l)[2].equals(variable)) {
                 String[] temp1 = tablaIdenCol.get(l);
-                temp1[4] = valor;
+                temp1[3] = valor;
                 tablaIdenCol.add(l, temp1);
                 tablaIdenCol.remove(l + 1);
                 dec = true;
+                System.out.println("Valor modificado: " + valor + " a variable: " + variable);
             }
         }
         //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
@@ -1464,13 +1539,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if (tablaIdenParam.get(l)[2].equals(variable) && y != -1
                         && (Integer.getInteger(rangosAsig.get(y)[1]) <= (i + 1) && Integer.getInteger(rangosAsig.get(y)[2]) >= (i + 1))) {
                     String[] temp1 = tablaIdenCol.get(l);
-                    temp1[4] = valor;
+                    temp1[3] = valor;
                     tablaIdenCol.add(l, temp1);
                     tablaIdenCol.remove(l + 1);
+                    System.out.println("Valor modificado: " + valor + " a variable: " + variable);
                     dec = true;
                 }
             }
         }
+//        for (int j = 0; j < tablaIdenCol.size(); j++) {
+//            System.out.println("Variables: "+ tablaIdenCol.get(j)[2]+" valor modificado: "+tablaIdenCol.get(j)[3]);
+//        }
         return dec;
     }
 
