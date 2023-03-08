@@ -768,6 +768,77 @@ public class Semantico {
         return reversedPila;
     }
 
+    public Pila<String> convertInfijPosCad(Pila<String> infixPila) {
+        Pila<String> pila = new Pila<>();
+        Pila<String> postfixPila = new Pila<>();
+
+        Pattern stringPattern = Pattern.compile("\"[\\w\\s]+\"");
+
+        while (!infixPila.estaVacia()) {
+            String elemento = infixPila.pop();
+
+            if (stringPattern.matcher(elemento).matches()) {
+                postfixPila.push(elemento);
+            } else { // elemento es un operador de concatenacion
+                while (!pila.estaVacia()) {
+                    postfixPila.push(pila.pop());
+                }
+                pila.push(elemento);
+            }
+        }
+
+        while (!pila.estaVacia()) {
+            postfixPila.push(pila.pop());
+        }
+
+        // Invertimos la pila para que quede en el orden correcto
+        Pila<String> reversedPila = new Pila<>();
+        while (!postfixPila.estaVacia()) {
+            reversedPila.push(postfixPila.pop());
+        }
+        return reversedPila;
+    }
+
+    public Pila<String> convertInfijPosBooleans(Pila<String> infixPila) {
+        Pila<String> pila = new Pila<>();
+        Pila<String> postfixPila = new Pila<>();
+
+        Pattern stringPattern = Pattern.compile("\\b(VER|FALS)\\b");
+
+        while (!infixPila.estaVacia()) {
+            String elemento = infixPila.pop();
+
+            if (stringPattern.matcher(elemento).matches()) {
+                postfixPila.push(elemento);
+            } else if (elemento.equals("(")) {
+                pila.push(elemento);
+            } else if (elemento.equals(")")) {
+                while (!pila.estaVacia() && !pila.peek().equals("(")) {
+                    postfixPila.push(pila.pop());
+                }
+                if (!pila.estaVacia() && pila.peek().equals("(")) {
+                    pila.pop(); // Pop '('
+                }
+            } else { // elemento es un operador aritmetico
+                while (!pila.estaVacia() && precedenceLogica(elemento.charAt(0)) <= precedenceLogica(pila.peek().charAt(0))) {
+                    postfixPila.push(pila.pop());
+                }
+                pila.push(elemento);
+            }
+        }
+
+        while (!pila.estaVacia()) {
+            postfixPila.push(pila.pop());
+        }
+
+        // Invertimos la pila para que quede en el orden correcto
+        Pila<String> reversedPila = new Pila<>();
+        while (!postfixPila.estaVacia()) {
+            reversedPila.push(postfixPila.pop());
+        }
+        return reversedPila;
+    }
+
     public double evaluar(Pila<String> expresionPosfija) {
 //        String[] txt = postfix.split("([;=()+\\-*/^&|><])", -1);
 
@@ -790,8 +861,52 @@ public class Semantico {
         return pila.pop();
     }
 
+    public String evaluarCadenas(Pila<String> expresion) {
+        Pila<String> pila = new Pila<>();
+
+        while (!expresion.estaVacia()) {
+            String elemento = expresion.pop();
+            if (isOperadorConcat(elemento)) {
+                String operand2 = pila.pop();
+                String operand1 = pila.pop();
+                String resultado = operand1 + operand2;
+                pila.push(resultado);
+                pila.push(elemento);
+            }else {
+                pila.push(elemento);
+            }
+        }
+        return pila.pop();
+    }
+
+    public String evaluarLogicos(Pila<String> expresionPosfija) {
+        Pila<String> pila = new Pila<>();
+
+        while (!expresionPosfija.estaVacia()) {
+            String elemento = expresionPosfija.pop();
+
+            if (isOperadorLogico(elemento)) {
+                String operand2 = pila.pop();
+                String operand1 = pila.pop();
+                String resultado = opValidaLogica(operand1, operand2, elemento);
+                pila.push(resultado);
+            } else {
+                pila.push(elemento);
+            }
+        }
+        return pila.pop();
+    }
+
     private boolean isOperador(String elemento) {
         return elemento.equals("+") || elemento.equals("-") || elemento.equals("*") || elemento.equals("/");
+    }
+
+    private boolean isOperadorConcat(String elemento) {
+        return elemento.equals("%");
+    }
+
+    private boolean isOperadorLogico(String elemento) {
+        return elemento.equals("&&") || elemento.equals("||");
     }
 
     private double opValida(double operand1, double operand2, String operador) {
@@ -817,8 +932,24 @@ public class Semantico {
             case "|":
                 return operand1 != 0 || operand2 != 0 ? 1 : 0;
             default:
-                throw new IllegalArgumentException("Operacion invalida: " + operador);
+                throw new IllegalArgumentException("Operacion aritmetica invalida: " + operador);
         }
+    }
+
+    private String opValidaLogica(String operand1, String operand2, String operador) {
+        boolean booleano1 = operand1.equalsIgnoreCase("VER");
+        boolean booleano2 = operand2.equalsIgnoreCase("VER");
+        boolean resultado = false;
+
+        if (operador.equals("&&")) {
+            resultado = booleano1 && booleano2;
+        } else if (operador.equals("||")) {
+            resultado = booleano1 || booleano2;
+        }
+        if (resultado) {
+            return "VER";
+        }
+        return "FALS";
     }
 
     private int precedence(char operator) {
@@ -831,6 +962,17 @@ public class Semantico {
                 return 2;
             case '^':
                 return 3;
+            default:
+                return -1;
+        }
+    }
+
+    private int precedenceLogica(char operator) {
+        switch (operator) {
+            case '|':
+                return 1;
+            case '&':
+                return 2;
             default:
                 return -1;
         }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -1097,6 +1099,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     se validaran sus operaciones correspondientes a la*/
                         if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
+//Funcional
                             validarOperaciones(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
                         } else {
                             lbSem.setText("Semantico: Incorrecto");
@@ -1151,6 +1154,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     se validaran sus operaciones correspondientes a la*/
                         if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
+//Fases de prueba
                             validarOperaciones(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
                         } else {
                             lbSem.setText("Semantico: Incorrecto");
@@ -1163,12 +1167,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
             }
         }
-        for (int i = 0; i < tablaIdenCol.size(); i++) {
-            System.out.println("Variables declaradas: " + tablaIdenCol.get(i)[2]);
-        }
-        for (int i = 0; i < tablaIdenParam.size(); i++) {
-            System.out.println("Llamada " + tablaIdenParam.get(i)[0] + " con parametro " + tablaIdenParam.get(i)[2]);
-        }
+//        for (int i = 0; i < tablaIdenCol.size(); i++) {
+//            System.out.println("Variables declaradas: " + tablaIdenCol.get(i)[2]);
+//        }
+//        for (int i = 0; i < tablaIdenParam.size(); i++) {
+//            System.out.println("Llamada " + tablaIdenParam.get(i)[0] + " con parametro " + tablaIdenParam.get(i)[2]);
+//        }
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
         }
@@ -1346,6 +1350,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
                     if (aux.equals("&") || aux.equals("|")) {
                         System.out.println("Linea " + i + " Infijo:" + variableAsig + " opRel " + expresion);
+                        //Por continuar
                     } else {
                         expresion += aux;
 //                        System.out.println("b" + aux + "b" + (c + 1));
@@ -1373,14 +1378,34 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     b = false;
                 }
             }
+            //Fase de pruebas
             if (b) {
-                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional correcta en linea " + (i + 1) + "\n");
+                boolean asign=false;
+                Pila<String> pila;
+                System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
+                if (bol) {
+                    //Si es condicion aritmetica
+                    pila = objSem.convertInfijPos(transformar(expresion, i));
+//                    asign = modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
+                } else {
+                    //Si es condicion logica/booleana
+//                    pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
+//                    asign = modifiarValor(variableAsig, objSem.evaluarLogicos(pila), i);
+                }
+                if (asign) {
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea " + (i + 1) + "\n");
+                } else {
+                    lbSem.setText("Semantico: Incorrecto");
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
+                }
+
             } else {
                 lbSem.setText("Semantico: Incorrecto");
                 jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
             }
         } else {
             //Si es asignacion
+            boolean opLogicos = false;
             do {
                 //Empezaremos a buscar las expresiones utilizadas en su asignacion separadas por operadores
                 int c = 1;
@@ -1401,12 +1426,16 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                             case "53":
                             case "54":
                                 bol = false;
+                                break;
+                            case "17":
+                            case "18":
+                                opLogicos = true;
+                                break;
                         }
 //                        System.out.println("c" + aux + "c" + (c + 2));
                     }
                 }
             } while (palabras.hasMoreElements());
-
             /*Hemos guardado los tipos de dato correspondientes a las expresiones halladas pero hasta ahora
             las variables tienen como tipo de dato asignado 52 por lo que queda buscarlas y obtener su tipo de dato
              */
@@ -1416,27 +1445,37 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             Si se termina el recorrido con true significa que todos los datos son del mismo tipo y esta listo para realizar
             su operacion.
              */
-            if (bol) {
-                Pila<String> pila;
-                System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
-//                System.out.println("Linea " + i + " PosFijo:" + variableAsig + "=" + objSem.convertInfijPos(expresion));
-                pila = objSem.convertInfijPos(transformar(expresion, i));
-//                System.out.println("res:" + objSem.evaluar(pila));
-//                while (!pila.estaVacia()) {
-//                    System.out.println("EX " + pila.pop());
-//
-//                }
-                modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
-            }
-
             boolean b = true;
             for (int k = 0; k < tipo.size(); k++) {
                 if (!objSem.operCompatibles(tablaIdenCol.get(j)[1], tipo.get(k)[0])) {
                     b = false;
                 }
             }
+            //FUNCIONAL
             if (b) {
-                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea " + (i + 1) + "\n");
+                boolean asign;
+                Pila<String> pila;
+                System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
+                if (bol && !opLogicos) {
+                    //Si es operacion aritmetica
+                    pila = objSem.convertInfijPos(transformar(expresion, i));
+                    asign = modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
+                } else if (!bol && !opLogicos) {
+                    //Si es concatenacion
+                    pila = objSem.convertInfijPosCad(transformar(expresion, i));
+                    asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
+                } else {
+                    //Si es operacion logica/booleana
+                    pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
+                    asign = modifiarValor(variableAsig, objSem.evaluarLogicos(pila), i);
+                }
+                if (asign) {
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea " + (i + 1) + "\n");
+                } else {
+                    lbSem.setText("Semantico: Incorrecto");
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
+                }
+
             } else {
                 lbSem.setText("Semantico: Incorrecto");
                 jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
@@ -1445,14 +1484,34 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         }
     }
 
+    public String eliminarEspacios(String cadena) {
+        StringBuilder resultado = new StringBuilder();
+        boolean dentroComillas = false;
+        for (int i = 0; i < cadena.length(); i++) {
+            char c = cadena.charAt(i);
+            if (c == '"') {
+                dentroComillas = !dentroComillas;
+            }
+            if (c != ' ' || dentroComillas) {
+                resultado.append(c);
+            }
+        }
+        return resultado.toString();
+    }
+
     public Pila<String> transformar(String expresion, int i) {
-        StringTokenizer trans = new StringTokenizer(expresion, ";=()+-*/^&|><", true);
+        StringTokenizer trans = new StringTokenizer(eliminarEspacios(expresion), ";=()+-*/^&|><", true);
         Pila<String> pila = new Pila<>();
+        Pattern stringPattern = Pattern.compile("\"[\\w\\s]+\"");
         boolean dec = false;
         String aux;
         do {
             aux = trans.nextToken();
-            if (esNumero(aux)) {
+            if (aux.equals("VER") || aux.equals("FALS")) {
+                dec = true;
+            } else if (esNumero(aux)) {
+                dec = true;
+            } else if (stringPattern.matcher(aux).matches()) {
                 dec = true;
             } else {
                 for (int l = 0; l < tablaIdenCol.size(); l++) {
@@ -1467,7 +1526,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         }
                     }
                 }
-
                 //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
                 if (!dec) {
                     int y = -1;
@@ -1486,7 +1544,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                 }
             }
-
             if (dec) {
                 pila.push(aux);
             } else {
