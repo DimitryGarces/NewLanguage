@@ -2,6 +2,8 @@ package principal;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -59,6 +61,31 @@ public class Semantico {
                 },
                 {
                     -1, -1, 1, -1, -1
+                },
+                {
+                    -1, -1, 1, -1, -1
+                }
+            };
+    int operLog[][]
+            //Mayor-Menor-MayorQ-MenorQ-Igual-Diferente
+            = {
+                {
+                    1, -1, 1, -1, -1
+                },
+                {
+                    1, -1, 1, -1, -1
+                },
+                {
+                    1, -1, 1, -1, -1
+                },
+                {
+                    1, -1, 1, -1, -1
+                },
+                {
+                    1, 1, 1, 1, 1
+                },
+                {
+                    1, 1, 1, 1, 1
                 }
             };
 
@@ -102,14 +129,23 @@ public class Semantico {
         if (fila.equals("54") && (colum.equals("17") || colum.equals("18"))) {
             return true;
         }
-//        if ((fila.equals("17") || fila.equals("18")) 
-//                && (colum.equals("17") || colum.equals("18"))) {
-//            return true;
-//        }
-
         int f = Integer.parseInt(fila) - 50;
         int c = Integer.parseInt(colum) - 50;
         return asig[f][c] == 1;
+    }
+
+    public boolean operLogCompatibles(String fila, String op, String colum) {
+        if (fila.equals("50") && colum.equals("50")) {
+            return true;
+        } else if (fila.equals(colum)) {
+            if (op.equals("==") || op.equals("!")) {
+                return true;
+            }
+        }
+        return false;
+//        int f = Integer.parseInt(fila) - 50;
+//        int c = Integer.parseInt(colum) - 50;
+//        return operLog[f][c] == 1;
     }
 
     public String calcular(String expresion, JTabbedPane tabPanel, ArrayList<String[]> arrlist, String var) throws Exception {
@@ -768,6 +804,58 @@ public class Semantico {
         return reversedPila;
     }
 
+    public Pila<String> convertInfijPosOpLog(Pila<String> infijo) {
+
+        Pattern stringPattern = Pattern.compile("[a-zA-Z0-9]+");
+
+        Pila<String> posfijo = new Pila<>();
+        Pila<String> pila = new Pila<>();
+        Map<String, Integer> precedencia = new HashMap<>();
+        precedencia.put("(", 0);
+        precedencia.put(")", 0);
+        precedencia.put("||", 1);
+        precedencia.put("&&", 2);
+        precedencia.put("==", 3);
+        precedencia.put("!", 3);
+        precedencia.put("<", 4);
+        precedencia.put(">", 4);
+        precedencia.put("<=", 4);
+        precedencia.put(">=", 4);
+
+        while (!infijo.estaVacia()) {
+            String elemento = infijo.pop();
+            if (stringPattern.matcher(elemento).matches()) {
+                posfijo.push(elemento);
+            } else if (elemento.equals("(")) {
+                pila.push(elemento);
+            } else if (elemento.equals(")")) {
+                while (!pila.estaVacia() && !pila.peek().equals("(")) {
+                    posfijo.push(pila.pop());
+                }
+                if (!pila.estaVacia() && pila.peek().equals("(")) {
+                    posfijo.push(pila.pop()); // sacar "("
+                }
+            } else { // es operador
+                while (!pila.estaVacia() && precedencia.containsKey(elemento) && precedencia.get(elemento) <= precedencia.get(pila.peek()) && !pila.peek().equals("(")) {
+                    posfijo.push(pila.pop());
+                }
+                pila.push(elemento);
+            }
+        }
+        while (!pila.estaVacia()) {
+            posfijo.push(pila.pop());
+        }
+        // invertimos la pila para que quede en orden correcto
+        Pila<String> posfijoInvertido = new Pila<>();
+        while (!posfijo.estaVacia()) {
+            String elemento = posfijo.pop();
+            if (!elemento.equals("(") && !elemento.equals(")")) {
+                posfijoInvertido.push(elemento);
+            }
+        }
+        return posfijoInvertido;
+    }
+
     public Pila<String> convertInfijPosCad(Pila<String> infixPila) {
         Pila<String> pila = new Pila<>();
         Pila<String> postfixPila = new Pila<>();
@@ -872,7 +960,7 @@ public class Semantico {
                 String resultado = operand1 + operand2;
                 pila.push(resultado);
                 pila.push(elemento);
-            }else {
+            } else {
                 pila.push(elemento);
             }
         }
@@ -881,7 +969,6 @@ public class Semantico {
 
     public String evaluarLogicos(Pila<String> expresionPosfija) {
         Pila<String> pila = new Pila<>();
-
         while (!expresionPosfija.estaVacia()) {
             String elemento = expresionPosfija.pop();
 
@@ -945,6 +1032,24 @@ public class Semantico {
             resultado = booleano1 && booleano2;
         } else if (operador.equals("||")) {
             resultado = booleano1 || booleano2;
+        } else {
+            if (operador.equals(">")) {
+                resultado = Double.parseDouble(operand1) > Double.parseDouble(operador);
+            } else if (operador.equals("<")) {
+                resultado = Double.parseDouble(operand1) < Double.parseDouble(operador);
+            } else if (operador.equals("<=")) {
+                resultado = Double.parseDouble(operand1) <= Double.parseDouble(operador);
+            } else if (operador.equals(">=")) {
+                resultado = Double.parseDouble(operand1) >= Double.parseDouble(operador);
+            } else if (operador.equals("==")) {
+                resultado = Double.parseDouble(operand1) == Double.parseDouble(operador);
+            } else if (operador.equals("!")) {
+                try {
+                    resultado = Double.parseDouble(operand1) != Double.parseDouble(operador);
+                } catch (Exception ex) {
+                    resultado = operand1.equals(operador);
+                }
+            }
         }
         if (resultado) {
             return "VER";

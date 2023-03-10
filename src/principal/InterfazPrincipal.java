@@ -1335,68 +1335,96 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         String expresion = "", aux = "";
         palabras.nextToken();
         p.nextToken();
-        boolean bol = true;
+        boolean bol = true, opLogicos = false;
         List<String[]> tipo = new ArrayList<>();
+        String aux2;
         if (variableAsig.equals("MIENTRAS") || variableAsig.equals("STF")) {
             //Si es operador relacional
+            int par = 1;
+            opLogicos = true;
+            String[] temp = new String[2];
+            temp[0] = lex.Etiquetar("(").numero + "";
+            temp[1] = "(";
+            tipo.add(temp);
+            String exFin = "(";
             do {
-                variableAsig = palabras.nextToken().replaceAll("\\n", "");
                 //Empezaremos a buscar las expresiones utilizadas en su condicion
-                int c = 1;
-                aux = palabras.nextToken().replaceAll("\\n", "").replaceAll(" ", "");
-//                System.out.println("a" + aux + "a" + c);
+                aux = eliminarEspacios(palabras.nextToken().replaceAll("\\n", ""));
+                exFin += aux;
+//                System.out.println("a" + aux + "a");
                 if (!aux.equals(" ") && !aux.equals(";") && !aux.equals("")
                         && !aux.equals("{") && !aux.equals("}")) {
-
-                    if (aux.equals("&") || aux.equals("|")) {
-                        System.out.println("Linea " + i + " Infijo:" + variableAsig + " opRel " + expresion);
-                        //Por continuar
-                    } else {
-                        expresion += aux;
-//                        System.out.println("b" + aux + "b" + (c + 1));
-                        if (aux.equals("(") || aux.equals(")")) {
-                            //Se establece prioridad
-                        } else if (!aux.equals("<") && !aux.equals(">")
-                                && !aux.equals("=") && !aux.equals("!")) {
-                            aux = aux.replaceAll(" ", "");
-                            String[] temp = new String[2];
-                            temp[0] = lex.Etiquetar(aux).numero + "";
-                            temp[1] = aux;
-                            tipo.add(temp);
-//                            System.out.println("c" + aux + "c" + (c + 2));
-                        }
+                    expresion = aux;
+                    switch (aux) {
+                        case ">":
+                        case "<":
+                        case "=":
+                        case "&":
+                        case "|":
+                            aux2 = palabras.nextToken().replaceAll("\\n", "");
+                            //Validamos si la operacion relacional es compuesta o simple 2>=3
+                            if (aux2.equals("<") || aux2.equals(">") || aux2.equals("=")
+                                    || aux2.equals("&") || aux2.equals("|")) {
+                            } else {
+                                temp = new String[2];
+                                temp[0] = lex.Etiquetar(expresion).numero + "";
+                                temp[1] = expresion;
+                                tipo.add(temp);
+                            }
+                            expresion += aux2;
+                            exFin += aux2;
+                            break;
+                        case "(":
+                            par++;
+                            break;
+                        case ")":
+                            par--;
+                            break;
                     }
+//                    System.out.println("Condicion: " + expresion);
+                    temp = new String[2];
+                    temp[0] = lex.Etiquetar(expresion).numero + "";
+                    temp[1] = expresion;
+                    tipo.add(temp);
 
                 }
-            } while (palabras.hasMoreElements());
+            } while (palabras.hasMoreElements() && par != 0);
 
             tipo = obtenTipo(tipo, i);
-
+            //Fase de pruebas
             boolean b = true;
+            int cont = 0;
             for (int k = 0; k < tipo.size(); k++) {
-                if (!objSem.operCompatibles(tablaIdenCol.get(j)[1], tipo.get(k)[0])) {
-                    b = false;
+                if (!tipo.get(k)[1].equals("||") && !tipo.get(k)[1].equals("&&")) {
+                    if (!tipo.get(k)[1].equals("(") && !tipo.get(k)[1].equals(")")) {
+                        if (!objSem.operLogCompatibles(tipo.get(k)[0], tipo.get(k + 1)[1], tipo.get(k + 2)[0])) {
+                            b = false;
+                            break;
+                        }
+                        k += 2;
+                    } else if (tipo.get(k)[1].equals("(")) {
+
+                    } else {
+
+                    }
                 }
             }
-            //Fase de pruebas
+
             if (b) {
-                boolean asign=false;
+                boolean asign;
                 Pila<String> pila;
-                System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
-                if (bol) {
-                    //Si es condicion aritmetica
-                    pila = objSem.convertInfijPos(transformar(expresion, i));
-//                    asign = modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
-                } else {
-                    //Si es condicion logica/booleana
-//                    pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
-//                    asign = modifiarValor(variableAsig, objSem.evaluarLogicos(pila), i);
-                }
-                if (asign) {
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea " + (i + 1) + "\n");
+                System.out.println("Expresion condicional " + exFin);
+                pila = objSem.convertInfijPosOpLog(transformar(exFin, i));
+//                pila = transformar(exFin, i);
+//                do {
+//                    System.out.println("Pila: " + pila.pop());
+//                } while (!pila.estaVacia());
+                String op = objSem.evaluarLogicos(pila) + "";
+                if ((op.equals("VER") || op.equals("FALS"))) {
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional correcta en linea " + (i + 1) + "\n");
                 } else {
                     lbSem.setText("Semantico: Incorrecto");
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
                 }
 
             } else {
@@ -1405,7 +1433,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         } else {
             //Si es asignacion
-            boolean opLogicos = false;
+            opLogicos = false;
             do {
                 //Empezaremos a buscar las expresiones utilizadas en su asignacion separadas por operadores
                 int c = 1;
@@ -1512,6 +1540,30 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             } else if (esNumero(aux)) {
                 dec = true;
             } else if (stringPattern.matcher(aux).matches()) {
+                dec = true;
+            } else if (aux.equals("(") || aux.equals(")")) {
+                dec = true;
+            } else if (aux.equals("=")
+                    || aux.equals(">")
+                    || aux.equals("<")
+                    || aux.equals("&")
+                    || aux.equals("|")) {
+                String aux2 = trans.nextToken();
+                switch (aux2) {
+                    case "=":
+                    case ">":
+                    case "<":
+                    case "&":
+                    case "|":
+                        aux += aux2;
+                        break;
+                    default:
+                        String a = aux2;
+                        while (trans.hasMoreElements()) {
+                            a += trans.nextToken();
+                        }
+                        trans = new StringTokenizer(eliminarEspacios(a), ";=()+-*/^&|><", true);
+                }
                 dec = true;
             } else {
                 for (int l = 0; l < tablaIdenCol.size(); l++) {
@@ -1652,6 +1704,19 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
             }
         }
+        return tipo;
+    }
+
+    public List<String[]> validaOp(List<String[]> tipo, int i) {
+        if (tipo.size() >= 3) {
+            for (int j = 0; j < tipo.size(); j++) {
+                if (tipo.get(j)[0].equals("52")) {
+                }
+            }
+        } else {
+            System.out.println("Condicion basica");
+        }
+
         return tipo;
     }
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
