@@ -971,7 +971,6 @@ public class Semantico {
         Pila<String> pila = new Pila<>();
         while (!expresionPosfija.estaVacia()) {
             String elemento = expresionPosfija.pop();
-
             if (isOperadorLogico(elemento)) {
                 String operand2 = pila.pop();
                 String operand1 = pila.pop();
@@ -993,7 +992,14 @@ public class Semantico {
     }
 
     private boolean isOperadorLogico(String elemento) {
-        return elemento.equals("&&") || elemento.equals("||");
+        return elemento.equals("&&")
+                || elemento.equals("||")
+                || elemento.equals(">")
+                || elemento.equals("<")
+                || elemento.equals("<=")
+                || elemento.equals(">=")
+                || elemento.equals("!")
+                || elemento.equals("==");
     }
 
     private double opValida(double operand1, double operand2, String operador) {
@@ -1027,7 +1033,6 @@ public class Semantico {
         boolean booleano1 = operand1.equalsIgnoreCase("VER");
         boolean booleano2 = operand2.equalsIgnoreCase("VER");
         boolean resultado = false;
-
         if (operador.equals("&&")) {
             resultado = booleano1 && booleano2;
         } else if (operador.equals("||")) {
@@ -1042,12 +1047,16 @@ public class Semantico {
             } else if (operador.equals(">=")) {
                 resultado = Double.parseDouble(operand1) >= Double.parseDouble(operador);
             } else if (operador.equals("==")) {
-                resultado = Double.parseDouble(operand1) == Double.parseDouble(operador);
-            } else if (operador.equals("!")) {
                 try {
                     resultado = Double.parseDouble(operand1) != Double.parseDouble(operador);
                 } catch (Exception ex) {
                     resultado = operand1.equals(operador);
+                }
+            } else if (operador.equals("!")) {
+                try {
+                    resultado = Double.parseDouble(operand1) != Double.parseDouble(operador);
+                } catch (Exception ex) {
+                    resultado = !operand1.equals(operador);
                 }
             }
         }

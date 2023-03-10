@@ -1409,6 +1409,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                 }
             }
+            //Continuar problemas desde aqui FASE DE PRUEBAS- TERMINADO 80%
 
             if (b) {
                 boolean asign;
