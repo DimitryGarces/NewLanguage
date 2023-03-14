@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
 
+    Semantico objSem = new Semantico();
     int[] vecSal;
     NumLinecita numlinea;
     Lexico lexInv = new Lexico();
@@ -414,6 +416,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbLexicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLexicoMouseClicked
+
         pnSintactico.setVisible(false);
         pnSemantico.setVisible(false);
         lbSin.setText("Sintactico:");
@@ -841,6 +844,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //                System.out.println("Linea "+i+" co"+pa[j]);
 //            }
 //        }
+        boolean error = false;
         for (int h = 0; h < codigoFuente.length; h++) {
             palabras = codigoFuente[h].getPalabras();
             int i = 0;
@@ -867,6 +871,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     } else {
                         lbSin.setText("Sintactico: Incorrecto.");
                         banderaErrores = false;
+                        error = true;
                         String b = le.EtiquetarInvertido(palabras[i], false);
 
                         jTProgramaSintactico.setText(jTProgramaSintactico.getText()
@@ -892,6 +897,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     } else {
                         lbSin.setText("Sintactico: Incorrecto.");
                         banderaErrores = false;
+                        error = true;
                         String b = le.EtiquetarInvertido(palabras[i], false);
 
                         jTProgramaSintactico.setText(jTProgramaSintactico.getText()
@@ -907,6 +913,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     }
                 }
             } while (i < palabras.length);
+            if (error) {
+                banderaErrores = false;
+                break;
+            }
         }
         if (vecMov.length == 0 && banderaErrores == true) {
             lbSin.setText("Sintactico: Correcto.");
@@ -916,10 +926,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
 //        pnIntermedio.setVisible(true);
-
         String text = programaEjecutado;
-        Semantico objSem = new Semantico();
-
+        objSem.setModeloTabla();
         //Guarda las variables de tipo CAD
         ArrayList<String> variables = objSem.obtNomVar(programaEjecutado);
 
@@ -1175,8 +1183,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //        }
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
-        }
 
+        }
+        tablaIntermedia.setModel(objSem.getModeloTabla());
         //Guardar nombre de las variables de cada tipo de dato
         ArrayList<String> numerosVar = objSem.obtNomVar(programaEjecutado, "NUM");
         ArrayList<String> boolsVar = objSem.obtNomVar(programaEjecutado, "BOOL");
@@ -1204,7 +1213,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         List<String> funcAmet = new ArrayList<>();
         String nom = "";
         boolean palRep = false, banderaErrores = true;
-        Semantico objSem = new Semantico();
         String rango[];
         List<String> met = new ArrayList<>();
 
@@ -1320,7 +1328,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     public void validarOperaciones(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
             StringTokenizer palabrasOper, String palabra, boolean banderaVV, int i, boolean banderaErrores) {
         Lexico lex = new Lexico();
-        Semantico objSem = new Semantico();
         /*Como tendremos una asignacion y nos quedamos en el formato de
         TipoDato Variable = asignacion..
         Nosotros estabamos en el token Variable, por lo que ahora tendremos que avanzar hacia asignacion
@@ -1414,11 +1421,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             if (b) {
                 boolean asign;
                 Pila<String> pila;
-                System.out.println("Expresion condicional " + exFin);
+//                System.out.println("Expresion condicional " + exFin);
                 pila = objSem.convertInfijPosOpLog(transformar(exFin, i));
 //                pila = transformar(exFin, i);
 //                do {
-//                    System.out.println("Pila: " + pila.pop());
+//                    System.out.println("Pos: " + pila.pop());
 //                } while (!pila.estaVacia());
                 String op = objSem.evaluarLogicos(pila) + "";
                 if ((op.equals("VER") || op.equals("FALS"))) {
@@ -1484,7 +1491,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             if (b) {
                 boolean asign;
                 Pila<String> pila;
-                System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
+//                System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
+                objSem.addFila(i);
                 if (bol && !opLogicos) {
                     //Si es operacion aritmetica
                     pila = objSem.convertInfijPos(transformar(expresion, i));
@@ -1601,7 +1609,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 pila.push(aux);
             } else {
                 //Error
-                System.out.println("Error, variable sin asignacion. " + aux);
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Error, variable sin asignacion. " + aux + " linea " + i + "\n");
                 break;
             }
 
@@ -1634,7 +1642,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 tablaIdenCol.add(l, temp1);
                 tablaIdenCol.remove(l + 1);
                 dec = true;
-                System.out.println("Valor modificado: " + valor + " a variable: " + variable);
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
             }
         }
         //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
@@ -1652,7 +1660,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     temp1[3] = valor;
                     tablaIdenCol.add(l, temp1);
                     tablaIdenCol.remove(l + 1);
-                    System.out.println("Valor modificado: " + valor + " a variable: " + variable);
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
                     dec = true;
                 }
             }
@@ -1715,7 +1723,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }
             }
         } else {
-            System.out.println("Condicion basica");
+//            System.out.println("Condicion basica");
         }
 
         return tipo;

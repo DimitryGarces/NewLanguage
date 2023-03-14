@@ -72,10 +72,14 @@ HACER{
 MIENTRAS(numero==28 && num>5);
  CAMBIO (numero) { 
 CASO 28:
+NUM pru;
+pru =  1 + 3 *5 -2 /3;
   booleano=VER;
 DESCANSO;
  } 
 }
 }
+
+
 
 
