@@ -1518,10 +1518,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if (bol && !opLogicos) {
                     //Si es operacion aritmetica
                     pila = objSem.convertInfijPos(transformar(expresion, i));
+                    String prefija = pila.prefija();
                     asign = modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
                     
                     opInfija += "-----------Expresion-----------\n";
-                    opInfija += "Infija: \n" + "    " + variableAsig + " = " +expresion + "   --> Linea: " + (i+1) + "\n\n";
+                    opInfija += "Infija: \n" + "    " + variableAsig + " = " +expresion + "   --> Linea: " + (i+1) + "\n" +
+                                "Prefija: \n" + "    " + variableAsig + " = " + prefija + "   --> Linea: " + (i+1) + "\n\n";
                     jTProgramaCodigoIntermedio.setText(opInfija);
                     objSem.addFila(i);
                 } else if (!bol && !opLogicos) {
