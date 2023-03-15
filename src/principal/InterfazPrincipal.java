@@ -30,6 +30,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     ArrayList<int[]> rangoFunMet = new ArrayList<>();
     List<String[]> rangosAsig = new ArrayList<>();
     String programaEjecutado = "";
+    String opInfija = "";
 
     /**
      * Creates new form InterfazPrincipal
@@ -88,6 +89,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         erroresLexicos = new javax.swing.JTextArea();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaIntermedia = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTProgramaCodigoIntermedio = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,7 +101,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         lbCargar.setBackground(new java.awt.Color(204, 204, 204));
         lbCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/jugar.png"))); // NOI18N
-        lbCargar.setText("Compilar");
+        lbCargar.setText("Cargar");
         lbCargar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbCargarMouseClicked(evt);
@@ -187,7 +190,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbSintactico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnSintactico, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 440, 100, 30));
+        pnContenedor.add(pnSintactico, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 500, 100, 30));
 
         pnSemantico.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -206,9 +209,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnSemantico.setLayout(pnSemanticoLayout);
         pnSemanticoLayout.setHorizontalGroup(
             pnSemanticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSemanticoLayout.createSequentialGroup()
+            .addGroup(pnSemanticoLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(lbSemantico, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnSemanticoLayout.setVerticalGroup(
             pnSemanticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +221,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbSemantico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnSemantico, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 440, 90, 30));
+        pnContenedor.add(pnSemantico, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 500, 110, 30));
 
         lbOptimizacion.setText("Optimizacion");
         lbOptimizacion.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -254,9 +258,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnIntermedio.setLayout(pnIntermedioLayout);
         pnIntermedioLayout.setHorizontalGroup(
             pnIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnIntermedioLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnIntermedioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbIntermedio)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnIntermedioLayout.setVerticalGroup(
             pnIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,7 +270,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbIntermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 290, 70, 30));
+        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 500, 70, 30));
 
         pnLexico.setBackground(new java.awt.Color(255, 255, 255));
         pnLexico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -295,7 +300,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbLexico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnLexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, -1, 30));
+        pnContenedor.add(pnLexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 500, -1, 30));
 
         lbObjeto.setText("Objeto");
 
@@ -358,7 +363,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSintactico.setRows(5);
         jScrollPane3.setViewportView(jTProgramaSintactico);
 
-        pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 320, 310, 110));
+        pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 320, 310, 160));
 
         jTProgramaSemantico.setBackground(new java.awt.Color(102, 102, 102));
         jTProgramaSemantico.setColumns(20);
@@ -366,7 +371,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSemantico.setRows(5);
         jScrollPane4.setViewportView(jTProgramaSemantico);
 
-        pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 320, 260, 110));
+        pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 320, 260, 160));
 
         erroresLexicos.setBackground(new java.awt.Color(102, 102, 102));
         erroresLexicos.setColumns(20);
@@ -374,7 +379,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         erroresLexicos.setRows(5);
         jScrollPane5.setViewportView(erroresLexicos);
 
-        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 300, 110));
+        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 300, 160));
 
         tablaIntermedia.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tablaIntermedia.setModel(new javax.swing.table.DefaultTableModel(
@@ -385,7 +390,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Temp", "Valor 1", "Operador", "Valor 2", "Resultado"
+                "Operador", "Valor 1", "Valor 2", "Temporal", "Resultado"
             }
         ) {
             Class[] types = new Class [] {
@@ -398,17 +403,31 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(tablaIntermedia);
 
-        pnContenedor.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 40, 360, 230));
+        pnContenedor.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 40, 360, 230));
+
+        jTProgramaCodigoIntermedio.setBackground(new java.awt.Color(102, 102, 102));
+        jTProgramaCodigoIntermedio.setColumns(20);
+        jTProgramaCodigoIntermedio.setForeground(new java.awt.Color(204, 255, 255));
+        jTProgramaCodigoIntermedio.setRows(5);
+        jScrollPane7.setViewportView(jTProgramaCodigoIntermedio);
+
+        pnContenedor.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 320, 240, 160));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 1302, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 1303, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -926,6 +945,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
 //        pnIntermedio.setVisible(true);
+        opInfija="";
+        jTProgramaCodigoIntermedio.setText("");
+        
         String text = programaEjecutado;
         objSem.setModeloTabla();
         //Guarda las variables de tipo CAD
@@ -1172,7 +1194,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         }
                     }
                 }
-
             }
         }
 //        for (int i = 0; i < tablaIdenCol.size(); i++) {
@@ -1186,6 +1207,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         }
         tablaIntermedia.setModel(objSem.getModeloTabla());
+        
         //Guardar nombre de las variables de cada tipo de dato
         ArrayList<String> numerosVar = objSem.obtNomVar(programaEjecutado, "NUM");
         ArrayList<String> boolsVar = objSem.obtNomVar(programaEjecutado, "BOOL");
@@ -1203,7 +1225,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (!errorIMP.equals("")) {
             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorIMP);
         }
-
+        
+        
     }//GEN-LAST:event_lbSemanticoMouseClicked
 
     public boolean funAmet(String tipo, StringTokenizer palabras, int i, String texto) {
@@ -1491,20 +1514,29 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             if (b) {
                 boolean asign;
                 Pila<String> pila;
-//                System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
-                objSem.addFila(i);
+                //System.out.println("Linea " + i + " Infijo:" + variableAsig + "=" + expresion);
                 if (bol && !opLogicos) {
                     //Si es operacion aritmetica
                     pila = objSem.convertInfijPos(transformar(expresion, i));
                     asign = modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
+                    
+                    opInfija += "-----------Expresion-----------\n";
+                    opInfija += "Infija: \n" + "    " + variableAsig + " = " +expresion + "   --> Linea: " + (i+1) + "\n\n";
+                    jTProgramaCodigoIntermedio.setText(opInfija);
+                    objSem.addFila(i);
                 } else if (!bol && !opLogicos) {
                     //Si es concatenacion
                     pila = objSem.convertInfijPosCad(transformar(expresion, i));
                     asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
+                    
                 } else {
                     //Si es operacion logica/booleana
                     pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
                     asign = modifiarValor(variableAsig, objSem.evaluarLogicos(pila), i);
+                    
+                    opInfija += "-----------Expresion-----------\n";
+                    opInfija += "Infija: \n" + "    " + variableAsig + " = " +expresion + "   --> Linea: " + (i+1) + "\n\n";
+                    jTProgramaCodigoIntermedio.setText(opInfija);
                 }
                 if (asign) {
                     jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea " + (i + 1) + "\n");
@@ -1517,7 +1549,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 lbSem.setText("Semantico: Incorrecto");
                 jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
             }
-
         }
     }
 
@@ -1750,6 +1781,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaCompilado.setText("");
         jTProgramaSintactico.setText("");
         jTProgramaSemantico.setText("");
+        jTProgramaCodigoIntermedio.setText("");
         erroresLexicos.setText("");
         // TODO add your handling code here:
         jTProgramaFuente.setText(ManejoArchivos.cargarArchivo());
@@ -1830,6 +1862,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTextArea jTProgramaCodigoIntermedio;
     private javax.swing.JTextArea jTProgramaCompilado;
     private javax.swing.JTextArea jTProgramaFuente;
     private javax.swing.JTextArea jTProgramaSemantico;
