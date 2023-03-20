@@ -101,6 +101,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbCargar.setBackground(new java.awt.Color(204, 204, 204));
         lbCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/jugar.png"))); // NOI18N
         lbCargar.setText("Cargar");
+        lbCargar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbCargar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbCargarMouseClicked(evt);
@@ -138,6 +139,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbGuardar.setBackground(new java.awt.Color(255, 255, 255));
         lbGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar-el-archivo.png"))); // NOI18N
         lbGuardar.setText("Guardar");
+        lbGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbGuardarMouseClicked(evt);
@@ -170,6 +172,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbSintactico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/sintaxis (1).png"))); // NOI18N
         lbSintactico.setText("Sintactico");
         lbSintactico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lbSintactico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbSintactico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbSintacticoMouseClicked(evt);
@@ -198,6 +201,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbSemantico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/semantica.png"))); // NOI18N
         lbSemantico.setText("Semantico");
         lbSemantico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lbSemantico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbSemantico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbSemanticoMouseClicked(evt);
@@ -278,6 +282,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbLexico.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         lbLexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eleccion-de-idioma.png"))); // NOI18N
         lbLexico.setText("Lexico");
+        lbLexico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbLexico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbLexicoMouseClicked(evt);
