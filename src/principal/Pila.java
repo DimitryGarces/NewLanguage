@@ -39,4 +39,14 @@ public class Pila<T> {
     public int tamano() {
         return this.elementos.size();
     }
+    
+    public String prefija(){
+        String prefija = "";
+        
+        for (int i = 0; i < elementos.size(); i++) {
+            prefija+= " " + elementos.get(i);
+        }
+        
+        return prefija;
+    }
 }

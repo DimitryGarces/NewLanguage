@@ -17,13 +17,29 @@ import javax.swing.table.DefaultTableModel;
 
 public class Semantico {
 
+    /**
+     * @param valorFila the valorFila to set
+     */
+    public void setValorFila(String valorFila) {
+        this.valorFila = valorFila;
+    }
+
+    /**
+     * @return the valorFila
+     */
+    public String getValorFila() {
+        return valorFila;
+    }
+    
+    private String valorFila="";
+
     private DefaultTableModel modeloTabla = new DefaultTableModel();
 
     public Semantico() {
-        modeloTabla.addColumn("Temp");
+        modeloTabla.addColumn("Operador");
         modeloTabla.addColumn("Valor 1");
         modeloTabla.addColumn("Valor 2");
-        modeloTabla.addColumn("Operador");
+        modeloTabla.addColumn("Temp");
         modeloTabla.addColumn("Resultado");
     }
 
@@ -968,7 +984,8 @@ public class Semantico {
                 double operand2 = pila.pop();
                 double operand1 = pila.pop();
                 double resultado = opValida(operand1, operand2, elemento);
-                Object[] filaDatos = {"Temp" + i, operand1 + "", operand2 + "", elemento, resultado + ""};
+                Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
+                setValorFila(valorFila + elemento + "\t" + operand1 + "\t" +operand2 + "\t" + "varTemp" + i + "\n");
                 modeloTabla.addRow(filaDatos);
                 pila.push(resultado);
                 i++;
@@ -977,20 +994,19 @@ public class Semantico {
                 pila.push(numero);
             }
         }
-
         return pila.pop();
     }
 
     public String evaluarCadenas(Pila<String> expresion) {
         Pila<String> pila = new Pila<>();
-        int i=1;
+        int i = 1;
         while (!expresion.estaVacia()) {
             String elemento = expresion.pop();
             if (isOperadorConcat(elemento)) {
                 String operand2 = pila.pop();
                 String operand1 = pila.pop();
                 String resultado = operand1 + operand2;
-                Object[] filaDatos = {"Temp" + i, operand1, operand2, elemento, resultado};
+                Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
                 modeloTabla.addRow(filaDatos);
                 pila.push(resultado);
                 pila.push(elemento);
@@ -1002,16 +1018,16 @@ public class Semantico {
         return pila.pop();
     }
 
-    public String evaluarLogicos(Pila<String> expresionPosfija) {
+    /*public String evaluarLogicos(Pila<String> expresionPosfija) {
         Pila<String> pila = new Pila<>();
-        int i=1;
+        int i = 1;
         while (!expresionPosfija.estaVacia()) {
             String elemento = expresionPosfija.pop();
             if (isOperadorLogico(elemento)) {
                 String operand2 = pila.pop();
                 String operand1 = pila.pop();
                 String resultado = opValidaLogica(operand1, operand2, elemento);
-                Object[] filaDatos = {"Temp" + i, operand1, operand2, elemento, resultado};
+                Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
                 modeloTabla.addRow(filaDatos);
                 pila.push(resultado);
             } else {
@@ -1019,7 +1035,7 @@ public class Semantico {
             }
         }
         return pila.pop();
-    }
+    }*/
 
     private boolean isOperador(String elemento) {
         return elemento.equals("+") || elemento.equals("-") || elemento.equals("*") || elemento.equals("/");
@@ -1087,7 +1103,7 @@ public class Semantico {
             } else if (operador.equals("==")) {
                 try {
                     resultado = Double.parseDouble(operand1) != Double.parseDouble(operand2);
-                    System.out.println("Op logica "+resultado);
+                    System.out.println("Op logica " + resultado);
                 } catch (Exception ex) {
                     resultado = operand1.equals(operador);
                 }
@@ -1140,17 +1156,22 @@ public class Semantico {
 
     public void setModeloTabla() {
         DefaultTableModel modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("Temp");
-        modeloTabla.addColumn("Valor 1");
         modeloTabla.addColumn("Operador");
+        modeloTabla.addColumn("Valor 1");
         modeloTabla.addColumn("Valor 2");
+        modeloTabla.addColumn("Temporal");
         modeloTabla.addColumn("Resultado");
         this.modeloTabla = modeloTabla;
     }
-
-    public void addFila(int i) {
-
-        Object[] filaDatos = {"","Asign", "Fila ", (i + 1) + "", ""};
+    
+    public void espacio(){
+        Object[] filaDatos = {"", "", " ", " " + "", ""};
         modeloTabla.addRow(filaDatos);
     }
+
+    /*public void addFila(int i) {
+
+        Object[] filaDatos = {"", "Asign", "Fila ", (i + 1) + "", ""};
+        modeloTabla.addRow(filaDatos);
+    }*/
 }
