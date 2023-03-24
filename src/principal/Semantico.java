@@ -18,6 +18,20 @@ import javax.swing.table.DefaultTableModel;
 public class Semantico {
 
     /**
+     * @return the resultadoFinal
+     */
+    public double getResultadoFinal() {
+        return resultadoFinal;
+    }
+
+    /**
+     * @param resultadoFinal the resultadoFinal to set
+     */
+    public void setResultadoFinal(double resultadoFinal) {
+        this.resultadoFinal = resultadoFinal;
+    }
+
+    /**
      * @param valorFila the valorFila to set
      */
     public void setValorFila(String valorFila) {
@@ -32,6 +46,7 @@ public class Semantico {
     }
     
     private String valorFila="";
+    private double resultadoFinal=0;
 
     private DefaultTableModel modeloTabla = new DefaultTableModel();
 
@@ -988,6 +1003,7 @@ public class Semantico {
                 setValorFila(valorFila + elemento + "\t" + operand1 + "\t" +operand2 + "\t" + "varTemp" + i + "\n");
                 modeloTabla.addRow(filaDatos);
                 pila.push(resultado);
+                setResultadoFinal(resultado);
                 i++;
             } else {
                 double numero = Double.parseDouble(elemento);

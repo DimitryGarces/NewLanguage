@@ -1449,7 +1449,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
             } else {
                 lbSem.setText("Semantico: Incorrecto");
-                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
+                //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
             }
         } else {
             //Si es asignacion
@@ -1520,6 +1520,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     
                     opInfija += objSem.getValorFila() + "\n";
                     objSem.setValorFila("");
+                    
+                    opInfija += "Resultado final = " + objSem.getResultadoFinal() + "\n\n";
                     
                     jTProgramaCodigoIntermedio.setText(opInfija);
                     //objSem.addFila(i);
@@ -1672,7 +1674,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 tablaIdenCol.add(l, temp1);
                 tablaIdenCol.remove(l + 1);
                 dec = true;
-                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
+                //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
             }
         }
         //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
@@ -1738,7 +1740,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if (!dec) {
                     //Error de variable no declarada
                     lbSem.setText("Semantico: Incorrecto");
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada en linea " + (i + 1) + "\n");
+                    //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada en linea " + (i + 1) + "\n");
                 }
 
             }
