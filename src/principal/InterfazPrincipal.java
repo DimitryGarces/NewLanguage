@@ -934,9 +934,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
 //        pnIntermedio.setVisible(true);
-        opInfija="";
+        opInfija = "";
         jTProgramaCodigoIntermedio.setText("");
-        
+
         String text = programaEjecutado;
         objSem.setModeloTabla();
         //Guarda las variables de tipo CAD
@@ -1185,18 +1185,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }
             }
         }
-//        for (int i = 0; i < tablaIdenCol.size(); i++) {
-//            System.out.println("Variables declaradas: " + tablaIdenCol.get(i)[2]);
-//        }
-//        for (int i = 0; i < tablaIdenParam.size(); i++) {
-//            System.out.println("Llamada " + tablaIdenParam.get(i)[0] + " con parametro " + tablaIdenParam.get(i)[2]);
-//        }
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
 
         }
-        //tablaIntermedia.setModel(objSem.getModeloTabla());
-        
         //Guardar nombre de las variables de cada tipo de dato
         ArrayList<String> numerosVar = objSem.obtNomVar(programaEjecutado, "NUM");
         ArrayList<String> boolsVar = objSem.obtNomVar(programaEjecutado, "BOOL");
@@ -1214,8 +1206,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (!errorIMP.equals("")) {
             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorIMP);
         }
-         
-       
+
+
     }//GEN-LAST:event_lbSemanticoMouseClicked
 
     public boolean funAmet(String tipo, StringTokenizer palabras, int i, String texto) {
@@ -1435,6 +1427,24 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 Pila<String> pila;
 //                System.out.println("Expresion condicional " + exFin);
                 pila = objSem.convertInfijPosOpLog(transformar(exFin, i));
+                String prefija = pila.prefija();
+                opInfija += "********************************Expresion********************************\n";
+                opInfija += "Infija: \n" + "    " + variableAsig + " = " + exFin + "   --> Linea: " + (i + 1) + "\n"
+                        + "Prefija: \n" + "    " + variableAsig + " = " + prefija + "   --> Linea: " + (i + 1) + "\n";
+
+                if (!objSem.getValorFila().equals("")) {
+                    opInfija += "\n~Operador~\t~Variable1~\t~Variable2~\t~VariableTemporal~\n";
+                }
+
+                opInfija += objSem.getValorFila() + "\n";
+                objSem.setValorFila("");
+
+                String valorL = objSem.evaluarLogicos(pila);
+                opInfija += "Resultado final = " + valorL + "\n\n";
+
+                jTProgramaCodigoIntermedio.setText(opInfija);
+                asign = modifiarValor(variableAsig, valorL + "", i);
+
 //                pila = transformar(exFin, i);
 //                do {
 //                    System.out.println("Pos: " + pila.pop());
@@ -1446,7 +1456,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     lbSem.setText("Semantico: Incorrecto");
                     jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
                 }*/
-
             } else {
                 lbSem.setText("Semantico: Incorrecto");
                 //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
@@ -1509,34 +1518,34 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     pila = objSem.convertInfijPos(transformar(expresion, i));
                     String prefija = pila.prefija();
                     asign = modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
-                    
+
                     opInfija += "********************************Expresion********************************\n";
-                    opInfija += "Infija: \n" + "    " + variableAsig + " = " +expresion + "   --> Linea: " + (i+1) + "\n" +
-                                "Prefija: \n" + "    " + variableAsig + " = " + prefija + "   --> Linea: " + (i+1) + "\n";
-                    
+                    opInfija += "Infija: \n" + "    " + variableAsig + " = " + expresion + "   --> Linea: " + (i + 1) + "\n"
+                            + "Prefija: \n" + "    " + variableAsig + " = " + prefija + "   --> Linea: " + (i + 1) + "\n";
+
                     if (!objSem.getValorFila().equals("")) {
-                        opInfija+= "\n~Operador~\t~Variable1~\t~Variable2~\t~VariableTemporal~\n";
+                        opInfija += "\n~Operador~\t~Variable1~\t~Variable2~\t~VariableTemporal~\n";
                     }
-                    
+
                     opInfija += objSem.getValorFila() + "\n";
                     objSem.setValorFila("");
-                    
+
                     opInfija += "Resultado final = " + objSem.getResultadoFinal() + "\n\n";
-                    
+
                     jTProgramaCodigoIntermedio.setText(opInfija);
                     //objSem.addFila(i);
                 } else if (!bol && !opLogicos) {
                     //Si es concatenacion
                     pila = objSem.convertInfijPosCad(transformar(expresion, i));
                     asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
-                    
+
                 } else {
                     //Si es operacion logica/booleana
                     pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
                     //asign = modifiarValor(variableAsig, objSem.evaluarLogicos(pila), i);
-                    
+
                     opInfija += "-----------Expresion-----------\n";
-                    opInfija += "Infija: \n" + "    " + variableAsig + " = " +expresion + "   --> Linea: " + (i+1) + "\n\n";
+                    opInfija += "Infija: \n" + "    " + variableAsig + " = " + expresion + "   --> Linea: " + (i + 1) + "\n\n";
                     jTProgramaCodigoIntermedio.setText(opInfija);
                 }
                 /*if (asign) {
@@ -1545,7 +1554,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     lbSem.setText("Semantico: Incorrecto");
                     jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
                 }*/
-
             } else {
                 lbSem.setText("Semantico: Incorrecto");
                 jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");

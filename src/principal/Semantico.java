@@ -44,9 +44,9 @@ public class Semantico {
     public String getValorFila() {
         return valorFila;
     }
-    
-    private String valorFila="";
-    private double resultadoFinal=0;
+
+    private String valorFila = "";
+    private double resultadoFinal = 0;
 
     private DefaultTableModel modeloTabla = new DefaultTableModel();
 
@@ -990,27 +990,31 @@ public class Semantico {
     }
 
     public double evaluar(Pila<String> expresionPosfija) {
-//        String[] txt = postfix.split("([;=()+\\-*/^&|><])", -1);
-        Pila<Double> pila = new Pila<>();
-        int i = 1;
-        while (!expresionPosfija.estaVacia()) {
-            String elemento = expresionPosfija.pop();
-            if (isOperador(elemento)) {
-                double operand2 = pila.pop();
-                double operand1 = pila.pop();
-                double resultado = opValida(operand1, operand2, elemento);
-                Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
-                setValorFila(valorFila + elemento + "\t" + operand1 + "\t" +operand2 + "\t" + "varTemp" + i + "\n");
-                modeloTabla.addRow(filaDatos);
-                pila.push(resultado);
-                setResultadoFinal(resultado);
-                i++;
-            } else {
-                double numero = Double.parseDouble(elemento);
-                pila.push(numero);
+        try {
+            Pila<Double> pila = new Pila<>();
+            int i = 1;
+            while (!expresionPosfija.estaVacia()) {
+                String elemento = expresionPosfija.pop();
+                if (isOperador(elemento)) {
+                    double operand2 = pila.pop();
+                    double operand1 = pila.pop();
+                    double resultado = opValida(operand1, operand2, elemento);
+                    Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
+                    setValorFila(valorFila + elemento + "\t" + operand1 + "\t" + operand2 + "\t" + "varTemp" + i + "\n");
+                    modeloTabla.addRow(filaDatos);
+                    pila.push(resultado);
+                    setResultadoFinal(resultado);
+                    i++;
+                } else {
+                    double numero = Double.parseDouble(elemento);
+                    pila.push(numero);
+                }
             }
+            return pila.pop();
+        } catch (Exception ex) {
+            System.out.println("La operacion contiene variables sin declarar/inicializar");
+            return 0.0;
         }
-        return pila.pop();
     }
 
     public String evaluarCadenas(Pila<String> expresion) {
@@ -1034,7 +1038,7 @@ public class Semantico {
         return pila.pop();
     }
 
-    /*public String evaluarLogicos(Pila<String> expresionPosfija) {
+    public String evaluarLogicos(Pila<String> expresionPosfija) {
         Pila<String> pila = new Pila<>();
         int i = 1;
         while (!expresionPosfija.estaVacia()) {
@@ -1043,16 +1047,13 @@ public class Semantico {
                 String operand2 = pila.pop();
                 String operand1 = pila.pop();
                 String resultado = opValidaLogica(operand1, operand2, elemento);
-                Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
-                modeloTabla.addRow(filaDatos);
                 pila.push(resultado);
             } else {
                 pila.push(elemento);
             }
         }
         return pila.pop();
-    }*/
-
+    }
     private boolean isOperador(String elemento) {
         return elemento.equals("+") || elemento.equals("-") || elemento.equals("*") || elemento.equals("/");
     }
@@ -1118,8 +1119,8 @@ public class Semantico {
                 resultado = Double.parseDouble(operand1) >= Double.parseDouble(operand2);
             } else if (operador.equals("==")) {
                 try {
-                    resultado = Double.parseDouble(operand1) != Double.parseDouble(operand2);
-                    System.out.println("Op logica " + resultado);
+                    resultado = Double.parseDouble(operand1) == Double.parseDouble(operand2);
+//                    System.out.println("Op logica " + resultado);
                 } catch (Exception ex) {
                     resultado = operand1.equals(operador);
                 }
@@ -1179,8 +1180,8 @@ public class Semantico {
         modeloTabla.addColumn("Resultado");
         this.modeloTabla = modeloTabla;
     }
-    
-    public void espacio(){
+
+    public void espacio() {
         Object[] filaDatos = {"", "", " ", " " + "", ""};
         modeloTabla.addRow(filaDatos);
     }
