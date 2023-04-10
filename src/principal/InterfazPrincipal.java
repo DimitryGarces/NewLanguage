@@ -936,7 +936,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //        pnIntermedio.setVisible(true);
         opInfija = "";
         jTProgramaCodigoIntermedio.setText("");
-
+        pnOptimizacion.setVisible(true);
         String text = programaEjecutado;
         objSem.setModeloTabla();
         //Guarda las variables de tipo CAD
@@ -1005,6 +1005,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 tablaIdenFilas[1] = objSem.conversionNum(palabra);
                 tablaIdenFilas[2] = palabras.nextToken();
                 tablaIdenFilas[3] = "Null";
+                tablaIdenFilas[4] = "FALS";
                 //Validamos que existan o no funciones/metodos
                 if (!rangosAsig.isEmpty()) {
                     String l = " ";
@@ -1119,7 +1120,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
 //Funcional
-                            validarOperaciones(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
+                            banderaErrores = validarOperaciones(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
                         } else {
                             lbSem.setText("Semantico: Incorrecto");
                             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
@@ -1174,7 +1175,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         if (banderaVE) {
 //                        lbSem.setText("Semantico: Correcto");
 //Fases de prueba
-                            validarOperaciones(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
+                            banderaErrores = validarOperaciones(y, palabras, palabrasAux, palabrasOper, palabra, banderaVE, i, banderaErrores);
                         } else {
                             lbSem.setText("Semantico: Incorrecto");
                             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada "
@@ -1188,6 +1189,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (banderaErrores) {
             lbSem.setText("Semánticamente Correcto");
 
+        } else {
+            lbSem.setText("Semánticamente Incorrecto");
+            pnOptimizacion.setVisible(false);
         }
         //Guardar nombre de las variables de cada tipo de dato
         ArrayList<String> numerosVar = objSem.obtNomVar(programaEjecutado, "NUM");
@@ -1241,6 +1245,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             tablaIdenFilas[2] = nom;
         }
         tablaIdenFilas[3] = tipo;
+        tablaIdenFilas[4] = "FALS";
 
         //Validamos que no haya variables agregadas previamente a nuestro array
         if (!tablaIdenFunMet.isEmpty()) {
@@ -1273,8 +1278,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             tablaIdenCol.add(tablaIdenFilas);
         }
         //Una vez que la funcion a sido guardada toca agregar los parametros de dicha funcion/metodo
-        tablaIdenFilas = new String[4];
+        tablaIdenFilas = new String[5];
         tablaIdenFilas[3] = String.valueOf(i + 1);
+        tablaIdenFilas[4] = "FALS";
         if (tipo.equals("FUN")) {
             for (int j = 2; j < funcAmet.size(); j++) {
                 //Cada dos datos es un parametro ya que se compone de TipoDato nombre
@@ -1285,7 +1291,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 } else {
                     tablaIdenFilas[2] = funcAmet.get(j);
                     tablaIdenParam.add(tablaIdenFilas);
-                    tablaIdenFilas = new String[3];
+                    tablaIdenFilas = new String[5];
                 }
             }
         } else {
@@ -1299,7 +1305,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 } else {
                     tablaIdenFilas[2] = met.get(j);
                     tablaIdenParam.add(tablaIdenFilas);
-                    tablaIdenFilas = new String[3];
+                    tablaIdenFilas = new String[5];
                 }
             }
         }
@@ -1329,7 +1335,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         return banderaErrores;
     }
 
-    public void validarOperaciones(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
+    public boolean validarOperaciones(int j, StringTokenizer palabras, StringTokenizer palabrasAux,
             StringTokenizer palabrasOper, String palabra, boolean banderaVV, int i, boolean banderaErrores) {
         Lexico lex = new Lexico();
         /*Como tendremos una asignacion y nos quedamos en el formato de
@@ -1376,13 +1382,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                             //Validamos si la operacion relacional es compuesta o simple 2>=3
                             if (aux2.equals("<") || aux2.equals(">") || aux2.equals("=")
                                     || aux2.equals("&") || aux2.equals("|")) {
+                                expresion += aux2;
                             } else {
                                 temp = new String[2];
                                 temp[0] = lex.Etiquetar(expresion).numero + "";
+                                if (temp[0].equals("52")) {
+                                    variableUtil(expresion, i);
+                                }
                                 temp[1] = expresion;
                                 tipo.add(temp);
+                                expresion = aux2;
                             }
-                            expresion += aux2;
                             exFin += aux2;
                             break;
                         case "(":
@@ -1395,6 +1405,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //                    System.out.println("Condicion: " + expresion);
                     temp = new String[2];
                     temp[0] = lex.Etiquetar(expresion).numero + "";
+                    if (temp[0].equals("52")) {
+                        variableUtil(expresion, i);
+//                        System.out.println("Variable Utilizada en operacion logica, linea "+i);
+                    }
                     temp[1] = expresion;
                     tipo.add(temp);
 
@@ -1407,8 +1421,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             int cont = 0;
             for (int k = 0; k < tipo.size(); k++) {
                 if (!tipo.get(k)[1].equals("||") && !tipo.get(k)[1].equals("&&")) {
-                    if (!tipo.get(k)[1].equals("(") && !tipo.get(k)[1].equals(")")) {
+                    if (!tipo.get(k)[1].equals("(") && !tipo.get(k)[1].equals(")") && !tipo.get(k)[1].equals(";")) {
                         if (!objSem.operLogCompatibles(tipo.get(k)[0], tipo.get(k + 1)[1], tipo.get(k + 2)[0])) {
+                            System.out.println(tipo.get(k)[1] + tipo.get(k + 1)[1] + tipo.get(k + 2)[1]);
                             b = false;
                             break;
                         }
@@ -1444,7 +1459,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
                 jTProgramaCodigoIntermedio.setText(opInfija);
                 asign = modifiarValor(variableAsig, valorL + "", i);
-
+                variableUtil(variableAsig, i);
 //                pila = transformar(exFin, i);
 //                do {
 //                    System.out.println("Pos: " + pila.pop());
@@ -1458,7 +1473,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }*/
             } else {
                 lbSem.setText("Semantico: Incorrecto");
-                //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
+                banderaErrores = false;
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
             }
         } else {
             //Si es asignacion
@@ -1476,6 +1492,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         aux = aux.replaceAll(" ", "");
                         String[] temp = new String[2];
                         temp[0] = lex.Etiquetar(aux).numero + "";
+                        if (temp[0].equals("52")) {
+                            variableUtil(aux, i);
+//                        System.out.println("Variable Utilizada en operacion aritmetica, linea "+i);
+                        }
                         temp[1] = aux;
                         tipo.add(temp);
                         switch (temp[0]) {
@@ -1518,7 +1538,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     pila = objSem.convertInfijPos(transformar(expresion, i));
                     String prefija = pila.prefija();
                     asign = modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
-
+                    variableUtil(variableAsig, i);
                     opInfija += "********************************Expresion********************************\n";
                     opInfija += "Infija: \n" + "    " + variableAsig + " = " + expresion + "   --> Linea: " + (i + 1) + "\n"
                             + "Prefija: \n" + "    " + variableAsig + " = " + prefija + "   --> Linea: " + (i + 1) + "\n";
@@ -1538,7 +1558,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     //Si es concatenacion
                     pila = objSem.convertInfijPosCad(transformar(expresion, i));
                     asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
-
+                    variableUtil(variableAsig, i);
                 } else {
                     //Si es operacion logica/booleana
                     pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
@@ -1547,6 +1567,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     opInfija += "-----------Expresion-----------\n";
                     opInfija += "Infija: \n" + "    " + variableAsig + " = " + expresion + "   --> Linea: " + (i + 1) + "\n\n";
                     jTProgramaCodigoIntermedio.setText(opInfija);
+                    variableUtil(variableAsig, i);
                 }
                 /*if (asign) {
                     jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea " + (i + 1) + "\n");
@@ -1556,9 +1577,48 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }*/
             } else {
                 lbSem.setText("Semantico: Incorrecto");
+                banderaErrores = false;
                 jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
             }
         }
+        return banderaErrores;
+    }
+
+    public boolean variableUtil(String variable, int i) {
+
+        boolean dec = false;
+        for (int l = 0; l < tablaIdenCol.size(); l++) {
+            if (tablaIdenCol.get(l)[2].equals(variable)) {
+                String[] temp1 = tablaIdenCol.get(l);
+                temp1[4] = "VER";
+                tablaIdenCol.add(l, temp1);
+                tablaIdenCol.remove(l + 1);
+                dec = true;
+                //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
+            }
+        }
+        //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
+        if (!dec) {
+            int y = -1;
+            for (int j = 0; j < rangosAsig.size(); j++) {
+                if (rangosAsig.get(j)[0].equals(variable)) {
+                    y = j;
+                }
+            }
+            for (int l = 0; l < tablaIdenParam.size(); l++) {
+                if (tablaIdenParam.get(l)[2].equals(variable) && y != -1
+                        && (Integer.getInteger(rangosAsig.get(y)[1]) <= (i + 1) && Integer.getInteger(rangosAsig.get(y)[2]) >= (i + 1))) {
+                    String[] temp1 = tablaIdenCol.get(l);
+                    temp1[4] = "VER";
+                    tablaIdenCol.add(l, temp1);
+                    tablaIdenCol.remove(l + 1);
+//                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
+                    dec = true;
+                }
+            }
+        }
+
+        return dec;
     }
 
     public String eliminarEspacios(String cadena) {
@@ -1748,7 +1808,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if (!dec) {
                     //Error de variable no declarada
                     lbSem.setText("Semantico: Incorrecto");
-                    //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada en linea " + (i + 1) + "\n");
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada en linea " + (i + 1) + "\n");
                 }
 
             }
@@ -1756,17 +1816,119 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         return tipo;
     }
 
-    public List<String[]> validaOp(List<String[]> tipo, int i) {
-        if (tipo.size() >= 3) {
-            for (int j = 0; j < tipo.size(); j++) {
-                if (tipo.get(j)[0].equals("52")) {
+    public boolean usada(String variable, int i) {
+
+        boolean dec = false;
+        for (int l = 0; l < tablaIdenCol.size(); l++) {
+            if (tablaIdenCol.get(l)[2].equals(variable)) {
+                String[] temp1 = tablaIdenCol.get(l);
+                dec = true;
+                return temp1[4].equals("VER");
+
+                //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
+            }
+        }
+        //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
+        if (!dec) {
+            int y = -1;
+            for (int j = 0; j < rangosAsig.size(); j++) {
+                if (rangosAsig.get(j)[0].equals(variable)) {
+                    y = j;
                 }
             }
-        } else {
-//            System.out.println("Condicion basica");
+            for (int l = 0; l < tablaIdenParam.size(); l++) {
+                if (tablaIdenParam.get(l)[2].equals(variable) && y != -1
+                        && (Integer.getInteger(rangosAsig.get(y)[1]) <= (i + 1) && Integer.getInteger(rangosAsig.get(y)[2]) >= (i + 1))) {
+                    String[] temp1 = tablaIdenCol.get(l);
+                    return temp1[4].equals("VER");
+                }
+            }
         }
+        return false;
+    }
 
-        return tipo;
+    public int eliminaMetFunSU() {
+
+//        for (int l = 0; l < tablaIdenCol.size(); l++) {
+//            System.out.println(tablaIdenCol.get(l)[0] + " " + tablaIdenCol.get(l)[2] + " " + tablaIdenCol.get(l)[4]);
+//        }
+//
+//        for (int l = 0; l < tablaIdenParam.size(); l++) {
+//            System.out.println(tablaIdenParam.get(l)[0] + " " + tablaIdenParam.get(l)[2] + " " + tablaIdenParam.get(l)[4]);
+//        }
+        //Dividimos nuestro programa de acuerdo a los renglones
+        divisionRenglones = programaEjecutado.split("(?<=\\n)");
+        StringTokenizer palabras;
+        String palabra = "";
+        List<int[]> rangos = new ArrayList<>();
+        //Iniciamos un recorrido para ver el rango de variables utilizadas en funciones
+        for (int i = divisionRenglones.length - 1; i > 0; i--) {
+            palabras = new StringTokenizer(divisionRenglones[i], " =;(),");
+            palabra = palabras.nextToken().replaceAll("\n", "");
+            //Cada que hallemos una declaracion de funcion/metodo verificaremos que haya sido o no usada
+            if (palabra.equals("FUN") || palabra.equals("MET")) {
+                String nom;
+                switch (palabra) {
+                    case "FUN":
+                        palabras.nextToken();
+                        nom = palabras.nextToken();
+                        break;
+                    default:
+                        nom = palabras.nextToken().replaceAll("\"", "");
+                }
+                if (!usada(nom, i)) {
+                    int[] x = new int[2];
+                    for (int j = 0; j < rangosAsig.size(); j++) {
+                        if (rangosAsig.get(j)[0].equals(nom)) {
+                            x[0] = Integer.parseInt(rangosAsig.get(j)[1]);
+                            x[1] = Integer.parseInt(rangosAsig.get(j)[2]);
+                            break;
+                        }
+                    }
+                    rangos.add(x);
+                }
+            }
+        }
+        //Iniciamos el recorrido de los renglones
+        for (int i = divisionRenglones.length - 1; i > 0; i--) {
+            //Separamos las palabras en un arreglo, de un renglon determinado por el ciclo 
+            palabras = new StringTokenizer(divisionRenglones[i], " =;(),");
+
+            palabra = palabras.nextToken().replaceAll("\n", "");
+            if (palabra.equals("NUM") || palabra.equals("CAD")
+                    || palabra.equals("CHAR") || palabra.equals("BOOL")) {
+                //Encuentra declaracion de dato, almacenamos a que tipo se refiere
+                String nom = palabras.nextToken();
+                if (!usada(nom, i)) {
+                    int[] x = new int[2];
+                    for (int j = 0; j < tablaIdenCol.size(); j++) {
+                        if (tablaIdenCol.get(j)[2].equals(nom)) {
+                            x[0] = Integer.parseInt(tablaIdenCol.get(j)[0]);
+                            x[1] = Integer.parseInt(tablaIdenCol.get(j)[0]);
+                            break;
+                        }
+                    }
+                    rangos.add(x);
+                }
+            }
+        }
+        for (int i = 0; i < rangos.size(); i++) {
+            System.out.println("d " + i + "\ni" + rangos.get(i)[0] + " y" + rangos.get(i)[1] + "\n");
+        }
+        int res = 0;
+        for (int i = 0; i < rangos.size(); i++) {
+            for (int j = rangos.get(i)[0]; j <= rangos.get(i)[1]; j++) {
+                divisionRenglones[j - 1] = "";
+                res++;
+            }
+        }
+        programaEjecutado = "";
+        for (int i = 0; i < divisionRenglones.length; i++) {
+            if (!divisionRenglones[i].equals("") && !divisionRenglones[i].equals("\n")) {
+                programaEjecutado += divisionRenglones[i];
+            }
+        }
+        return res;
     }
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
         pnOptimizacion.setVisible(true);
@@ -1775,6 +1937,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbOptimizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbOptimizacionMouseClicked
         pnObjeto.setVisible(true);
+        int res = eliminaMetFunSU();
+        int response = JOptionPane.showConfirmDialog(null, "¡Recuerda!\nPulsa \"Guardar\"\nSi deseas conservar codigo optimizado.",
+                "Lineas restantes" + res, JOptionPane.OK_OPTION);
+        if (response == JOptionPane.OK_OPTION) {
+            jTProgramaFuente.setText(programaEjecutado);
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_lbOptimizacionMouseClicked
 

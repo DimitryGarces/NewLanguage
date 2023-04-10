@@ -69,7 +69,7 @@ MIENTRAS(suma==11);
 } 
 HACER{
  } 
-MIENTRAS(numero==28 && num>5);
+MIENTRAS(numero==28 && numero>5);
  CAMBIO (numero) { 
 CASO 28:
 NUM pru;
@@ -79,6 +79,7 @@ DESCANSO;
  } 
 }
 }
+
 
 
 
