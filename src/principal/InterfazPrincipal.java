@@ -2,6 +2,7 @@ package principal;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -31,6 +32,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     List<String[]> rangosAsig = new ArrayList<>();
     String programaEjecutado = "";
     String opInfija = "";
+    ArrayList<String> variablesCAP = new ArrayList<>();
 
     /**
      * Creates new form InterfazPrincipal
@@ -934,6 +936,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
 //        pnIntermedio.setVisible(true);
+        variablesCAP = new ArrayList<String>();
+        
+        System.out.println("Arreglo Vacio " + variablesCAP);
+        
+        variablesCAP = recopilarVarCap(jTProgramaFuente.getText()); //Recopila variables que estan dentro de un CAP
+
+        System.out.println("Arreglo con variables CAP " + variablesCAP);
+        
         opInfija = "";
         jTProgramaCodigoIntermedio.setText("");
         pnOptimizacion.setVisible(true);
@@ -1211,6 +1221,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorIMP);
         }
 
+        // Esta parte siguiente es para eliminar los CAP
+        
+        String textoNuevo = eliminaCAP(jTProgramaFuente.getText(), variablesCAP);
+
+        System.out.println("Variables que se eliminan de CAP= " + variablesCAP);
 
     }//GEN-LAST:event_lbSemanticoMouseClicked
 
@@ -1768,6 +1783,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //        for (int j = 0; j < tablaIdenCol.size(); j++) {
 //            System.out.println("Variables: "+ tablaIdenCol.get(j)[2]+" valor modificado: "+tablaIdenCol.get(j)[3]);
 //        }
+
+        System.out.println("Variable = " + variable + " Usada = " + dec);
+        
+        eliminaVarCAP(variable); // Elimina las variables que si se usan de los CAP
+
         return dec;
     }
 
@@ -1840,6 +1860,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if (tablaIdenParam.get(l)[2].equals(variable) && y != -1
                         && (Integer.getInteger(rangosAsig.get(y)[1]) <= (i + 1) && Integer.getInteger(rangosAsig.get(y)[2]) >= (i + 1))) {
                     String[] temp1 = tablaIdenCol.get(l);
+                    System.out.println("La variable " + variable + " ha sido usada");
                     return temp1[4].equals("VER");
                 }
             }
@@ -2027,6 +2048,64 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 new InterfazPrincipal().setVisible(true);
             }
         });
+    }
+
+    /**
+     * Este metodo busca las variables que son usadas en un CAP
+     *
+     * @param texto texto del codigo ejemplo
+     * @return variables que contienen CAP
+     */
+    public static ArrayList<String> recopilarVarCap(String texto) {
+        ArrayList<String> resultados = new ArrayList<>(); // Inicializa el ArrayList de resultados vacío
+
+        int startIndex = 0;
+        while (startIndex != -1) {
+            startIndex = texto.indexOf("CAP(", startIndex); // Busca la posición del inicio de la subcadena "CAP("
+            if (startIndex != -1) { // Si se encuentra la subcadena "CAP("
+                startIndex += 4; // Suma 4 para saltar el "CAP("
+                int endIndex = texto.indexOf(")", startIndex); // Busca la posición del primer paréntesis de cierre ")" después de la subcadena "CAP("
+                if (endIndex != -1) { // Si se encuentra el paréntesis de cierre ")"
+                    String resultado = texto.substring(startIndex, endIndex); // Extrae la subcadena dentro del paréntesis
+                    resultados.add(resultado); // Agrega la subcadena extraída al ArrayList de resultados
+                }
+            }
+        }
+
+        HashSet<String> resultadosUnicos = new HashSet<>(resultados); // Crea un HashSet a partir del ArrayList para eliminar duplicados
+        resultados.clear(); // Limpia el ArrayList original
+        resultados.addAll(resultadosUnicos); // Agrega los resultados únicos al ArrayList original
+
+        return resultados;
+    }
+
+    /**
+     * Metodo que elimina las variables que si son usadas en el codigo fuente
+     * @param palabraAEliminar 
+     */
+    public void eliminaVarCAP(String palabraAEliminar) {
+        for (int i = 0; i < variablesCAP.size(); i++) {
+            if (variablesCAP.get(i).equals(palabraAEliminar)) {
+                variablesCAP.remove(i);
+                i--;
+            }
+        }
+    }
+    
+    /**
+     * Metodo que usa una lista con todas las variables no usadas para eliminar CAP con dichas variables
+     * @param texto codigo fuente para realizar la eliminación de CAP
+     * @param varNoUsadas variables no usadas en el codigo fuente
+     * @return texto nuevo con CAP eliminadas
+     */
+    public static String eliminaCAP(String texto,ArrayList<String> varNoUsadas){
+        String textoNuevo = "";
+        
+        for (int i = 0; i < varNoUsadas.size(); i++) {
+            textoNuevo = texto.replaceAll("CAP\\(" + varNoUsadas.get(i) + "\\);\\s*", "");
+        }
+        
+        return textoNuevo;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

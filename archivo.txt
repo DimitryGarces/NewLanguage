@@ -1,6 +1,11 @@
 CLASE "ejemploDeCodigo" {
  IMPLEM "libreria";
  CAD cadena; 
+ NUM x;
+ NUM y;
+ NUM z;
+ NUM j;
+ NUM division;
 CAD otraCadena;
  CAD otraCadena1;
 NUM numero; 
@@ -17,6 +22,11 @@ MET "prueba2"(NUM num){
 num= "24";
  }
  PRINCIPAL{ 
+ CAP(x);
+ CAP(y);
+ CAP(z);
+ CAP(j);
+ division= x/y;
 CAD prueba1;
  CAP(cadena); 
 prueba1= "No sirve";
@@ -79,6 +89,7 @@ DESCANSO;
  } 
 }
 }
+
 
 
 
