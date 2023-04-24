@@ -937,13 +937,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
 //        pnIntermedio.setVisible(true);
         variablesCAP = new ArrayList<String>();
-        
+
         System.out.println("Arreglo Vacio " + variablesCAP);
-        
+
         variablesCAP = recopilarVarCap(jTProgramaFuente.getText()); //Recopila variables que estan dentro de un CAP
 
         System.out.println("Arreglo con variables CAP " + variablesCAP);
-        
+
         opInfija = "";
         jTProgramaCodigoIntermedio.setText("");
         pnOptimizacion.setVisible(true);
@@ -1222,7 +1222,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         }
 
         // Esta parte siguiente es para eliminar los CAP
-        
         String textoNuevo = eliminaCAP(jTProgramaFuente.getText(), variablesCAP);
 
         System.out.println("Variables que se eliminan de CAP= " + variablesCAP);
@@ -1785,7 +1784,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //        }
 
         System.out.println("Variable = " + variable + " Usada = " + dec);
-        
+
         eliminaVarCAP(variable); // Elimina las variables que si se usan de los CAP
 
         return dec;
@@ -1962,7 +1961,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         int response = JOptionPane.showConfirmDialog(null, "¡Recuerda!\nPulsa \"Guardar\"\nSi deseas conservar codigo optimizado.",
                 "Lineas restantes" + res, JOptionPane.OK_OPTION);
         if (response == JOptionPane.OK_OPTION) {
-            jTProgramaFuente.setText(programaEjecutado);
+//            jTProgramaFuente.setText(programaEjecutado);
+            CodigoOp ven = new CodigoOp(programaEjecutado);
+            ven.setVisible(true);
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_lbOptimizacionMouseClicked
@@ -2081,7 +2082,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     /**
      * Metodo que elimina las variables que si son usadas en el codigo fuente
-     * @param palabraAEliminar 
+     *
+     * @param palabraAEliminar
      */
     public void eliminaVarCAP(String palabraAEliminar) {
         for (int i = 0; i < variablesCAP.size(); i++) {
@@ -2091,20 +2093,22 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         }
     }
-    
+
     /**
-     * Metodo que usa una lista con todas las variables no usadas para eliminar CAP con dichas variables
+     * Metodo que usa una lista con todas las variables no usadas para eliminar
+     * CAP con dichas variables
+     *
      * @param texto codigo fuente para realizar la eliminación de CAP
      * @param varNoUsadas variables no usadas en el codigo fuente
      * @return texto nuevo con CAP eliminadas
      */
-    public static String eliminaCAP(String texto,ArrayList<String> varNoUsadas){
+    public static String eliminaCAP(String texto, ArrayList<String> varNoUsadas) {
         String textoNuevo = "";
-        
+
         for (int i = 0; i < varNoUsadas.size(); i++) {
             textoNuevo = texto.replaceAll("CAP\\(" + varNoUsadas.get(i) + "\\);\\s*", "");
         }
-        
+
         return textoNuevo;
     }
 
