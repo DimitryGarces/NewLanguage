@@ -1,26 +1,10 @@
 CLASE "ejemploDeCodigo" {
  IMPLEM "libreria";
  CAD cadena; 
- NUM x;
- NUM y;
- NUM z;
- NUM j;
- NUM division;
-CAD otraCadena;
- CAD otraCadena1;
 NUM numero; 
 numero=28; 
 NUM suma;
-NUM ayuda;
  BOOL booleano; 
-CAD captura;
- FUN CAD prueba(CAD cadena){ 
-cadena = "c";
- RETORNA cadena;
- } 
-MET "prueba2"(NUM num){ 
-num= "24";
- }
  PRINCIPAL{ 
 CAD prueba1;
  CAP(cadena); 
@@ -31,7 +15,6 @@ suma=numero+1;
 NSTF{
  NUM x34; 
 x34 = 56;
- NUM variableNoExistente; 
 IMP(2+4%5*8); 
 CAP(captura); 
 } 
@@ -41,7 +24,6 @@ IMP("Este es mi primer programa");
 }
  MIENTRAS(numero==28){
 CAMBIO (numero) { 
-
 CASO 1:  STF(suma==1){
  suma=numero;
  }
@@ -84,10 +66,4 @@ DESCANSO;
  } 
 }
 }
-
-
-
-
-
-
 

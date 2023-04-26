@@ -1964,7 +1964,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //            jTProgramaFuente.setText(programaEjecutado);
             CodigoOp ven = new CodigoOp(programaEjecutado);
             ven.setVisible(true);
+            try {
+                ManejoArchivos.guardarArchivo(programaEjecutado, true);
+                // TODO add your handling code here:
+
+            } catch (IOException ex) {
+                Logger.getLogger(InterfazPrincipal.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "Archivo optimizado Guardado con exito.");
         }
+
         // TODO add your handling code here:
     }//GEN-LAST:event_lbOptimizacionMouseClicked
 
@@ -1988,7 +1998,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbGuardarMouseClicked
         try {
-            ManejoArchivos.guardarArchivo(jTProgramaFuente.getText());
+            ManejoArchivos.guardarArchivo(jTProgramaFuente.getText(), false);
             // TODO add your handling code here:
 
         } catch (IOException ex) {

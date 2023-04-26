@@ -20,11 +20,15 @@ import java.util.logging.Logger;
  */
 public class ManejoArchivos {
 
-    public static void guardarArchivo(String texto) throws IOException {
+    public static void guardarArchivo(String texto, boolean v) throws IOException {
         FileWriter fichero = null;
         PrintWriter pw = null;
+        String nombre = "archivo.txt";
+        if (v) {
+            nombre = "archivoOp.txt";
+        }
         try {
-            fichero = new FileWriter("archivo.txt");
+            fichero = new FileWriter(nombre);
             pw = new PrintWriter(fichero);
             pw.println(texto);
         } catch (IOException ex) {
@@ -51,7 +55,7 @@ public class ManejoArchivos {
             br = new BufferedReader(fr);
             String linea;
             while ((linea = br.readLine()) != null) {
-                cadena =cadena + linea+"\n";
+                cadena = cadena + linea + "\n";
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ManejoArchivos.class.getName()).log(Level.SEVERE, null, ex);
