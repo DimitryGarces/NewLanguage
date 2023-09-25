@@ -811,7 +811,12 @@ public class Semantico {
         Pattern numberPattern = Pattern.compile("\\d+(\\.\\d+)?");
 
         while (!infixPila.estaVacia()) {
-            aux.push(infixPila.pop());
+            String aux2 = infixPila.pop();
+            if (aux2 != null) {
+                aux.push(aux2);
+            }else{
+                return null;
+            }
         }
         infixPila = aux;
         while (!infixPila.estaVacia()) {
@@ -877,8 +882,8 @@ public class Semantico {
 
         while (!infijo.estaVacia()) {
             String elemento = infijo.pop();
-
-            if (stringPattern.matcher(elemento).matches()) {
+            System.out.println(elemento);
+            if (stringPattern.matcher(elemento.replaceAll("\"", "")).matches()) {
                 posfijo.push(elemento);
             } else if (elemento.equals("(")) {
                 pila.push(elemento);
@@ -911,7 +916,7 @@ public class Semantico {
     }
 
     public Pila<String> convertInfijPosCad(Pila<String> infixPila) {
-        Pila<String> pila = new Pila<>();
+       Pila<String> pila = new Pila<>();
         Pila<String> postfixPila = new Pila<>();
         Pila<String> aux = new Pila<>();
         Pattern stringPattern = Pattern.compile("\"[\\w\\s]+\"");
@@ -991,27 +996,27 @@ public class Semantico {
 
     public double evaluar(Pila<String> expresionPosfija) {
         
-            Pila<Double> pila = new Pila<>();
-            int i = 1;
-            while (!expresionPosfija.estaVacia()) {
-                String elemento = expresionPosfija.pop();
-                if (isOperador(elemento)) {
-                    double operand2 = pila.pop();
-                    double operand1 = pila.pop();
-                    double resultado = opValida(operand1, operand2, elemento);
-                    System.out.println("************\noperand 1. "+operand1+"\n"+operand2+"resultado: "+resultado);
-                    Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
-                    setValorFila(valorFila + elemento + "\t" + operand1 + "\t" + operand2 + "\t" + "varTemp" + i + "\n");
-                    modeloTabla.addRow(filaDatos);
-                    pila.push(resultado);
-                    setResultadoFinal(resultado);
-                    i++;
-                } else {
-                    double numero = Double.parseDouble(elemento);
-                    pila.push(numero);
-                }
+        Pila<Double> pila = new Pila<>();
+        int i = 1;
+        while (!expresionPosfija.estaVacia()) {
+            String elemento = expresionPosfija.pop();
+            if (isOperador(elemento)) {
+                double operand2 = pila.pop();
+                double operand1 = pila.pop();
+                double resultado = opValida(operand1, operand2, elemento);
+                System.out.println("************\noperand 1. " + operand1 + "\n" + operand2 + "resultado: " + resultado);
+                Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
+                setValorFila(valorFila + elemento + "\t" + operand1 + "\t" + operand2 + "\t" + "varTemp" + i + "\n");
+                modeloTabla.addRow(filaDatos);
+                pila.push(resultado);
+                setResultadoFinal(resultado);
+                i++;
+            } else {
+                double numero = Double.parseDouble(elemento);
+                pila.push(numero);
             }
-            return pila.pop();
+        }
+        return pila.pop();
 
     }
 
