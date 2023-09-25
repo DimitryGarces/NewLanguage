@@ -1551,23 +1551,38 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     //Si es operacion aritmetica
                     pila = objSem.convertInfijPos(transformar(expresion, i));
                     String prefija = pila.prefija();
-                    asign = modifiarValor(variableAsig, objSem.evaluar(pila) + "", i);
-                    variableUtil(variableAsig, i);
-                    opInfija += "********************************Expresion********************************\n";
-                    opInfija += "Infija: \n" + "    " + variableAsig + " = " + expresion + "   --> Linea: " + (i + 1) + "\n"
-                            + "Prefija: \n" + "    " + variableAsig + " = " + prefija + "   --> Linea: " + (i + 1) + "\n";
+                    double p2 = 0;
+                    boolean aaa = true;
+                    try {
+                        p2 = objSem.evaluar(pila);
+                    } catch (Exception ex) {
+                        System.out.println("La operacion contiene variables sin declarar/inicializar");
+                        aaa = false;
+                        lbSem.setText("Semantico: Incorrecto");
+                        banderaErrores = false;
+                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "La operacion contiene variables sin declarar/inicializar en la linea: " + (i + 1) + "\n");
 
-                    if (!objSem.getValorFila().equals("")) {
-                        opInfija += "\n~Operador~\t~Variable1~\t~Variable2~\t~VariableTemporal~\n";
+                    }
+                    if (aaa) {
+                        asign = modifiarValor(variableAsig, p2 + "", i);
+                        variableUtil(variableAsig, i);
+                        opInfija += "********************************Expresion********************************\n";
+                        opInfija += "Infija: \n" + "    " + variableAsig + " = " + expresion + "   --> Linea: " + (i + 1) + "\n"
+                                + "Prefija: \n" + "    " + variableAsig + " = " + prefija + "   --> Linea: " + (i + 1) + "\n";
+
+                        if (!objSem.getValorFila().equals("")) {
+                            opInfija += "\n~Operador~\t~Variable1~\t~Variable2~\t~VariableTemporal~\n";
+                        }
+
+                        opInfija += objSem.getValorFila() + "\n";
+                        objSem.setValorFila("");
+
+                        opInfija += "Resultado final === " + objSem.getResultadoFinal() + "\n\n";
+
+                        jTProgramaCodigoIntermedio.setText(opInfija);
+                        //objSem.addFila(i);
                     }
 
-                    opInfija += objSem.getValorFila() + "\n";
-                    objSem.setValorFila("");
-
-                    opInfija += "Resultado final = " + objSem.getResultadoFinal() + "\n\n";
-
-                    jTProgramaCodigoIntermedio.setText(opInfija);
-                    //objSem.addFila(i);
                 } else if (!bol && !opLogicos) {
                     //Si es concatenacion
                     pila = objSem.convertInfijPosCad(transformar(expresion, i));

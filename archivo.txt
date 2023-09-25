@@ -22,6 +22,11 @@ MET "prueba2"(NUM num){
 num= "24";
  }
  PRINCIPAL{ 
+NUM probando9;
+probando9= 99;
+NUM probando10;
+NUM probando11;
+probando11 = probando9 + probando10;
 CAD prueba1;
  CAP(cadena); 
 prueba1= "No sirve";
@@ -84,10 +89,5 @@ DESCANSO;
  } 
 }
 }
-
-
-
-
-
 
 

@@ -990,7 +990,7 @@ public class Semantico {
     }
 
     public double evaluar(Pila<String> expresionPosfija) {
-        try {
+        
             Pila<Double> pila = new Pila<>();
             int i = 1;
             while (!expresionPosfija.estaVacia()) {
@@ -999,6 +999,7 @@ public class Semantico {
                     double operand2 = pila.pop();
                     double operand1 = pila.pop();
                     double resultado = opValida(operand1, operand2, elemento);
+                    System.out.println("************\noperand 1. "+operand1+"\n"+operand2+"resultado: "+resultado);
                     Object[] filaDatos = {elemento, operand1 + "", operand2 + "", "Temp" + i, resultado + ""};
                     setValorFila(valorFila + elemento + "\t" + operand1 + "\t" + operand2 + "\t" + "varTemp" + i + "\n");
                     modeloTabla.addRow(filaDatos);
@@ -1011,10 +1012,7 @@ public class Semantico {
                 }
             }
             return pila.pop();
-        } catch (Exception ex) {
-            System.out.println("La operacion contiene variables sin declarar/inicializar");
-            return 0.0;
-        }
+
     }
 
     public String evaluarCadenas(Pila<String> expresion) {
