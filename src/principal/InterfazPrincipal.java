@@ -1221,17 +1221,22 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         }
                     } catch (Exception ex) {
                         System.out.println("La operacion contiene variables sin declarar o inicializar");
+                        System.out.println("EL ERROR ESTA AQUI");
+                        lbSem.setText("Semantico: Incorrecto");
+                        banderaErrores = false;
+                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "La operacion contiene variables sin declarar/inicializar en la LINEA: " + (i + 1) + "\n");
+                    }
+                } else if (!bol && !opLogicos) {
+                    //Si es concatenacion
+                    try {
+                        pila = objSem.convertInfijPosCad(transformar(expresion, i));
+                        asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
+                        variableUtil(variableAsig, i);
+                    } catch (Exception e) {
                         lbSem.setText("Semantico: Incorrecto");
                         banderaErrores = false;
                         jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "La operacion contiene variables sin declarar/inicializar en la linea: " + (i + 1) + "\n");
-
                     }
-
-                } else if (!bol && !opLogicos) {
-                    //Si es concatenacion
-                    pila = objSem.convertInfijPosCad(transformar(expresion, i));
-                    asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
-                    variableUtil(variableAsig, i);
                 } else {
                     //Si es operacion logica/booleana
                     pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
