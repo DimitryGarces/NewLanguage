@@ -385,8 +385,16 @@ public class Sintactico {
             String match = matcher.group(1); // Obtiene el contenido dentro de los corchetes
             String[] numerosStr = match.split(",\\s*"); // Divide la cadena en números separados por comas
             for (String numeroStr : numerosStr) {
-                int numero = Integer.parseInt(numeroStr.trim()); // Convierte la cadena a un entero
-                numeros.add(numero);
+                numeroStr = numeroStr.trim(); // Elimina espacios en blanco
+                if (!numeroStr.isEmpty()) {
+                    try {
+                        int numero = Integer.parseInt(numeroStr); // Convierte la cadena a un entero
+                        numeros.add(numero); // Agrega el entero al ArrayList
+                    } catch (NumberFormatException e) {
+                        // Maneja el caso en el que no se pueda convertir la cadena a un entero
+                        //Sin embargo como estamos en un metodo externo, no podemos imprimir mensajes uwu
+                    }
+                }
             }
         }
         //Pasamos todo a una variable global para trabajar con eso
