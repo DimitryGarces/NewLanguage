@@ -1156,6 +1156,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         }
                         temp[1] = aux;
                         tipo.add(temp);
+//                        for (int k = 0; k < tipo.size(); k++) {
+//                            System.out.println(tipo.get(k)[1]);
+//                        }
                         switch (temp[0]) {
                             case "51":
                             case "53":
@@ -1220,11 +1223,34 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                             //objSem.addFila(i);
                         }
                     } catch (Exception ex) {
-                        System.out.println("La operacion contiene variables sin declarar o inicializar");
-                        System.out.println("EL ERROR ESTA AQUI");
-                        lbSem.setText("Semantico: Incorrecto");
-                        banderaErrores = false;
-                        jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "La operacion contiene variables sin declarar/inicializar en la LINEA: " + (i + 1) + "\n");
+                        pila = objSem.convertInfijPos(transformar(expresion, i));
+                        String prefija = pila.prefija();
+                        String p2 = "";
+                        boolean aaa = true;
+
+                        p2 = objSem.evaluarCadenas(pila);
+                        if (aaa) {
+                            asign = modifiarValor(variableAsig, p2 + "", i);
+                            variableUtil(variableAsig, i);
+                            opInfija += "********************************Expresion********************************\n";
+                            opInfija += "Infija: \n" + "    " + variableAsig + " = " + expresion + "   --> Linea: " + (i + 1) + "\n"
+                                    + "Prefija: \n" + "    " + variableAsig + " = " + prefija + "   --> Linea: " + (i + 1) + "\n";
+
+                            if (!objSem.getValorFila().equals("")) {
+                                opInfija += "\n~Operador~\t~Variable1~\t~Variable2~\t~VariableTemporal~\n";
+                            }
+                            opInfija += objSem.getValorFila() + "\n";
+                            objSem.setValorFila("");
+                            opInfija += "Resultado final === " + p2 + "\n\n";
+                            jTProgramaCodigoIntermedio.setText(opInfija);
+                        } else {
+                            System.out.println("La operacion contiene variables sin declarar o inicializar");
+                            lbSem.setText("Semantico: Incorrecto");
+                            banderaErrores = false;
+                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "La operacion contiene variables sin declarar/inicializar en la LINEA: " + (i + 1) + "\n");
+
+                        }
+
                     }
                 } else if (!bol && !opLogicos) {
                     //Si es concatenacion
@@ -1381,8 +1407,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 pila.push(aux);
             } else {
                 //Error
-                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Error, variable sin asignacion. " + aux + " linea " + i + "\n");
-                break;
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Error, variable sin asignacion.. " + aux + " linea " + i + "\n");
+                return null;
             }
 
         } while (trans.hasMoreElements());
@@ -1446,13 +1472,15 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             if (tipo.get(k)[0].equals("52")) {
                 boolean dec = false;
                 for (int l = 0; l < tablaIdenCol.size(); l++) {
-                    if (tablaIdenCol.get(l)[2].equals(tipo.get(k)[1])) {
+                    if (tablaIdenCol.get(l)[2].equals(tipo.get(k)[1]) && !tablaIdenCol.get(l)[3].equals("Null")) {
                         String[] temp1 = new String[2];
                         temp1[0] = tablaIdenCol.get(l)[1];
                         temp1[1] = tipo.get(k)[1];
                         tipo.add(k, temp1);
                         tipo.remove(k + 1);
                         dec = true;
+                    } else if (tablaIdenCol.get(l)[2].equals(tipo.get(k)[1]) && tablaIdenCol.get(l)[3].equals("Null")) {
+                        System.out.println("dead");
                     }
                 }
                 //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
