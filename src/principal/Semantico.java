@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JLabel;
@@ -185,9 +184,6 @@ public class Semantico {
             }
         }
         return false;
-//        int f = Integer.parseInt(fila) - 50;
-//        int c = Integer.parseInt(colum) - 50;
-//        return operLog[f][c] == 1;
     }
 
     public String calcular(String expresion, JTabbedPane tabPanel, ArrayList<String[]> arrlist, String var) throws Exception {
@@ -1188,10 +1184,4 @@ public class Semantico {
         Object[] filaDatos = {"", "", " ", " " + "", ""};
         modeloTabla.addRow(filaDatos);
     }
-
-    /*public void addFila(int i) {
-
-        Object[] filaDatos = {"", "Asign", "Fila ", (i + 1) + "", ""};
-        modeloTabla.addRow(filaDatos);
-    }*/
 }

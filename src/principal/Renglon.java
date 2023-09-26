@@ -6,6 +6,7 @@ public class Renglon {
         this.palabras = palabras;
     }
 
+
     public int[] getPalabras() {
         return palabras;
     }

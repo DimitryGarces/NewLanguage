@@ -2,6 +2,7 @@ package principal;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -18,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class InterfazPrincipal extends javax.swing.JFrame {
 
+    Sintactico sintac;
     Semantico objSem = new Semantico();
     int[] vecSal;
     NumLinecita numlinea;
@@ -353,16 +355,16 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         lbLex.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbLex.setText("Lexico:");
-        pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 280, -1, -1));
+        pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, -1, -1));
 
         lbSin.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbSin.setText("Sintactico:");
-        pnContenedor.add(lbSin, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 280, -1, -1));
+        pnContenedor.add(lbSin, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, -1, -1));
 
         lbSem.setBackground(new java.awt.Color(255, 255, 255));
         lbSem.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbSem.setText("Semantico:");
-        pnContenedor.add(lbSem, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 280, -1, -1));
+        pnContenedor.add(lbSem, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 280, -1, -1));
 
         jTProgramaSintactico.setEditable(false);
         jTProgramaSintactico.setBackground(new java.awt.Color(102, 102, 102));
@@ -569,368 +571,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnObjeto.setVisible(false);
         jTProgramaSintactico.setText("");
         jTProgramaSemantico.setText("");
-        String cadena = "";
-        int[] pp
-                = {
-                    45
-                };
-        Renglon p = new Renglon(pp);
-        codigoFuente[codigoFuente.length - 1] = p;
-        int mg[][] = {{},
-        {23, 188, 152, 151, 22, 51, 12},
-        {151, 31, 51, 13},
-        {},
-        {152, 153},
-        {},
-        {156},
-        {192},
-        {185},
-        {182},
-        {154, 155},
-        {},
-        {156},
-        {170},
-        {168},
-        {159},
-        {171},
-        {173},
-        {174},
-        {177},
-        {31, 193, 52},
-        {31, 52, 24},
-        {158, 35},
-        {166},
-        {17},
-        {18},
-        {160, 23, 154, 22, 21, 161, 20, 3},
-        {23, 154, 22, 4},
-        {},
-        {162, 166, 27, 166},
-        {161, 26},
-        {},
-        {50},
-        {51},
-        {164},
-        {53},
-        {54},
-        {165, 52},
-        {189},
-        {},
-        {167, 163},
-        {167, 163, 25},
-        {},
-        {31, 21, 169, 166, 20, 1},
-        {169, 166, 34},
-        {},
-        {31, 21, 52, 20, 2},
-        {23, 154, 22, 21, 172, 50, 30, 50, 20, 5},
-        {50, 29},
-        {},
-        {23, 154, 22, 21, 161, 20, 6},
-        {31, 21, 161, 20, 6, 23, 154, 22, 7},
-        {31, 11, 154, 30, 176, 8},
-        {53},
-        {51},
-        {50},
-        {23, 178, 22, 21, 52, 20, 9},
-        {178, 175},
-        {179},
-        {154, 30, 10},
-        {},
-        {52, 24},
-        {180, 16},
-        {23, 31, 52, 19, 154, 22, 21, 183, 20, 181},
-        {184, 180},
-        {183, 29},
-        {},
-        {23, 154, 22, 21, 186, 20, 51, 15},
-        {187, 180},
-        {186, 29},
-        {},
-        {23, 154, 22, 14},
-        {21, 190, 20},
-        {191, 52},
-        {191, 52, 29},
-        {},
-        {31, 157, 52},
-        {189},
-        {157}
-        };
 
-        int mt[][] = new int[45][55];
-        for (int i = 0; i < 45; i++) {
-            for (int j = 0; j < 55; j++) {
-                mt[i][j] = -1;
-            }
-        }
-        mt[0][12] = 1;
-        mt[1][13] = 2;
-        mt[1][14] = 3;
-        mt[1][15] = 3;
-        mt[1][16] = 3;
-        mt[1][24] = 3;
-        mt[1][52] = 3;
-        mt[2][14] = 5;
-        mt[2][15] = 4;
-        mt[2][16] = 4;
-        mt[2][24] = 4;
-        mt[2][52] = 4;
-        mt[3][15] = 8;
-        mt[3][16] = 9;
-        mt[3][24] = 6;
-        mt[3][31] = 7;
-        mt[3][52] = 7;
-        mt[4][1] = 10;
-        mt[4][2] = 10;
-        mt[4][3] = 10;
-        mt[4][5] = 10;
-        mt[4][6] = 10;
-        mt[4][7] = 10;
-        mt[4][9] = 10;
-        mt[4][11] = 11;
-        mt[4][19] = 11;
-        mt[4][23] = 11;
-        mt[4][24] = 10;
-        mt[4][52] = 10;
-        mt[5][1] = 14;
-        mt[5][2] = 13;
-        mt[5][3] = 15;
-        mt[5][5] = 16;
-        mt[5][6] = 17;
-        mt[5][7] = 18;
-        mt[5][9] = 19;
-//        mt[5][31] = 20;
-        mt[5][24] = 12;
-//        mt[5][34] = 10;
-        mt[5][52] = 20;
-        mt[6][24] = 21;
-        mt[7][35] = 22;
-        mt[8][17] = 24;
-        mt[8][18] = 25;
-
-        mt[8][50] = 23;
-        mt[8][51] = 23;
-        mt[8][52] = 23;
-        mt[8][53] = 23;
-        mt[8][54] = 23;
-
-        mt[9][3] = 26;
-        mt[10][1] = 28;
-        mt[10][2] = 28;
-        mt[10][3] = 28;
-        mt[10][4] = 27;
-        mt[10][5] = 28;
-        mt[10][6] = 28;
-        mt[10][7] = 28;
-        mt[10][9] = 28;
-        mt[10][11] = 28;
-        mt[10][19] = 28;
-        mt[10][23] = 28;
-        mt[10][24] = 28;
-        mt[10][52] = 28;
-
-        mt[11][50] = 29;
-        mt[11][51] = 29;
-        mt[11][52] = 29;
-        mt[11][53] = 29;
-        mt[11][54] = 29;
-//        mt[11][21] = 29;
-//        mt[11][25] = 29;
-        mt[11][27] = 29;
-//        mt[11][31] = 29;
-//        mt[11][34] = 29;
-        mt[12][21] = 31;
-        mt[12][26] = 30;
-
-        mt[13][50] = 32;
-        mt[13][51] = 33;
-        mt[13][52] = 34;
-        mt[13][53] = 35;
-        mt[13][54] = 36;
-
-        mt[14][52] = 37;
-
-        mt[15][20] = 38;
-        mt[15][21] = 39;
-        mt[15][25] = 39;
-        mt[15][26] = 39;
-        mt[15][27] = 39;
-        mt[15][31] = 39;
-        mt[15][34] = 39;
-
-        mt[16][50] = 40;
-        mt[16][51] = 40;
-        mt[16][52] = 40;
-        mt[16][53] = 40;
-        mt[16][54] = 40;
-
-        mt[17][21] = 42;
-        mt[17][25] = 41;
-        mt[17][26] = 42;
-        mt[17][27] = 42;
-        mt[17][31] = 42;
-        mt[17][34] = 42;
-
-        mt[18][1] = 43;
-
-        mt[19][21] = 45;
-        mt[19][34] = 44;
-
-        mt[20][2] = 46;
-
-        mt[21][5] = 47;
-
-        mt[22][21] = 49;
-        mt[22][29] = 48;
-
-        mt[23][6] = 50;
-
-        mt[24][7] = 51;
-
-        mt[25][8] = 52;
-
-        mt[26][53] = 53;
-        mt[26][51] = 54;
-        mt[26][50] = 55;
-
-        mt[27][9] = 56;
-
-        mt[28][8] = 57;
-        mt[28][10] = 58;
-        mt[28][23] = 58;
-
-        mt[29][10] = 59;
-        mt[29][23] = 60;
-
-        mt[30][24] = 61;
-
-        mt[31][16] = 62;
-
-        mt[32][16] = 63;
-
-        mt[33][24] = 64;
-
-        mt[34][29] = 65;
-        mt[34][21] = 66;
-
-        mt[35][15] = 67;
-
-        mt[36][24] = 68;
-
-        mt[37][29] = 69;
-        mt[37][21] = 70;
-
-        mt[38][14] = 71;
-
-        mt[39][20] = 72;
-
-        mt[40][52] = 73;
-
-        mt[41][29] = 74;
-        mt[41][21] = 75;
-
-        mt[42][52] = 76;
-
-        mt[43][20] = 77;
-        mt[43][35] = 78;
-
-        int vecMov[]
-                = {
-                    45, 150
-                };
-        int vecMovAux[];
-        int pr;
-        int pc;
-        int nl;
-        int tv;
-        Lexico le = new Lexico();
-        boolean banderaErrores = true;
-        int[] palabras;
-
-//        int[] pa;
-//        for (int i = 0; i < codigoFuente.length; i++) {
-//            pa = codigoFuente[i].getPalabras();
-//            for (int j = 0; j < pa.length; j++) {
-//                System.out.println("Linea "+i+" co"+pa[j]);
-//            }
-//        }
-        boolean error = false;
-        for (int h = 0; h < codigoFuente.length; h++) {
-            palabras = codigoFuente[h].getPalabras();
-            int i = 0;
-            do {
-                if (palabras.length == 0) {
-                    break;
-                }
-                pr = vecMov[vecMov.length - 1];
-                if (pr >= 150) {
-                    pr = pr - 150;
-                    pc = palabras[i];
-                    nl = mt[pr][pc];
-                    if (nl != -1) {
-                        vecMovAux = vecMov;
-                        vecMov = new int[(vecMovAux.length + mg[nl].length) - 1];
-                        tv = 0;
-                        for (int j = 0; j < vecMovAux.length - 1; j++) {
-                            vecMov[j] = vecMovAux[j];
-                        }
-                        for (int j = vecMovAux.length - 1; j < vecMov.length; j++) {
-                            vecMov[j] = mg[nl][tv];
-                            tv++;
-                        }
-                    } else {
-                        lbSin.setText("Sintactico: Incorrecto.");
-                        banderaErrores = false;
-                        error = true;
-                        String b = le.EtiquetarInvertido(palabras[i], false);
-
-                        jTProgramaSintactico.setText(jTProgramaSintactico.getText()
-                                + "Error sintactico en linea " + (h + 1) + " al recibir " + b + "\n");
-                        int contador = 0;
-
-                        i++;
-                        vecMovAux = vecMov;
-                        vecMov = new int[vecMovAux.length - contador];
-                        for (int j = 0; j < vecMov.length; j++) {
-                            vecMov[j] = vecMovAux[j];
-                        }
-                        break;
-                    }
-                } else {
-                    if (palabras[i] == vecMov[vecMov.length - 1]) {
-                        i++;
-                        vecMovAux = vecMov;
-                        vecMov = new int[vecMovAux.length - 1];
-                        for (int j = 0; j < vecMov.length; j++) {
-                            vecMov[j] = vecMovAux[j];
-                        }
-                    } else {
-                        lbSin.setText("Sintactico: Incorrecto.");
-                        banderaErrores = false;
-                        error = true;
-                        String b = le.EtiquetarInvertido(palabras[i], false);
-
-                        jTProgramaSintactico.setText(jTProgramaSintactico.getText()
-                                + "Error sintactico en linea " + (h + 1) + " con: " + b + "\n");
-                        i++;
-                        int contador = 0;
-                        vecMovAux = vecMov;
-                        vecMov = new int[vecMovAux.length - contador];
-                        for (int j = 0; j < vecMov.length; j++) {
-                            vecMov[j] = vecMovAux[j];
-                        }
-                        break;
-                    }
-                }
-            } while (i < palabras.length);
-            if (error) {
-                banderaErrores = false;
-                break;
-            }
-        }
-        if (vecMov.length == 0 && banderaErrores == true) {
-            lbSin.setText("Sintactico: Correcto.");
+        sintac = new Sintactico();
+        if (codigoFuente != null && sintac.ejecutar(codigoFuente)) {
             pnSemantico.setVisible(true);
+            lbSin.setText("Sintactico: Correcto ");
+        } else {
+            jTProgramaSintactico.setText(sintac.getErrores());
+            lbSin.setText("Sintactico: Incorrecto ");
         }
     }//GEN-LAST:event_lbSintacticoMouseClicked
 
@@ -1475,17 +1123,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     jTProgramaCodigoIntermedio.setText(opInfija);
                     asign = modifiarValor(variableAsig, valorL + "", i);
                     variableUtil(variableAsig, i);
-//                pila = transformar(exFin, i);
-//                do {
-//                    System.out.println("Pos: " + pila.pop());
-//                } while (!pila.estaVacia());
-                    //String op = objSem.evaluarLogicos(pila) + "";
-                    /*if ((op.equals("VER") || op.equals("FALS"))) {
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional correcta en linea " + (i + 1) + "\n");
-                } else {
-                    lbSem.setText("Semantico: Incorrecto");
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Operacion relacional incorrecta en linea " + (i + 1) + "\n");
-                }*/
                 } else {
                     lbSem.setText("Semantico: Incorrecto");
                     banderaErrores = false;
@@ -1595,27 +1232,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     pila = objSem.convertInfijPosCad(transformar(expresion, i));
                     asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
                     variableUtil(variableAsig, i);
-                } else if (opLogicos) {
-                     //Si es operador logico
-                    pila = objSem.convertInfijPosCad(transformar(expresion, i));
-                    asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
-                    variableUtil(variableAsig, i);
                 } else {
                     //Si es operacion logica/booleana
                     pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
-                    //asign = modifiarValor(variableAsig, objSem.evaluarLogicos(pila), i);
+                    asign = modifiarValor(variableAsig, objSem.evaluarLogicos(pila), i);
+                    variableUtil(variableAsig, i);
 
                     opInfija += "-----------Expresion-----------\n";
                     opInfija += "Infija: \n" + "    " + variableAsig + " = " + expresion + "   --> Linea: " + (i + 1) + "\n\n";
                     jTProgramaCodigoIntermedio.setText(opInfija);
                     variableUtil(variableAsig, i);
                 }
-                /*if (asign) {
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion correcta en linea " + (i + 1) + "\n");
-                } else {
-                    lbSem.setText("Semantico: Incorrecto");
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Asignacion incorrecta en linea " + (i + 1) + "\n");
-                }*/
             } else {
                 lbSem.setText("Semantico: Incorrecto");
                 banderaErrores = false;
@@ -1626,7 +1253,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }
 
     public boolean variableUtil(String variable, int i) {
-
         boolean dec = false;
         for (int l = 0; l < tablaIdenCol.size(); l++) {
             if (tablaIdenCol.get(l)[2].equals(variable)) {
@@ -1635,7 +1261,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 tablaIdenCol.add(l, temp1);
                 tablaIdenCol.remove(l + 1);
                 dec = true;
-                //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
             }
         }
         //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
@@ -1772,9 +1397,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }
 
     public boolean modifiarValor(String variable, String valor, int i) {
-//        for (int j = 0; j < tablaIdenCol.size(); j++) {
-//            System.out.println("Variables: "+ tablaIdenCol.get(j)[2]+" valor: "+tablaIdenCol.get(j)[3]);
-//        }
+
         boolean dec = false;
         for (int l = 0; l < tablaIdenCol.size(); l++) {
             if (tablaIdenCol.get(l)[2].equals(variable)) {
@@ -1783,7 +1406,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 tablaIdenCol.add(l, temp1);
                 tablaIdenCol.remove(l + 1);
                 dec = true;
-                //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
             }
         }
         //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
@@ -1806,9 +1428,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 }
             }
         }
-//        for (int j = 0; j < tablaIdenCol.size(); j++) {
-//            System.out.println("Variables: "+ tablaIdenCol.get(j)[2]+" valor modificado: "+tablaIdenCol.get(j)[3]);
-//        }
 
         System.out.println("Variable = " + variable + " Usada = " + dec);
 
@@ -1870,8 +1489,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 String[] temp1 = tablaIdenCol.get(l);
                 dec = true;
                 return temp1[4].equals("VER");
-
-                //jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Valor: " + valor + " a variable: " + variable + ", modificado correctamente\n");
             }
         }
         //Validamos que no se haya encontrado como variable, por lo que revisaremos si esta en rango de parametro
@@ -1896,14 +1513,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     public int eliminaMetFunSU() {
 
-//        for (int l = 0; l < tablaIdenCol.size(); l++) {
-//            System.out.println(tablaIdenCol.get(l)[0] + " " + tablaIdenCol.get(l)[2] + " " + tablaIdenCol.get(l)[4]);
-//        }
-//
-//        for (int l = 0; l < tablaIdenParam.size(); l++) {
-//            System.out.println(tablaIdenParam.get(l)[0] + " " + tablaIdenParam.get(l)[2] + " " + tablaIdenParam.get(l)[4]);
-//        }
-        //Dividimos nuestro programa de acuerdo a los renglones
         divisionRenglones = programaEjecutado.split("(?<=\\n)");
         StringTokenizer palabras;
         String palabra = "";
