@@ -1595,6 +1595,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     pila = objSem.convertInfijPosCad(transformar(expresion, i));
                     asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
                     variableUtil(variableAsig, i);
+                } else if (opLogicos) {
+                     //Si es operador logico
+                    pila = objSem.convertInfijPosCad(transformar(expresion, i));
+                    asign = modifiarValor(variableAsig, objSem.evaluarCadenas(pila) + "", i);
+                    variableUtil(variableAsig, i);
                 } else {
                     //Si es operacion logica/booleana
                     pila = objSem.convertInfijPosBooleans(transformar(expresion, i));
@@ -1717,7 +1722,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                             aux = tablaIdenCol.get(l)[3];
                             dec = true;
                         } else {
-                            System.out.println("Error no se tiene asignacion");
+                            System.out.println("Error no se tiene asignacion " + aux);
                             //Error
 
                             return null;
@@ -1770,7 +1775,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 //        for (int j = 0; j < tablaIdenCol.size(); j++) {
 //            System.out.println("Variables: "+ tablaIdenCol.get(j)[2]+" valor: "+tablaIdenCol.get(j)[3]);
 //        }
-
         boolean dec = false;
         for (int l = 0; l < tablaIdenCol.size(); l++) {
             if (tablaIdenCol.get(l)[2].equals(variable)) {
