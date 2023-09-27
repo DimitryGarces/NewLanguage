@@ -584,6 +584,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
 //        pnIntermedio.setVisible(true);
+        jTProgramaCodigoIntermedio.setVisible(false);
         variablesCAP = new ArrayList<String>();
 
         System.out.println("Arreglo Vacio " + variablesCAP);
@@ -1223,12 +1224,19 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                             //objSem.addFila(i);
                         }
                     } catch (Exception ex) {
+
                         pila = objSem.convertInfijPos(transformar(expresion, i));
                         String prefija = pila.prefija();
                         String p2 = "";
                         boolean aaa = true;
-
                         p2 = objSem.evaluarCadenas(pila);
+                        if (p2.equals("")) {
+                            aaa = false;
+                            lbSem.setText("Semantico: Incorrecto");
+                            banderaErrores = false;
+                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "La operacion contiene operaciones aritmeticas no validas en linea: " + (i + 1) + "\n");
+                        }
+                        System.out.println("++" + p2);
                         if (aaa) {
                             asign = modifiarValor(variableAsig, p2 + "", i);
                             variableUtil(variableAsig, i);
@@ -1243,11 +1251,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                             objSem.setValorFila("");
                             opInfija += "Resultado final === " + p2 + "\n\n";
                             jTProgramaCodigoIntermedio.setText(opInfija);
-                        } else {
-                            System.out.println("La operacion contiene variables sin declarar o inicializar");
+                        } else if (banderaErrores) {
+                            System.out.println("La operacion contiene variables sin declarar, inicializar o la");
                             lbSem.setText("Semantico: Incorrecto");
                             banderaErrores = false;
-                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "La operacion contiene variables sin declarar/inicializar en la LINEA: " + (i + 1) + "\n");
+                            jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "La operacion contiene variables sin declarar/inicializar en la****: " + (i + 1) + "\n");
 
                         }
 
@@ -1506,7 +1514,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 if (!dec) {
                     //Error de variable no declarada
                     lbSem.setText("Semantico: Incorrecto");
-                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada en linea " + (i + 1) + "\n");
+                    jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable no declarada/inicializa en linea " + (i + 1) + "\n");
                 }
 
             }
