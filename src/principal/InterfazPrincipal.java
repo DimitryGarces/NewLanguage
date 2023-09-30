@@ -874,7 +874,14 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         String textoNuevo = eliminaCAP(jTProgramaFuente.getText(), variablesCAP);
 
         System.out.println("Variables que se eliminan de CAP= " + variablesCAP);
-
+        for (int l = 0; l < tablaIdenCol.size(); l++) {
+            if (tablaIdenCol.get(l)[3].equals("Null")) {
+                System.out.println("Error no se tiene asignacion ");
+                //Error
+                lbSem.setText("Semantico: Incorrecto");
+                jTProgramaSemantico.setText(jTProgramaSemantico.getText() + "Variable declarada sin usar : " + tablaIdenCol.get(l)[2] + "\n");
+            }
+        }
     }//GEN-LAST:event_lbSemanticoMouseClicked
 
     public boolean funAmet(String tipo, StringTokenizer palabras, int i, String texto) {
