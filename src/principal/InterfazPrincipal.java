@@ -610,7 +610,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             jTProgramaSemantico.setText(jTProgramaSemantico.getText() + errorCAP);
         }
 
-        int rang[];
         //Dividimos nuestro programa de acuerdo a los renglones
         divisionRenglones = programaEjecutado.split("(?<=\\n)");
         StringTokenizer palabras, palabrasOper, palabrasAux;
@@ -620,10 +619,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         tablaIdenParam = new ArrayList<>();
         rangosAsig = new ArrayList<>();
         rangoFunMet = new ArrayList<>();
-        String palabra = "", texto = "", mensaje = "";
-        boolean palRep, varDec, banderaErrores = true, banderaVE = false;
+        String palabra = "", texto = "";
+        boolean palRep, banderaErrores = true, banderaVE = false;
         int palabrasAsig[];
-        String rango[];
 
         //Iniciamos un recorrido para ver el rango de variables utilizadas en funciones y ademas declararlas
         for (int i = 0; i < divisionRenglones.length; i++) {
@@ -714,7 +712,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             Si no se esta declarando verificaremos si se realiza alguna accion con la variable*/ else {
                 int pos = -1;
 
-                varDec = false;
                 int y = 0;
                 banderaVE = false;
                 //Obtenemos las palabras de ese renglon
@@ -786,48 +783,51 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                                     + palabra + " en la linea " + (i + 1) + "\n");
                             banderaErrores = false;
                         }
-                    }//Verificamos ademas los ciclos o condicionales que ocupen variables 
-                    else if (palabrasAsig[pos] == 52 && palabrasAsig[pos + 1] == 27
+                    } /*Verificamos ademas los ciclos o
+                    condicionales que ocupen variables 
+                     */ else if ((palabrasAsig[pos] >= 50 && palabrasAsig[pos] <= 53)
+                            && palabrasAsig[pos + 1] == 27
                             && (palabrasAsig[pos + 2] >= 50 && palabrasAsig[pos + 2] <= 53)) {
                         for (int j = 0; j < pos - 1; j++) {
                             palabra = palabras.nextToken();
                         }
                         //Verificamos que la variable haya sido declarada
-                        if (!rangosAsig.isEmpty()) {
-                            String l = " ";
-                            for (int j = 0; j < rangosAsig.size(); j++) {
-                                /*Si al recorrer los rangos agregados comprobamos que 
+                        if (lexInv.Etiquetar(palabra).numero == 52) {
+                            if (!rangosAsig.isEmpty()) {
+                                String l = " ";
+                                for (int j = 0; j < rangosAsig.size(); j++) {
+                                    /*Si al recorrer los rangos agregados comprobamos que 
                                 la delcaracion esta entre el rango de alguna funcion entonces llamaremos a sus parametros*/
-                                if (i >= Integer.parseInt(rangosAsig.get(j)[1])
-                                        && i <= Integer.parseInt(rangosAsig.get(j)[2])) {
-                                    l = rangosAsig.get(j)[0];
-                                    break;
+                                    if (i >= Integer.parseInt(rangosAsig.get(j)[1])
+                                            && i <= Integer.parseInt(rangosAsig.get(j)[2])) {
+                                        l = rangosAsig.get(j)[0];
+                                        break;
+                                    }
                                 }
-                            }
-                            /*Una vez que haya encontrado el nombre del metodo podra ir comparando ahora el nombre de las 
+                                /*Una vez que haya encontrado el nombre del metodo podra ir comparando ahora el nombre de las 
                             variables que tengan esos parametros y determinar si ya a sido declarada antes*/
-                            if (!l.equals(" ")) {
-                                for (int j = 0; j < tablaIdenParam.size(); j++) {
-                                    if (tablaIdenParam.get(j)[0].equals(l)) {
-                                        if (palabra.equals(tablaIdenParam.get(j)[2])) {
-                                            banderaVE = true;
-                                            //Variable declarada continua procedimiento
+                                if (!l.equals(" ")) {
+                                    for (int j = 0; j < tablaIdenParam.size(); j++) {
+                                        if (tablaIdenParam.get(j)[0].equals(l)) {
+                                            if (palabra.equals(tablaIdenParam.get(j)[2])) {
+                                                banderaVE = true;
+                                                //Variable declarada continua procedimiento
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        /*Como se trata de asignacion verificaremos que la palabra anteriormente guardada
-                    este declarada en nuestra lista de variables
-                         */
-                        if (!banderaVE) {
-                            for (int j = 0; j < tablaIdenCol.size(); j++) {
-                                if (tablaIdenCol.get(j)[2].equals(palabra)) {
-                                    banderaVE = true;
-                                    y = j;
-                                    break;
+                            if (!banderaVE) {
+                                for (int j = 0; j < tablaIdenCol.size(); j++) {
+                                    if (tablaIdenCol.get(j)[2].equals(palabra)) {
+                                        banderaVE = true;
+                                        y = j;
+                                        break;
+                                    }
                                 }
                             }
+                        } else {
+                            banderaVE = true;
                         }
                         /*Si la variable fue declarada, por el momento es correcto y 
                     se validaran sus operaciones correspondientes a la*/
@@ -1036,7 +1036,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             String exFin = "(";
             do {
                 //Empezaremos a buscar las expresiones utilizadas en su condicion
-                aux = eliminarEspacios(palabras.nextToken().replaceAll("\\n", ""));
+                aux = eliminarEspacios(palabras.nextToken().replaceAll("\\n", "").replaceAll(" ", ""));
                 exFin += aux;
 //                System.out.println("a" + aux + "a");
                 if (!aux.equals(" ") && !aux.equals(";") && !aux.equals("")
@@ -1048,7 +1048,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                         case "=":
                         case "&":
                         case "|":
-                            aux2 = palabras.nextToken().replaceAll("\\n", "");
+                            aux2 = palabras.nextToken().replaceAll("\\n", "").replaceAll(" ", "");
                             //Validamos si la operacion relacional es compuesta o simple 2>=3
                             if (aux2.equals("<") || aux2.equals(">") || aux2.equals("=")
                                     || aux2.equals("&") || aux2.equals("|")) {
@@ -1084,7 +1084,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
                 }
             } while (palabras.hasMoreElements() && par != 0);
-
             tipo = obtenTipo(tipo, i);
             //Fase de pruebas
             boolean b = true;
@@ -1345,7 +1344,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 resultado.append(c);
             }
         }
-        return resultado.toString();
+        return resultado.toString().replaceAll("\\b", "");
     }
 
     public Pila<String> transformar(String expresion, int i) {

@@ -178,6 +178,10 @@ public class Semantico {
     public boolean operLogCompatibles(String fila, String op, String colum) {
         if (fila.equals("50") && colum.equals("50")) {
             return true;
+        }else if (fila.equals("51") && op.equals("27")&& colum.equals("51")) {
+            return true;
+        }else if (fila.equals("54") && op.equals("27")&& colum.equals("54")) {
+            return true;
         } else if (fila.equals(colum)) {
             if (op.equals("==") || op.equals("!")) {
                 return true;
