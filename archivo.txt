@@ -1,10 +1,9 @@
 CLASE "ejemploDeCodigo" {
- PRINCIPAL{ 
-CAD probando12;
-probando12= "hola";
-CAD probando13;
-probando13= "hola2";
-CAD probando14;
-probando14 = probando12 + probando13;
+PRINCIPAL{ 
+NUM x;
+x=20;
+HACER {
+}MIENTRAS(x<9);
 }
 }
+

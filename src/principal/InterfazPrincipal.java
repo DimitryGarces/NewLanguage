@@ -1014,10 +1014,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
          */
 
         palabras = new StringTokenizer(divisionRenglones[i], ";=(),+-*/^&|><", true);
-        StringTokenizer p = new StringTokenizer(divisionRenglones[i], ";=(),&|><", true);
+        StringTokenizer p = new StringTokenizer(divisionRenglones[i], ";=(),&|><}", true);
         String variableAsig = palabras.nextToken().replaceAll("\\n", "");
         p.nextToken();
-        variableAsig = variableAsig.replaceAll(" ", "");
+        variableAsig = variableAsig.replaceAll(" ", "").replaceAll("\\}", "");
         //Validemos que no se trate de una operacion relacional
         String expresion = "", aux = "";
         palabras.nextToken();
@@ -1025,6 +1025,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         boolean bol = true, opLogicos = false;
         List<String[]> tipo = new ArrayList<>();
         String aux2;
+        System.out.println(variableAsig);
         if (variableAsig.equals("MIENTRAS") || variableAsig.equals("STF")) {
             //Si es operador relacional
             int par = 1;
