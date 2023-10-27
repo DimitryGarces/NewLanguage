@@ -1677,7 +1677,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         StringBuilder nuevoResultado = new StringBuilder();
         for (String linea : lineas) {
             if (!linea.trim().isEmpty()) {
-                nuevoResultado.append(linea).append("\n");
+                nuevoResultado.append(linea.replaceAll(";", "")).append("\n");
             }
         }
         jTProgramaCodigoIntermedio.setText(nuevoResultado.toString());
