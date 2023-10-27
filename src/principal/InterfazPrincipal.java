@@ -60,12 +60,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         pnContenedor = new javax.swing.JPanel();
-        pnCarga1 = new javax.swing.JPanel();
-        lbCargar = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        pnGuardar = new javax.swing.JPanel();
-        lbGuardar = new javax.swing.JLabel();
         pnSintactico = new javax.swing.JPanel();
         lbSintactico = new javax.swing.JLabel();
         pnSemantico = new javax.swing.JPanel();
@@ -94,40 +90,16 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         jTProgramaCodigoIntermedio = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        pnGuardar = new javax.swing.JPanel();
+        lbGuardar = new javax.swing.JLabel();
+        pnCarga1 = new javax.swing.JPanel();
+        lbCargar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pnContenedor.setBackground(new java.awt.Color(204, 204, 204));
         pnContenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        pnCarga1.setBackground(new java.awt.Color(204, 204, 204));
-
-        lbCargar.setBackground(new java.awt.Color(204, 204, 204));
-        lbCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/jugar.png"))); // NOI18N
-        lbCargar.setText("Cargar");
-        lbCargar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbCargar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbCargarMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnCarga1Layout = new javax.swing.GroupLayout(pnCarga1);
-        pnCarga1.setLayout(pnCarga1Layout);
-        pnCarga1Layout.setHorizontalGroup(
-            pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnCarga1Layout.createSequentialGroup()
-                .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        pnCarga1Layout.setVerticalGroup(
-            pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCarga1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        pnContenedor.add(pnCarga1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 70, 80, 30));
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel1.setText("Programa Fuente");
@@ -138,36 +110,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jLabel2.setText("Programa Compilado");
         pnContenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
-        pnGuardar.setBackground(new java.awt.Color(204, 204, 204));
-
-        lbGuardar.setBackground(new java.awt.Color(255, 255, 255));
-        lbGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar-el-archivo.png"))); // NOI18N
-        lbGuardar.setText("Guardar");
-        lbGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbGuardarMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnGuardarLayout = new javax.swing.GroupLayout(pnGuardar);
-        pnGuardar.setLayout(pnGuardarLayout);
-        pnGuardarLayout.setHorizontalGroup(
-            pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnGuardarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pnGuardarLayout.setVerticalGroup(
-            pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGuardarLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        pnContenedor.add(pnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 20, 80, 30));
-
         pnSintactico.setBackground(new java.awt.Color(255, 255, 255));
         pnSintactico.setMinimumSize(new java.awt.Dimension(83, 28));
 
@@ -176,7 +118,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbSintactico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/sintaxis (1).png"))); // NOI18N
         lbSintactico.setText("Sintactico");
         lbSintactico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        lbSintactico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbSintactico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lbSintactico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbSintacticoMouseClicked(evt);
@@ -196,7 +138,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbSintactico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnSintactico, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 500, 100, 30));
+        pnContenedor.add(pnSintactico, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 470, 100, 30));
 
         pnSemantico.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -205,7 +147,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbSemantico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/semantica.png"))); // NOI18N
         lbSemantico.setText("Semantico");
         lbSemantico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        lbSemantico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbSemantico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lbSemantico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbSemanticoMouseClicked(evt);
@@ -228,8 +170,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbSemantico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnSemantico, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 500, 110, 30));
+        pnContenedor.add(pnSemantico, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 460, 110, 30));
 
+        pnOptimizacion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lbOptimizacion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbOptimizacion.setText("Optimizacion");
         lbOptimizacion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -252,8 +197,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbOptimizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnOptimizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 190, 70, 30));
+        pnContenedor.add(pnOptimizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 230, 70, 30));
 
+        pnIntermedio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lbIntermedio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbIntermedio.setText("Intermedio");
         lbIntermedio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -266,8 +214,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnIntermedioLayout.setHorizontalGroup(
             pnIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnIntermedioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbIntermedio)
+                .addComponent(lbIntermedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnIntermedioLayout.setVerticalGroup(
@@ -277,7 +224,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbIntermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 500, 70, 30));
+        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 170, 70, 30));
 
         pnLexico.setBackground(new java.awt.Color(255, 255, 255));
         pnLexico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -286,7 +233,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbLexico.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         lbLexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eleccion-de-idioma.png"))); // NOI18N
         lbLexico.setText("Lexico");
-        lbLexico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbLexico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lbLexico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbLexicoMouseClicked(evt);
@@ -308,8 +255,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbLexico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnLexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 500, -1, 30));
+        pnContenedor.add(pnLexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 470, -1, 30));
 
+        pnObjeto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lbObjeto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbObjeto.setText("Objeto");
 
         javax.swing.GroupLayout pnObjetoLayout = new javax.swing.GroupLayout(pnObjeto);
@@ -327,7 +277,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 130, 70, 30));
+        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 290, 70, 30));
 
         jScrollPane1.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -342,7 +292,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTProgramaFuente);
 
-        pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 450, 230));
+        pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 370, 220));
 
         jTProgramaCompilado.setEditable(false);
         jTProgramaCompilado.setBackground(new java.awt.Color(102, 102, 102));
@@ -351,20 +301,20 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaCompilado.setRows(5);
         jScrollPane2.setViewportView(jTProgramaCompilado);
 
-        pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 260, 220));
+        pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 270, 220));
 
         lbLex.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbLex.setText("Lexico:");
-        pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, -1, -1));
+        pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, -1));
 
         lbSin.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbSin.setText("Sintactico:");
-        pnContenedor.add(lbSin, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, -1, -1));
+        pnContenedor.add(lbSin, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, -1, -1));
 
         lbSem.setBackground(new java.awt.Color(255, 255, 255));
         lbSem.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         lbSem.setText("Semantico:");
-        pnContenedor.add(lbSem, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 280, -1, -1));
+        pnContenedor.add(lbSem, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, -1, -1));
 
         jTProgramaSintactico.setEditable(false);
         jTProgramaSintactico.setBackground(new java.awt.Color(102, 102, 102));
@@ -373,7 +323,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSintactico.setRows(5);
         jScrollPane3.setViewportView(jTProgramaSintactico);
 
-        pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 320, 310, 160));
+        pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 310, 160));
 
         jTProgramaSemantico.setEditable(false);
         jTProgramaSemantico.setBackground(new java.awt.Color(102, 102, 102));
@@ -382,7 +332,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSemantico.setRows(5);
         jScrollPane4.setViewportView(jTProgramaSemantico);
 
-        pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 320, 260, 160));
+        pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 290, 320, 160));
 
         erroresLexicos.setEditable(false);
         erroresLexicos.setBackground(new java.awt.Color(102, 102, 102));
@@ -391,7 +341,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         erroresLexicos.setRows(5);
         jScrollPane5.setViewportView(erroresLexicos);
 
-        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 300, 160));
+        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 280, 160));
 
         jTProgramaCodigoIntermedio.setEditable(false);
         jTProgramaCodigoIntermedio.setBackground(new java.awt.Color(102, 102, 102));
@@ -400,27 +350,109 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaCodigoIntermedio.setRows(5);
         jScrollPane7.setViewportView(jTProgramaCodigoIntermedio);
 
-        pnContenedor.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 40, 410, 230));
+        pnContenedor.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 40, 330, 220));
 
         jLabel3.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel3.setText("Codigo intermedio");
-        pnContenedor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, -1, 20));
+        pnContenedor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, -1, 20));
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+
+        pnGuardar.setBackground(new java.awt.Color(204, 204, 204));
+
+        lbGuardar.setBackground(new java.awt.Color(255, 255, 255));
+        lbGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar-el-archivo.png"))); // NOI18N
+        lbGuardar.setText("Guardar");
+        lbGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbGuardarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnGuardarLayout = new javax.swing.GroupLayout(pnGuardar);
+        pnGuardar.setLayout(pnGuardarLayout);
+        pnGuardarLayout.setHorizontalGroup(
+            pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnGuardarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnGuardarLayout.setVerticalGroup(
+            pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGuardarLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        pnCarga1.setBackground(new java.awt.Color(204, 204, 204));
+
+        lbCargar.setBackground(new java.awt.Color(204, 204, 204));
+        lbCargar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/jugar.png"))); // NOI18N
+        lbCargar.setText("Cargar");
+        lbCargar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lbCargar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbCargarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnCarga1Layout = new javax.swing.GroupLayout(pnCarga1);
+        pnCarga1.setLayout(pnCarga1Layout);
+        pnCarga1Layout.setHorizontalGroup(
+            pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnCarga1Layout.createSequentialGroup()
+                .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        pnCarga1Layout.setVerticalGroup(
+            pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCarga1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnCarga1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnCarga1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(pnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        pnContenedor.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 50, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 1303, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0)
+                .addComponent(pnContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 1144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(pnContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -583,7 +615,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_lbSintacticoMouseClicked
 
     private void lbSemanticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSemanticoMouseClicked
-//        pnIntermedio.setVisible(true);
+        pnIntermedio.setVisible(true);
         jTProgramaCodigoIntermedio.setVisible(false);
         variablesCAP = new ArrayList<String>();
 
@@ -1636,7 +1668,21 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }
     private void lbIntermedioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbIntermedioMouseClicked
         pnOptimizacion.setVisible(true);
-        // TODO add your handling code here:
+        String[] lineArray = new String[0];
+        String text = jTProgramaFuente.getText();
+        lineArray = text.split("\n");
+        CodigoIntermedioGenerator intermedio = new CodigoIntermedioGenerator();
+        String resultado = intermedio.generarCodigoIntermedio(lineArray);
+        String[] lineas = resultado.split("\n");
+        StringBuilder nuevoResultado = new StringBuilder();
+        for (String linea : lineas) {
+            if (!linea.trim().isEmpty()) {
+                nuevoResultado.append(linea).append("\n");
+            }
+        }
+        jTProgramaCodigoIntermedio.setText(nuevoResultado.toString());
+        pnIntermedio.setVisible(true);
+        jTProgramaCodigoIntermedio.setVisible(true);
     }//GEN-LAST:event_lbIntermedioMouseClicked
 
     private void lbOptimizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbOptimizacionMouseClicked
@@ -1811,6 +1857,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
