@@ -120,15 +120,12 @@ public class CodigoIntermedioGenerator {
     }
 
     private boolean esOperadorAritmetico(String token) {
-        if (token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/")) {
-            return true;
-        }
-        return false;
+        return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
     }
 
     public String codigoSTF(String[] linea) {
-        for (int i = 0; i < linea.length; i++) {
-            System.out.println("#######" + linea[i]);
+        for (String linea1 : linea) {
+            System.out.println("#######" + linea1);
         }
         return null;
 
