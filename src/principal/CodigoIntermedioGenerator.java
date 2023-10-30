@@ -5,7 +5,6 @@
 package principal;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -13,7 +12,6 @@ import java.util.regex.Pattern;
 
 public class CodigoIntermedioGenerator {
 
-    private int temporalCount = 1;
     int etiquetaActual2 = 0;  // Empieza en 0 y aumenta de 10 en 10
 
     // Función para generar una nueva etiqueta
@@ -158,9 +156,151 @@ public class CodigoIntermedioGenerator {
             int EFalsa = etiquetaActual + 20;
             etiquetaActual2 += 20;
             String nuevoSTF = primeraLinea.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\{", "");
-            resultado.append(nuevoSTF).append(" goto E").append(EVerdadera).append("\n");
-            resultado.append("goto E").append(EFalsa).append("\n");
-            resultado.append("E").append(EVerdadera).append(":").append("\n");
+            if (primeraLinea.contains("&&") || primeraLinea.contains("||")) {
+                String patron = "\\((.*?)\\)";
+                Pattern pattern = Pattern.compile(patron);
+                Matcher matcher = pattern.matcher(primeraLinea);
+                String parentesis = "";
+                if (matcher.find()) {
+                    parentesis = matcher.group(1);
+                }
+                System.out.println(parentesis);
+                String[] partes = parentesis.split("\\|\\| | && ");
+                String operadores = parentesis.replaceAll("[^|&]+", "");
+                StringBuilder nuevaLinea = new StringBuilder();
+                for (int i = 0; i < operadores.length(); i += 2) {
+                    nuevaLinea.append(operadores.substring(i, Math.min(i + 2, operadores.length())));
+                    if (i + 2 < operadores.length()) {
+                        nuevaLinea.append(" ");
+                    }
+                }
+                operadores = nuevaLinea.toString();
+                String[] operadoresSeparados = operadores.split(" ");
+                for (int i = 0; i < operadoresSeparados.length; i++) {
+                    System.out.println(operadoresSeparados.length);
+                    if (operadoresSeparados.length == 1) {
+                        if (operadoresSeparados[i].equals("||")) {
+                            resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                            resultado.append("goto E").append(EFalsa).append("\n");
+                            resultado.append("E").append(EFalsa).append(":\n");
+                            int EFalsa2 = etiquetaActual2 + 10;
+                            EFalsa = EFalsa2;
+                            etiquetaActual2 += 10;
+                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                            resultado.append("goto E").append(EFalsa2).append("\n");
+                            resultado.append("E").append(EVerdadera).append(":\n");
+                        } else {
+                            if (operadoresSeparados[i].equals("&&")) {
+                                resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                resultado.append("goto E").append(EFalsa).append("\n");
+                                resultado.append("E").append(EVerdadera).append(":\n");
+                                int EVerdadera2 = etiquetaActual2 + 10;
+                                EVerdadera = EVerdadera2;
+                                etiquetaActual2 += 10;
+                                resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera2).append("\n");
+                                resultado.append("goto E").append(EFalsa).append("\n");
+                                resultado.append("E").append(EVerdadera2).append(":\n");
+                            }
+                        }
+                    } else {
+                        if (i == operadoresSeparados.length - 1) {
+                            if (operadoresSeparados[i].equals("||")) {
+                                System.out.println("ENTRO AQUI");
+                                int EFalsa2 = etiquetaActual2 + 10;
+                                EFalsa = EFalsa2;
+                                etiquetaActual2 += 10;
+                                resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                resultado.append("goto E").append(EFalsa2).append("\n");
+                                resultado.append("E").append(EVerdadera).append(":\n");
+                            } else {
+                                if (operadoresSeparados[i].equals("&&")) {
+                                    int EVerdadera2 = etiquetaActual2 + 10;
+                                    EVerdadera = EVerdadera2;
+                                    etiquetaActual2 += 10;
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera2).append("\n");
+                                    resultado.append("goto E").append(EFalsa).append("\n");
+                                    resultado.append("E").append(EVerdadera2).append(":\n");
+                                }
+                            }
+
+                        } else {
+                            if (i != 0) {
+                                if (operadoresSeparados[i].equals("||")) {
+                                    int EFalsa2 = etiquetaActual2 + 10;
+                                    int EFalsa3 = etiquetaActual2 + 10;
+                                    EFalsa = EFalsa3;
+                                    etiquetaActual2 += 20;
+                                    i++;
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa2).append("\n");
+                                    resultado.append("E").append(EFalsa2).append(":\n");
+                                    if (i == operadoresSeparados.length - 1) {
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa3 + 10).append("\n");
+                                        EFalsa = EFalsa3 + 10;
+                                        resultado.append("E").append(EVerdadera).append(":\n");
+                                    } else {
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa3).append("\n");
+                                        resultado.append("E").append(EFalsa3).append(":\n");
+                                    }
+                                } else {
+                                    if (operadoresSeparados[i].equals("&&")) {
+                                        int EVerdadera2 = etiquetaActual2 + 10;
+                                        int EVerdadera3 = etiquetaActual2 + 10;
+                                        EVerdadera = EVerdadera3;
+                                        etiquetaActual2 += 20;
+                                        i++;
+                                        resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera2).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera2).append(":\n");
+                                        if (i == operadoresSeparados.length - 1) {
+                                            EVerdadera3 = EVerdadera3 + 10;
+//                                            etiquetaActual2 += 10;
+                                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera3).append("\n");
+                                            resultado.append("goto E").append(EFalsa).append("\n");
+                                            resultado.append("E").append(EVerdadera3).append(":\n");
+                                        } else {
+                                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera3).append("\n");
+                                            resultado.append("goto E").append(EFalsa).append("\n");
+                                            resultado.append("E").append(EVerdadera3).append(":\n");
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (operadoresSeparados[i].equals("||")) {
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa).append("\n");
+                                    resultado.append("E").append(EFalsa).append(":\n");
+                                    int EFalsa2 = etiquetaActual2 + 10;
+                                    EFalsa = EFalsa2;
+                                    etiquetaActual2 += 10;
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa2).append("\n");
+                                    resultado.append("E").append(EFalsa2).append(":\n");
+                                } else {
+                                    if (operadoresSeparados[i].equals("&&")) {
+                                        resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera).append(":\n");
+                                        int EVerdadera2 = etiquetaActual2 + 10;
+                                        EVerdadera = EVerdadera2;
+                                        etiquetaActual2 += 10;
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera2).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera2).append(":\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                resultado.append(nuevoSTF).append(" goto E").append(EVerdadera).append("\n");
+                resultado.append("goto E").append(EFalsa).append("\n");
+                resultado.append("E").append(EVerdadera).append(":").append("\n");
+            }
             int condicionesAbiertas2 = 0;
             List<String> bloqueCondicion2 = new ArrayList<>();
             boolean bloqueAbierto2 = false;
@@ -260,33 +400,307 @@ public class CodigoIntermedioGenerator {
                     }
                 }
             }
-            String patron = "\\((.*?)\\)";
-            Pattern pattern = Pattern.compile(patron);
-            Matcher matcher = pattern.matcher(bloqueActual.get(bloqueActual.size() - 1));
-            String parentesis = "";
-            if (matcher.find()) {
-                parentesis = matcher.group(1); // El grupo 1 contiene el contenido entre paréntesis.
+            String patron2 = "\\((.*?)\\)";
+            Pattern pattern2 = Pattern.compile(patron2);
+            Matcher matcher2 = pattern2.matcher(bloqueActual.get(bloqueActual.size() - 1));
+            String parentesis2 = "";
+            if (matcher2.find()) {
+                parentesis2 = matcher2.group(1); // El grupo 1 contiene el contenido entre paréntesis.
             }
-            resultado.append("STF ").append(parentesis).append(" goto E").append(EVerdadera).append("\n");
-            resultado.append("goto E").append(EFalsa).append("\n");
-            resultado.append("E").append(EFalsa).append(":\n");
+            if (parentesis2.contains("&&") || primeraLinea.contains("||")) {
+                EVerdadera = etiquetaActual2 + 10;
+                etiquetaActual2 += 10;
+                System.out.println("ENTRO AQUI");
+                String[] partes = parentesis2.split("\\|\\| | && ");
+                String operadores = parentesis2.replaceAll("[^|&]+", "");
+                StringBuilder nuevaLinea = new StringBuilder();
+                for (int i = 0; i < operadores.length(); i += 2) {
+                    nuevaLinea.append(operadores.substring(i, Math.min(i + 2, operadores.length())));
+                    if (i + 2 < operadores.length()) {
+                        nuevaLinea.append(" ");
+                    }
+                }
+                operadores = nuevaLinea.toString();
+                String[] operadoresSeparados = operadores.split(" ");
+                for (int i = 0; i < operadoresSeparados.length; i++) {
+                    System.out.println(operadoresSeparados.length);
+                    if (operadoresSeparados.length == 1) {
+                        if (operadoresSeparados[i].equals("||")) {
+                            resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                            resultado.append("goto E").append(EFalsa).append("\n");
+                            resultado.append("E").append(EFalsa).append(":\n");
+                            int EFalsa2 = etiquetaActual2 + 10;
+                            EFalsa = EFalsa2;
+                            etiquetaActual2 += 10;
+                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                            resultado.append("goto E").append(EFalsa2).append("\n");
+                            resultado.append("E").append(EVerdadera).append(":\n");
+                        } else {
+                            if (operadoresSeparados[i].equals("&&")) {
+                                resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                resultado.append("goto E").append(EFalsa).append("\n");
+                                resultado.append("E").append(EVerdadera).append(":\n");
+                                resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(SComienzo).append("\n");
+                                resultado.append("goto E").append(EFalsa).append("\n");
+                                resultado.append("E").append(EFalsa).append(":\n");
+                            }
+                        }
+                    } else {
+                        if (i == operadoresSeparados.length - 1) {
+                            if (operadoresSeparados[i].equals("||")) {
+                                System.out.println("ENTRO AQUI");
+                                int EFalsa2 = etiquetaActual2 + 10;
+                                EFalsa = EFalsa2;
+                                etiquetaActual2 += 10;
+                                resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                resultado.append("goto E").append(EFalsa2).append("\n");
+                                resultado.append("E").append(EVerdadera).append(":\n");
+                            } else {
+                                if (operadoresSeparados[i].equals("&&")) {
+                                    int EVerdadera2 = etiquetaActual2 + 10;
+                                    EVerdadera = EVerdadera2;
+                                    etiquetaActual2 += 10;
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(SComienzo).append("\n");
+                                    resultado.append("goto E").append(EFalsa).append("\n");
+                                    resultado.append("E").append(EFalsa).append(":\n");
+                                }
+                            }
+                        } else {
+                            if (i != 0) {
+                                if (operadoresSeparados[i].equals("||")) {
+                                    int EFalsa2 = etiquetaActual2 + 10;
+                                    int EFalsa3 = etiquetaActual2 + 10;
+                                    EFalsa = EFalsa3;
+                                    etiquetaActual2 += 20;
+                                    i++;
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa2).append("\n");
+                                    resultado.append("E").append(EFalsa2).append(":\n");
+                                    if (i == operadoresSeparados.length - 1) {
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa3 + 10).append("\n");
+                                        EFalsa = EFalsa3 + 10;
+                                        resultado.append("E").append(EVerdadera).append(":\n");
+                                    } else {
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa3).append("\n");
+                                        resultado.append("E").append(EFalsa3).append(":\n");
+                                    }
+                                } else {
+                                    if (operadoresSeparados[i].equals("&&")) {
+                                        int EVerdadera2 = etiquetaActual2 + 10;
+                                        int EVerdadera3 = etiquetaActual2 + 10;
+                                        EVerdadera = EVerdadera3;
+                                        etiquetaActual2 += 20;
+                                        i++;
+                                        resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera2).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera2).append(":\n");
+                                        if (i == operadoresSeparados.length - 1) {
+//                                            EVerdadera3 = EVerdadera3 + 10;
+//                                            etiquetaActual2 += 10;
+                                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(SComienzo).append("\n");
+                                            resultado.append("goto E").append(EFalsa).append("\n");
+                                            resultado.append("E").append(EFalsa).append(":\n");
+                                        } else {
+                                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera3).append("\n");
+                                            resultado.append("goto E").append(EFalsa).append("\n");
+                                            resultado.append("E").append(EVerdadera3).append(":\n");
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (operadoresSeparados[i].equals("||")) {
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa).append("\n");
+                                    resultado.append("E").append(EFalsa).append(":\n");
+                                    int EFalsa2 = etiquetaActual2 + 10;
+                                    EFalsa = EFalsa2;
+                                    etiquetaActual2 += 10;
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa2).append("\n");
+                                    resultado.append("E").append(EFalsa2).append(":\n");
+                                } else {
+                                    if (operadoresSeparados[i].equals("&&")) {
+                                        resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera).append(":\n");
+                                        int EVerdadera2 = etiquetaActual2 + 10;
+                                        EVerdadera = EVerdadera2;
+                                        etiquetaActual2 += 10;
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera2).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera2).append(":\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                resultado.append("STF ").append(parentesis2).append(" goto E").append(EVerdadera).append("\n");
+                resultado.append("goto E").append(EFalsa).append("\n");
+                resultado.append("E").append(EFalsa).append(":\n");
+            }
             return resultado;
         } else if (primeraLinea.startsWith("MIENTRAS")) {
             int SComienzo = etiquetaActual + 10;
             int EVerdadera = etiquetaActual + 20;
             int EFalsa = etiquetaActual + 30;
             etiquetaActual2 += 30;
-            String patron = "\\((.*?)\\)";
-            Pattern pattern = Pattern.compile(patron);
-            Matcher matcher = pattern.matcher(primeraLinea);
-            String parentesis = "";
-            if (matcher.find()) {
-                parentesis = matcher.group(1); // El grupo 1 contiene el contenido entre paréntesis.
+            if (primeraLinea.contains("&&") || primeraLinea.contains("||")) {
+                System.out.println("ENTRO AQUI");
+                resultado.append("E").append(SComienzo).append(":\n");
+                String patron = "\\((.*?)\\)";
+                Pattern pattern = Pattern.compile(patron);
+                Matcher matcher = pattern.matcher(primeraLinea);
+                String parentesis = "";
+                if (matcher.find()) {
+                    parentesis = matcher.group(1);
+                }
+                System.out.println(parentesis);
+                String[] partes = parentesis.split("\\|\\| | && ");
+                String operadores = parentesis.replaceAll("[^|&]+", "");
+                StringBuilder nuevaLinea = new StringBuilder();
+                for (int i = 0; i < operadores.length(); i += 2) {
+                    nuevaLinea.append(operadores.substring(i, Math.min(i + 2, operadores.length())));
+                    if (i + 2 < operadores.length()) {
+                        nuevaLinea.append(" ");
+                    }
+                }
+                operadores = nuevaLinea.toString();
+                String[] operadoresSeparados = operadores.split(" ");
+                for (int i = 0; i < operadoresSeparados.length; i++) {
+                    System.out.println(operadoresSeparados.length);
+                    if (operadoresSeparados.length == 1) {
+                        if (operadoresSeparados[i].equals("||")) {
+                            resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                            resultado.append("goto E").append(EFalsa).append("\n");
+                            resultado.append("E").append(EFalsa).append(":\n");
+                            int EFalsa2 = etiquetaActual2 + 10;
+                            EFalsa = EFalsa2;
+                            etiquetaActual2 += 10;
+                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                            resultado.append("goto E").append(EFalsa2).append("\n");
+                            resultado.append("E").append(EVerdadera).append(":\n");
+                        } else {
+                            if (operadoresSeparados[i].equals("&&")) {
+                                resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                resultado.append("goto E").append(EFalsa).append("\n");
+                                resultado.append("E").append(EVerdadera).append(":\n");
+                                int EVerdadera2 = etiquetaActual2 + 10;
+                                EVerdadera = EVerdadera2;
+                                etiquetaActual2 += 10;
+                                resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera2).append("\n");
+                                resultado.append("goto E").append(EFalsa).append("\n");
+                                resultado.append("E").append(EVerdadera2).append(":\n");
+                            }
+                        }
+                    } else {
+                        if (i == operadoresSeparados.length - 1) {
+                            if (operadoresSeparados[i].equals("||")) {
+                                System.out.println("ENTRO AQUI");
+                                int EFalsa2 = etiquetaActual2 + 10;
+                                EFalsa = EFalsa2;
+                                etiquetaActual2 += 10;
+                                resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                resultado.append("goto E").append(EFalsa2).append("\n");
+                                resultado.append("E").append(EVerdadera).append(":\n");
+                            } else {
+                                if (operadoresSeparados[i].equals("&&")) {
+                                    int EVerdadera2 = etiquetaActual2 + 10;
+                                    EVerdadera = EVerdadera2;
+                                    etiquetaActual2 += 10;
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera2).append("\n");
+                                    resultado.append("goto E").append(EFalsa).append("\n");
+                                    resultado.append("E").append(EVerdadera2).append(":\n");
+                                }
+                            }
+                        } else {
+                            if (i != 0) {
+                                if (operadoresSeparados[i].equals("||")) {
+                                    int EFalsa2 = etiquetaActual2 + 10;
+                                    int EFalsa3 = etiquetaActual2 + 10;
+                                    EFalsa = EFalsa3;
+                                    etiquetaActual2 += 20;
+                                    i++;
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa2).append("\n");
+                                    resultado.append("E").append(EFalsa2).append(":\n");
+                                    if (i == operadoresSeparados.length - 1) {
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa3 + 10).append("\n");
+                                        EFalsa = EFalsa3 + 10;
+                                        resultado.append("E").append(EVerdadera).append(":\n");
+                                    } else {
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa3).append("\n");
+                                        resultado.append("E").append(EFalsa3).append(":\n");
+                                    }
+                                } else {
+                                    if (operadoresSeparados[i].equals("&&")) {
+                                        int EVerdadera2 = etiquetaActual2 + 10;
+                                        int EVerdadera3 = etiquetaActual2 + 10;
+                                        EVerdadera = EVerdadera3;
+                                        etiquetaActual2 += 20;
+                                        i++;
+                                        resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera2).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera2).append(":\n");
+                                        if (i == operadoresSeparados.length - 1) {
+                                            EVerdadera3 = EVerdadera3 + 10;
+//                                            etiquetaActual2 += 10;
+                                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera3).append("\n");
+                                            resultado.append("goto E").append(EFalsa).append("\n");
+                                            resultado.append("E").append(EVerdadera3).append(":\n");
+                                        } else {
+                                            resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera3).append("\n");
+                                            resultado.append("goto E").append(EFalsa).append("\n");
+                                            resultado.append("E").append(EVerdadera3).append(":\n");
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (operadoresSeparados[i].equals("||")) {
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa).append("\n");
+                                    resultado.append("E").append(EFalsa).append(":\n");
+                                    int EFalsa2 = etiquetaActual2 + 10;
+                                    EFalsa = EFalsa2;
+                                    etiquetaActual2 += 10;
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera).append("\n");
+                                    resultado.append("goto E").append(EFalsa2).append("\n");
+                                    resultado.append("E").append(EFalsa2).append(":\n");
+                                } else {
+                                    if (operadoresSeparados[i].equals("&&")) {
+                                        resultado.append("STF ").append(partes[i]).append(" goto E").append(EVerdadera).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera).append(":\n");
+                                        int EVerdadera2 = etiquetaActual2 + 10;
+                                        EVerdadera = EVerdadera2;
+                                        etiquetaActual2 += 10;
+                                        resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera2).append("\n");
+                                        resultado.append("goto E").append(EFalsa).append("\n");
+                                        resultado.append("E").append(EVerdadera2).append(":\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                String patron = "\\((.*?)\\)";
+                Pattern pattern = Pattern.compile(patron);
+                Matcher matcher = pattern.matcher(primeraLinea);
+                String parentesis = "";
+                if (matcher.find()) {
+                    parentesis = matcher.group(1); // El grupo 1 contiene el contenido entre paréntesis.
+                }
+                resultado.append("E").append(SComienzo).append(":\n");
+                resultado.append("STF ").append(parentesis).append(" goto E").append(EVerdadera).append("\n");
+                resultado.append("goto E").append(EFalsa).append("\n");
+                resultado.append("E").append(EVerdadera).append(":\n");
             }
-            resultado.append("E").append(SComienzo).append(":\n");
-            resultado.append("STF ").append(parentesis).append(" goto E").append(EVerdadera).append("\n");
-            resultado.append("goto E").append(EFalsa).append("\n");
-            resultado.append("E").append(EVerdadera).append(":\n");
             int condicionesAbiertas2 = 0;
             List<String> bloqueCondicion2 = new ArrayList<>();
             boolean bloqueAbierto2 = false;
