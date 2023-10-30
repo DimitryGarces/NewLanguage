@@ -528,6 +528,7 @@ public class CodigoIntermedioGenerator {
                                         int EVerdadera2 = etiquetaActual2 + 10;
                                         EVerdadera = EVerdadera2;
                                         etiquetaActual2 += 10;
+                                        //.
                                         resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(EVerdadera2).append("\n");
                                         resultado.append("goto E").append(EFalsa).append("\n");
                                         resultado.append("E").append(EVerdadera2).append(":\n");
