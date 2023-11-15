@@ -92,13 +92,13 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         pnGuardar = new javax.swing.JPanel();
-        lbGuardar = new javax.swing.JLabel();
         pnCarga1 = new javax.swing.JPanel();
+        lbGuardar = new javax.swing.JLabel();
         lbCargar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        pnContenedor.setBackground(new java.awt.Color(204, 204, 204));
+        pnContenedor.setBackground(new java.awt.Color(153, 255, 204));
         pnContenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
@@ -186,18 +186,18 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnOptimizacion.setLayout(pnOptimizacionLayout);
         pnOptimizacionLayout.setHorizontalGroup(
             pnOptimizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnOptimizacionLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbOptimizacion))
+            .addGroup(pnOptimizacionLayout.createSequentialGroup()
+                .addComponent(lbOptimizacion)
+                .addGap(0, 3, Short.MAX_VALUE))
         );
         pnOptimizacionLayout.setVerticalGroup(
             pnOptimizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnOptimizacionLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbOptimizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnOptimizacionLayout.createSequentialGroup()
+                .addComponent(lbOptimizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        pnContenedor.add(pnOptimizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 230, 70, 30));
+        pnContenedor.add(pnOptimizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 230, 80, 30));
 
         pnIntermedio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -224,7 +224,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbIntermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 170, 70, 30));
+        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 170, 80, -1));
 
         pnLexico.setBackground(new java.awt.Color(255, 255, 255));
         pnLexico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -266,9 +266,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnObjeto.setLayout(pnObjetoLayout);
         pnObjetoLayout.setHorizontalGroup(
             pnObjetoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnObjetoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(pnObjetoLayout.createSequentialGroup()
+                .addComponent(lbObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         pnObjetoLayout.setVerticalGroup(
             pnObjetoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,11 +277,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 290, 70, 30));
+        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 290, 80, 30));
 
         jScrollPane1.setBackground(new java.awt.Color(51, 51, 51));
 
-        jTProgramaFuente.setBackground(new java.awt.Color(102, 102, 102));
+        jTProgramaFuente.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaFuente.setColumns(20);
         jTProgramaFuente.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaFuente.setRows(5);
@@ -295,7 +295,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 370, 220));
 
         jTProgramaCompilado.setEditable(false);
-        jTProgramaCompilado.setBackground(new java.awt.Color(102, 102, 102));
+        jTProgramaCompilado.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaCompilado.setColumns(20);
         jTProgramaCompilado.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaCompilado.setRows(5);
@@ -303,21 +303,21 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 270, 220));
 
-        lbLex.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lbLex.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
         lbLex.setText("Lexico:");
         pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, -1));
 
-        lbSin.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lbSin.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
         lbSin.setText("Sintactico:");
         pnContenedor.add(lbSin, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, -1, -1));
 
         lbSem.setBackground(new java.awt.Color(255, 255, 255));
-        lbSem.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lbSem.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
         lbSem.setText("Semantico:");
         pnContenedor.add(lbSem, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, -1, -1));
 
         jTProgramaSintactico.setEditable(false);
-        jTProgramaSintactico.setBackground(new java.awt.Color(102, 102, 102));
+        jTProgramaSintactico.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaSintactico.setColumns(20);
         jTProgramaSintactico.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaSintactico.setRows(5);
@@ -326,7 +326,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 310, 160));
 
         jTProgramaSemantico.setEditable(false);
-        jTProgramaSemantico.setBackground(new java.awt.Color(102, 102, 102));
+        jTProgramaSemantico.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaSemantico.setColumns(20);
         jTProgramaSemantico.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaSemantico.setRows(5);
@@ -335,7 +335,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 290, 320, 160));
 
         erroresLexicos.setEditable(false);
-        erroresLexicos.setBackground(new java.awt.Color(102, 102, 102));
+        erroresLexicos.setBackground(new java.awt.Color(255, 153, 255));
         erroresLexicos.setColumns(20);
         erroresLexicos.setForeground(new java.awt.Color(204, 255, 255));
         erroresLexicos.setRows(5);
@@ -344,7 +344,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 280, 160));
 
         jTProgramaCodigoIntermedio.setEditable(false);
-        jTProgramaCodigoIntermedio.setBackground(new java.awt.Color(102, 102, 102));
+        jTProgramaCodigoIntermedio.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaCodigoIntermedio.setColumns(20);
         jTProgramaCodigoIntermedio.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaCodigoIntermedio.setRows(5);
@@ -356,9 +356,33 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jLabel3.setText("Codigo intermedio");
         pnContenedor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, -1, 20));
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(153, 255, 204));
 
-        pnGuardar.setBackground(new java.awt.Color(204, 204, 204));
+        pnGuardar.setBackground(new java.awt.Color(153, 255, 204));
+
+        javax.swing.GroupLayout pnGuardarLayout = new javax.swing.GroupLayout(pnGuardar);
+        pnGuardar.setLayout(pnGuardarLayout);
+        pnGuardarLayout.setHorizontalGroup(
+            pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnGuardarLayout.setVerticalGroup(
+            pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
+        );
+
+        pnCarga1.setBackground(new java.awt.Color(153, 255, 204));
+
+        javax.swing.GroupLayout pnCarga1Layout = new javax.swing.GroupLayout(pnCarga1);
+        pnCarga1.setLayout(pnCarga1Layout);
+        pnCarga1Layout.setHorizontalGroup(
+            pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+        pnCarga1Layout.setVerticalGroup(
+            pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
+        );
 
         lbGuardar.setBackground(new java.awt.Color(255, 255, 255));
         lbGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -371,24 +395,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout pnGuardarLayout = new javax.swing.GroupLayout(pnGuardar);
-        pnGuardar.setLayout(pnGuardarLayout);
-        pnGuardarLayout.setHorizontalGroup(
-            pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnGuardarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pnGuardarLayout.setVerticalGroup(
-            pnGuardarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGuardarLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        pnCarga1.setBackground(new java.awt.Color(204, 204, 204));
-
         lbCargar.setBackground(new java.awt.Color(204, 204, 204));
         lbCargar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lbCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/jugar.png"))); // NOI18N
@@ -400,21 +406,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout pnCarga1Layout = new javax.swing.GroupLayout(pnCarga1);
-        pnCarga1.setLayout(pnCarga1Layout);
-        pnCarga1Layout.setHorizontalGroup(
-            pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnCarga1Layout.createSequentialGroup()
-                .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        pnCarga1Layout.setVerticalGroup(
-            pnCarga1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCarga1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -422,21 +413,32 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnCarga1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pnCarga1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnCarga1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnCarga1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(pnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        pnContenedor.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 50, -1, -1));
+        pnContenedor.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 50, 100, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
