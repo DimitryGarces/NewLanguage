@@ -254,15 +254,31 @@ public class CodigoIntermedioGenerator {
                     }
                     int contador2 = operadoresSeparados.length;
                     for (int i = 0; i < operadoresSeparados.length; i++) {
-                        if (i == operadoresSeparados.length - 1) {
+                        if (!(operadoresSeparados.length % 2 == 0) && i == operadoresSeparados.length - 1) {
+                            if (operadoresSeparados[i].equals("||")) {
+                                resultado.append("STF").append(partes[i]).append(" goto E").append(etiquetas[contador2 - 1].getE1Verdadera()).append("\n");
+                                resultado.append("goto E").append(etiquetas[contador2 - 1].getE1Falsa()).append("\n");
+                                resultado.append("E").append(etiquetas[contador2 - 1].getE1Falsa()).append(":\n");
+                                resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2 - 1].getE2Verdadera()).append("\n");
+                                resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                resultado.append("E").append(etiquetas[contador2 - 2].geteVerdadera()).append(":\n");
+                            } else {
+                                resultado.append("STF ").append(partes[i]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
+                                resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                resultado.append("E").append(etiquetas[contador2].getE2Verdadera()).append(":\n");
+                                resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2 - 1].getE2Verdadera()).append("\n");
+                                resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                resultado.append("E").append(etiquetas[contador2 - 2].geteVerdadera()).append(":\n");
+                            }
+                        } else if (i == operadoresSeparados.length - 1) {
                             if (operadoresSeparados[i].equals("||")) {
                                 resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
                                 resultado.append("goto E").append(etiquetas[contador2].getE2Falsa()).append("\n");
-                                resultado.append("E").append(etiquetas[contador2].getE2Verdadera()).append(":\n");
+                                resultado.append("E").append(etiquetas[contador2 - 1].geteVerdadera()).append(":\n");
                             } else if (operadoresSeparados[i].equals("&&")) {
                                 resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
                                 resultado.append("goto E").append(etiquetas[contador2].getE2Falsa()).append("\n");
-                                resultado.append("E").append(etiquetas[contador2].getE2Verdadera()).append(":\n");
+                                resultado.append("E").append(etiquetas[contador2 - 1].geteVerdadera()).append(":\n");
                             }
                         } else if (operadoresSeparados[i].equals("||")) {
                             resultado.append("STF ").append(partes[i]).append(" goto E").append(etiquetas[contador2].getE1Verdadera()).append("\n");
@@ -275,6 +291,9 @@ public class CodigoIntermedioGenerator {
                             } else {
                                 resultado.append("E").append(etiquetas[contador2 - 1].getE1Verdadera()).append(":\n");
                             }
+                            if (operadoresSeparados.length % 2 != 0) {
+                                i++;
+                            }
                             contador2--;
                         } else if (operadoresSeparados[i].equals("&&")) {
                             resultado.append("STF ").append(partes[i]).append(" goto E").append(etiquetas[contador2].getE1Verdadera()).append("\n");
@@ -282,7 +301,15 @@ public class CodigoIntermedioGenerator {
                             resultado.append("E").append(etiquetas[contador2].getE1Verdadera()).append(":\n");
                             resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
                             resultado.append("goto E").append(etiquetas[contador2].getE2Falsa()).append("\n");
-                            resultado.append("E").append(etiquetas[contador2].getE1Verdadera()).append(":\n");
+                            if (operadoresSeparados[i + 1].equals("||")) {
+                                resultado.append("E").append(etiquetas[contador2 - 1].getE1Falsa()).append(":\n");
+                            } else {
+                                resultado.append("E").append(etiquetas[contador2].getE2Verdadera()).append(":\n");
+                            }
+
+                            if (operadoresSeparados.length % 2 != 0) {
+                                i++;
+                            }
                             contador2--;
                         }
                     }
@@ -397,7 +424,7 @@ public class CodigoIntermedioGenerator {
             if (matcher2.find()) {
                 parentesis2 = matcher2.group(1); // El grupo 1 contiene el contenido entre paréntesis.                
             }
-            if (parentesis2.matches(".*\\|\\|.*") || primeraLinea.matches(".*&&.*")) {
+            if (parentesis2.matches(".*\\|\\|.*") || parentesis2.matches(".*&&.*")) {
 //                EVerdadera = etiquetaActual2 + 10;
 //                etiquetaActual2 += 10;
                 System.out.println("ENTRO AQUI ¨********");
@@ -475,7 +502,25 @@ public class CodigoIntermedioGenerator {
                     }
                     int contador2 = operadoresSeparados.length;
                     for (int i = 0; i < operadoresSeparados.length; i++) {
-                        if (i == operadoresSeparados.length - 1) {
+                        if (!(operadoresSeparados.length % 2 == 0) && i == operadoresSeparados.length - 1) {
+                            if (i == operadoresSeparados.length - 1) {
+                                if (operadoresSeparados[i].equals("||")) {
+                                    resultado.append("STF").append(partes[i]).append(" goto E").append(etiquetas[contador2 - 1].getE1Verdadera()).append("\n");
+                                    resultado.append("goto E").append(etiquetas[contador2 - 1].getE1Falsa()).append("\n");
+                                    resultado.append("E").append(etiquetas[contador2 - 1].getE1Falsa()).append(":\n");
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2 - 1].getE2Verdadera()).append("\n");
+                                    resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                    resultado.append("E").append(etiquetas[contador2 - 2].geteFalsa()).append(":\n");
+                                } else {
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
+                                    resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                    resultado.append("E").append(etiquetas[contador2].getE2Verdadera()).append(":\n");
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2 - 1].getE2Verdadera()).append("\n");
+                                    resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                    resultado.append("E").append(etiquetas[contador2 - 2].geteFalsa()).append(":\n");
+                                }
+                            }
+                        } else if (i == operadoresSeparados.length - 1) {
                             if (operadoresSeparados[i].equals("||")) {
                                 resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
                                 resultado.append("goto E").append(etiquetas[contador2].getE2Falsa()).append("\n");
@@ -496,6 +541,9 @@ public class CodigoIntermedioGenerator {
                             } else {
                                 resultado.append("E").append(etiquetas[contador2 - 1].getE1Verdadera()).append(":\n");
                             }
+                            if (operadoresSeparados.length % 2 != 0) {
+                                i++;
+                            }
                             contador2--;
                         } else if (operadoresSeparados[i].equals("&&")) {
                             resultado.append("STF ").append(partes[i]).append(" goto E").append(etiquetas[contador2].getE1Verdadera()).append("\n");
@@ -504,9 +552,13 @@ public class CodigoIntermedioGenerator {
                             resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
                             resultado.append("goto E").append(etiquetas[contador2].getE2Falsa()).append("\n");
                             if (operadoresSeparados[i + 1].equals("||")) {
-                                resultado.append("E").append(etiquetas[contador2 - 1].getE2Falsa()).append(":\n");
+                                resultado.append("E").append(etiquetas[contador2 - 1].getE1Falsa()).append(":\n");
                             } else {
-                                resultado.append("E").append(etiquetas[contador2].getE1Verdadera()).append(":\n");
+                                resultado.append("E").append(etiquetas[contador2].getE2Verdadera()).append(":\n");
+                            }
+
+                            if (operadoresSeparados.length % 2 != 0) {
+                                i++;
                             }
                             contador2--;
                         }
@@ -608,7 +660,25 @@ public class CodigoIntermedioGenerator {
                     }
                     int contador2 = operadoresSeparados.length;
                     for (int i = 0; i < operadoresSeparados.length; i++) {
-                        if (i == operadoresSeparados.length - 1) {
+                        if (!(operadoresSeparados.length % 2 == 0) && i == operadoresSeparados.length - 1) {
+                            if (i == operadoresSeparados.length - 1) {
+                                if (operadoresSeparados[i].equals("||")) {
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(etiquetas[contador2 - 1].getE1Verdadera()).append("\n");
+                                    resultado.append("goto E").append(etiquetas[contador2 - 1].getE1Falsa()).append("\n");
+                                    resultado.append("E").append(etiquetas[contador2 - 1].getE1Falsa()).append(":\n");
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2 - 1].getE2Verdadera()).append("\n");
+                                    resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                    resultado.append("E").append(etiquetas[contador2 - 1].getE2Verdadera()).append(":\n");
+                                } else {
+                                    resultado.append("STF ").append(partes[i]).append(" goto E").append(etiquetas[contador2 - 1].getE1Verdadera()).append("\n");
+                                    resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                    resultado.append("E").append(etiquetas[contador2].getE2Verdadera()).append(":\n");
+                                    resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2 - 1].getE2Verdadera()).append("\n");
+                                    resultado.append("goto E").append(etiquetas[contador2 - 1].getE2Falsa()).append("\n");
+                                    resultado.append("E").append(etiquetas[contador2 - 1].getE2Verdadera()).append(":\n");
+                                }
+                            }
+                        } else if (i == operadoresSeparados.length - 1) {
                             if (operadoresSeparados[i].equals("||")) {
                                 resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
                                 resultado.append("goto E").append(etiquetas[contador2].getE2Falsa()).append("\n");
@@ -629,6 +699,9 @@ public class CodigoIntermedioGenerator {
                             } else {
                                 resultado.append("E").append(etiquetas[contador2 - 1].getE1Verdadera()).append(":\n");
                             }
+                            if (operadoresSeparados.length % 2 != 0) {
+                                i++;
+                            }
                             contador2--;
                         } else if (operadoresSeparados[i].equals("&&")) {
                             resultado.append("STF ").append(partes[i]).append(" goto E").append(etiquetas[contador2].getE1Verdadera()).append("\n");
@@ -637,9 +710,12 @@ public class CodigoIntermedioGenerator {
                             resultado.append("STF ").append(partes[i + 1]).append(" goto E").append(etiquetas[contador2].getE2Verdadera()).append("\n");
                             resultado.append("goto E").append(etiquetas[contador2].getE2Falsa()).append("\n");
                             if (operadoresSeparados[i + 1].equals("||")) {
-                                resultado.append("E").append(etiquetas[contador2 - 1].getE2Falsa()).append(":\n");
+                                resultado.append("E").append(etiquetas[contador2 - 1].getE1Falsa()).append(":\n");
                             } else {
-                                resultado.append("E").append(etiquetas[contador2].getE1Verdadera()).append(":\n");
+                                resultado.append("E").append(etiquetas[contador2].getE2Verdadera()).append(":\n");
+                            }
+                            if (operadoresSeparados.length % 2 != 0) {
+                                i++;
                             }
                             contador2--;
                         }
