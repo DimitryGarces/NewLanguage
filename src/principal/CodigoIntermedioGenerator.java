@@ -66,61 +66,123 @@ public class CodigoIntermedioGenerator {
     }
 
     public String codigoGeneral(String linea) {
-        String[] tokens = linea.split("(?=[+\\-*/=])|(?<=[+\\-*/=])");
+        String linea2 = linea.replaceAll(";", "");
+        String[] tokens = linea2.split("(?=[()+\\-*/=])|(?<=[()+\\-*/=])");
         StringBuilder resultado = new StringBuilder();
         Stack<String> operadores = new Stack<>();
         Stack<String> temporales = new Stack<>();
         int contadorTemporal = 1;
 
-        if (!linea.contains("+") && !linea.contains("-") && !linea.contains("*") && !linea.contains("/")) {
-//            System.out.println("**" + linea);
-            return linea; // Si no hay operadores aritméticos, devuelve la línea sin cambios
-        } else {
-            for (String token : tokens) {
-                if (esOperadorAritmetico(token)) {
-                    while (!operadores.isEmpty() && prioridad(token) <= prioridad(operadores.peek())) {
-                        String operador = operadores.pop();
-                        String op2 = temporales.pop();
-                        String op1 = temporales.pop();
-                        String temporal = "temporal" + contadorTemporal;
-                        contadorTemporal++;
-//                        System.out.println(temporal + " = " + op1 + " " + operador + " " + op2 + ";");
-                        resultado.append(temporal).append(" = ").append(op1).append(" ").append(operador).append(" ").append(op2).append(";").append("\n");
-                        temporales.push(temporal);
-                    }
-                    operadores.push(token);
-                } else {
-                    temporales.push(token);
+        for (String token : tokens) {
+            if (token.equals("(")) {
+                operadores.push(token);
+            } else if (token.equals(")")) {
+                while (!operadores.isEmpty() && !operadores.peek().equals("(")) {
+                    procesarOperador(operadores, temporales, resultado, contadorTemporal);
+                    contadorTemporal++;
                 }
+                operadores.pop(); // Sacar el '(' de la pila
+            } else if (esOperadorAritmetico(token)) {
+                while (!operadores.isEmpty() && prioridad(token) <= prioridad(operadores.peek())) {
+                    procesarOperador(operadores, temporales, resultado, contadorTemporal);
+                    contadorTemporal++;
+                }
+                operadores.push(token);
+            } else {
+                temporales.push(token);
             }
-            while (!operadores.isEmpty()) {
-                String operador = operadores.pop();
-                String op2 = temporales.pop();
-                String op1 = temporales.pop();
-                String temporal = "temporal" + contadorTemporal;
-                contadorTemporal++;
-//                System.out.println(temporal + " = " + op1 + " " + operador + " " + op2 + ";");
-                temporales.push(temporal);
-                resultado.append(temporal).append(" = ").append(op1).append(" ").append(operador).append(" ").append(op2).append(";").append("\n");
-            }
-//            System.out.println("operacion = " + temporales.pop() + ";");
-            resultado.append(tokens[0]).append(" = ").append(temporales.pop()).append(";");
         }
+
+        while (!operadores.isEmpty()) {
+            procesarOperador(operadores, temporales, resultado, contadorTemporal);
+            contadorTemporal++;
+        }
+
+        resultado.append(tokens[0]).append(" = ").append(temporales.pop()).append(";");
         return resultado.toString();
     }
 
-    public static int prioridad(String operador) {
+    private void procesarOperador(Stack<String> operadores, Stack<String> temporales, StringBuilder resultado, int contadorTemporal) {
+        String operador = operadores.pop();
+        if (operador.equals("*") || operador.equals("/")) {
+            String op2 = temporales.pop();
+            String op1 = temporales.pop();
+            String temporal = "temporal" + contadorTemporal;
+            resultado.append(temporal).append(" = ").append(op1).append(" ").append(operador).append(" ").append(op2).append("\n");
+            temporales.push(temporal);
+        } else {
+            String op2 = temporales.pop();
+            String op1 = temporales.pop();
+            String temporal = "temporal" + contadorTemporal;
+            resultado.append(temporal).append(" = ").append(op1).append(" ").append(operador).append(" ").append(op2).append("\n");
+            temporales.push(temporal);
+        }
+    }
+
+    private int prioridad(String operador) {
         if (operador.equals("+") || operador.equals("-")) {
             return 1;
         } else if (operador.equals("*") || operador.equals("/")) {
             return 2;
         }
-        return 0;
+        return 0; // Prioridad para otros tokens (por ejemplo, paréntesis)
     }
 
     private boolean esOperadorAritmetico(String token) {
         return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
     }
+//    public String codigoGeneral(String linea) {
+//        String[] tokens = linea.split("(?=[()+\\-*/=])|(?<=[()+\\-*/=])");
+//        StringBuilder resultado = new StringBuilder();
+//        Stack<String> operadores = new Stack<>();
+//        Stack<String> temporales = new Stack<>();
+//        int contadorTemporal = 1;
+//
+//        if (!linea.contains("+") && !linea.contains("-") && !linea.contains("*") && !linea.contains("/")) {
+//            return linea; // Si no hay operadores aritméticos, devuelve la línea sin cambios
+//        } else {
+//            for (String token : tokens) {
+//                if (esOperadorAritmetico(token)) {
+//                    while (!operadores.isEmpty() && prioridad(token) <= prioridad(operadores.peek())) {
+//                        String operador = operadores.pop();
+//                        String op2 = temporales.pop();
+//                        String op1 = temporales.pop();
+//                        String temporal = "temporal" + contadorTemporal;
+//                        contadorTemporal++;
+//                        resultado.append(temporal).append(" = ").append(op1).append(" ").append(operador).append(" ").append(op2).append("\n");
+//                        temporales.push(temporal);
+//                    }
+//                    operadores.push(token);
+//                } else {
+//                    temporales.push(token);
+//                }
+//            }
+//            while (!operadores.isEmpty()) {
+//                String operador = operadores.pop();
+//                String op2 = temporales.pop();
+//                String op1 = temporales.pop();
+//                String temporal = "temporal" + contadorTemporal;
+//                contadorTemporal++;
+//                resultado.append(temporal).append(" = ").append(op1).append(" ").append(operador).append(" ").append(op2).append("\n");
+//                temporales.push(temporal);
+//            }
+//            resultado.append(tokens[0]).append(" = ").append(temporales.pop()).append(";");
+//        }
+//        return resultado.toString();
+//    }
+//
+//    public static int prioridad(String operador) {
+//        if (operador.equals("+") || operador.equals("-")) {
+//            return 1;
+//        } else if (operador.equals("*") || operador.equals("/")) {
+//            return 2;
+//        } 
+//        return 0;
+//    }
+//
+//    private boolean esOperadorAritmetico(String token) {
+//        return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
+//    }
 
     public String codigoSTF(String[] linea) {
         for (String linea1 : linea) {
