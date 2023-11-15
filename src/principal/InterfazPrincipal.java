@@ -283,8 +283,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jTProgramaFuente.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaFuente.setColumns(20);
-        jTProgramaFuente.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaFuente.setRows(5);
+        jTProgramaFuente.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTProgramaFuente.setSelectionColor(new java.awt.Color(204, 204, 204));
         jTProgramaFuente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTProgramaFuenteKeyTyped(evt);
@@ -297,8 +298,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaCompilado.setEditable(false);
         jTProgramaCompilado.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaCompilado.setColumns(20);
-        jTProgramaCompilado.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaCompilado.setRows(5);
+        jTProgramaCompilado.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTProgramaCompilado.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane2.setViewportView(jTProgramaCompilado);
 
         pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 270, 220));
@@ -319,8 +321,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSintactico.setEditable(false);
         jTProgramaSintactico.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaSintactico.setColumns(20);
-        jTProgramaSintactico.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaSintactico.setRows(5);
+        jTProgramaSintactico.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTProgramaSintactico.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane3.setViewportView(jTProgramaSintactico);
 
         pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 310, 160));
@@ -328,8 +331,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSemantico.setEditable(false);
         jTProgramaSemantico.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaSemantico.setColumns(20);
-        jTProgramaSemantico.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaSemantico.setRows(5);
+        jTProgramaSemantico.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTProgramaSemantico.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane4.setViewportView(jTProgramaSemantico);
 
         pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 290, 320, 160));
@@ -337,8 +341,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         erroresLexicos.setEditable(false);
         erroresLexicos.setBackground(new java.awt.Color(255, 153, 255));
         erroresLexicos.setColumns(20);
-        erroresLexicos.setForeground(new java.awt.Color(204, 255, 255));
         erroresLexicos.setRows(5);
+        erroresLexicos.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        erroresLexicos.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane5.setViewportView(erroresLexicos);
 
         pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 280, 160));
@@ -346,8 +351,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaCodigoIntermedio.setEditable(false);
         jTProgramaCodigoIntermedio.setBackground(new java.awt.Color(255, 153, 255));
         jTProgramaCodigoIntermedio.setColumns(20);
-        jTProgramaCodigoIntermedio.setForeground(new java.awt.Color(204, 255, 255));
         jTProgramaCodigoIntermedio.setRows(5);
+        jTProgramaCodigoIntermedio.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTProgramaCodigoIntermedio.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane7.setViewportView(jTProgramaCodigoIntermedio);
 
         pnContenedor.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 40, 330, 220));
