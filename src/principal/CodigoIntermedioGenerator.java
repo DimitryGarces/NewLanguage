@@ -66,40 +66,44 @@ public class CodigoIntermedioGenerator {
     }
 
     public String codigoGeneral(String linea) {
-        String linea2 = linea.replaceAll(";", "");
+        String linea2 = linea.replaceAll(";", "").replaceAll(" ", "");
         String[] tokens = linea2.split("(?=[()+\\-*/=])|(?<=[()+\\-*/=])");
         StringBuilder resultado = new StringBuilder();
         Stack<String> operadores = new Stack<>();
         Stack<String> temporales = new Stack<>();
         int contadorTemporal = 1;
 
-        for (String token : tokens) {
-            if (token.equals("(")) {
-                operadores.push(token);
-            } else if (token.equals(")")) {
-                while (!operadores.isEmpty() && !operadores.peek().equals("(")) {
-                    procesarOperador(operadores, temporales, resultado, contadorTemporal);
-                    contadorTemporal++;
+        if (!linea.contains("+") && !linea.contains("-") && !linea.contains("*") && !linea.contains("/")) {
+            return linea;
+        } else {
+            for (String token : tokens) {
+                if (token.equals("(")) {
+                    operadores.push(token);
+                } else if (token.equals(")")) {
+                    while (!operadores.isEmpty() && !operadores.peek().equals("(")) {
+                        procesarOperador(operadores, temporales, resultado, contadorTemporal);
+                        contadorTemporal++;
+                    }
+                    operadores.pop(); // Sacar el '(' de la pila
+                } else if (esOperadorAritmetico(token)) {
+                    while (!operadores.isEmpty() && prioridad(token) <= prioridad(operadores.peek())) {
+                        procesarOperador(operadores, temporales, resultado, contadorTemporal);
+                        contadorTemporal++;
+                    }
+                    operadores.push(token);
+                } else {
+                    temporales.push(token);
                 }
-                operadores.pop(); // Sacar el '(' de la pila
-            } else if (esOperadorAritmetico(token)) {
-                while (!operadores.isEmpty() && prioridad(token) <= prioridad(operadores.peek())) {
-                    procesarOperador(operadores, temporales, resultado, contadorTemporal);
-                    contadorTemporal++;
-                }
-                operadores.push(token);
-            } else {
-                temporales.push(token);
             }
-        }
 
-        while (!operadores.isEmpty()) {
-            procesarOperador(operadores, temporales, resultado, contadorTemporal);
-            contadorTemporal++;
-        }
+            while (!operadores.isEmpty()) {
+                procesarOperador(operadores, temporales, resultado, contadorTemporal);
+                contadorTemporal++;
+            }
 
-        resultado.append(tokens[0]).append(" = ").append(temporales.pop()).append(";");
-        return resultado.toString();
+            resultado.append(tokens[0]).append(" = ").append(temporales.pop()).append(";");
+            return resultado.toString();
+        }
     }
 
     private void procesarOperador(Stack<String> operadores, Stack<String> temporales, StringBuilder resultado, int contadorTemporal) {
