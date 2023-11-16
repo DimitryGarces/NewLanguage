@@ -95,6 +95,9 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         pnCarga1 = new javax.swing.JPanel();
         lbGuardar = new javax.swing.JLabel();
         lbCargar = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTCodigoOptimizado = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,12 +106,12 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel1.setText("Programa Fuente");
-        pnContenedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
+        pnContenedor.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, -1, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jLabel2.setText("Programa Compilado");
-        pnContenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        pnContenedor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         pnSintactico.setBackground(new java.awt.Color(255, 255, 255));
         pnSintactico.setMinimumSize(new java.awt.Dimension(83, 28));
@@ -138,7 +141,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbSintactico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnSintactico, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 470, 100, 30));
+        pnContenedor.add(pnSintactico, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 470, 100, 30));
 
         pnSemantico.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -170,7 +173,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbSemantico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnSemantico, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 460, 110, 30));
+        pnContenedor.add(pnSemantico, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 460, 110, 30));
 
         pnOptimizacion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -197,7 +200,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        pnContenedor.add(pnOptimizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 230, 80, 30));
+        pnContenedor.add(pnOptimizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 360, 80, 30));
 
         pnIntermedio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -224,7 +227,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbIntermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 170, 80, -1));
+        pnContenedor.add(pnIntermedio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 300, 80, -1));
 
         pnLexico.setBackground(new java.awt.Color(255, 255, 255));
         pnLexico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -255,7 +258,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbLexico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnLexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 470, -1, 30));
+        pnContenedor.add(pnLexico, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, -1, 30));
 
         pnObjeto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -277,7 +280,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addComponent(lbObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 290, 80, 30));
+        pnContenedor.add(pnObjeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 420, 80, 30));
 
         jScrollPane1.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -293,7 +296,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTProgramaFuente);
 
-        pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 370, 220));
+        pnContenedor.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 370, 220));
 
         jTProgramaCompilado.setEditable(false);
         jTProgramaCompilado.setBackground(new java.awt.Color(255, 153, 255));
@@ -303,20 +306,20 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaCompilado.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane2.setViewportView(jTProgramaCompilado);
 
-        pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 270, 220));
+        pnContenedor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 270, 220));
 
         lbLex.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
         lbLex.setText("Lexico:");
-        pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, -1));
+        pnContenedor.add(lbLex, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
 
         lbSin.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
         lbSin.setText("Sintactico:");
-        pnContenedor.add(lbSin, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, -1, -1));
+        pnContenedor.add(lbSin, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 270, -1, -1));
 
         lbSem.setBackground(new java.awt.Color(255, 255, 255));
         lbSem.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
         lbSem.setText("Semantico:");
-        pnContenedor.add(lbSem, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, -1, -1));
+        pnContenedor.add(lbSem, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 270, -1, -1));
 
         jTProgramaSintactico.setEditable(false);
         jTProgramaSintactico.setBackground(new java.awt.Color(255, 153, 255));
@@ -326,7 +329,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSintactico.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane3.setViewportView(jTProgramaSintactico);
 
-        pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 310, 160));
+        pnContenedor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 290, 310, 160));
 
         jTProgramaSemantico.setEditable(false);
         jTProgramaSemantico.setBackground(new java.awt.Color(255, 153, 255));
@@ -336,7 +339,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaSemantico.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane4.setViewportView(jTProgramaSemantico);
 
-        pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 290, 320, 160));
+        pnContenedor.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 290, 320, 160));
 
         erroresLexicos.setEditable(false);
         erroresLexicos.setBackground(new java.awt.Color(255, 153, 255));
@@ -346,7 +349,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         erroresLexicos.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane5.setViewportView(erroresLexicos);
 
-        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 280, 160));
+        pnContenedor.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 280, 160));
 
         jTProgramaCodigoIntermedio.setEditable(false);
         jTProgramaCodigoIntermedio.setBackground(new java.awt.Color(255, 153, 255));
@@ -356,11 +359,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         jTProgramaCodigoIntermedio.setSelectionColor(new java.awt.Color(204, 204, 204));
         jScrollPane7.setViewportView(jTProgramaCodigoIntermedio);
 
-        pnContenedor.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 40, 330, 220));
+        pnContenedor.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 40, 330, 220));
 
         jLabel3.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        jLabel3.setText("Codigo intermedio");
-        pnContenedor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, -1, 20));
+        jLabel3.setText("Codigo Optimizado");
+        pnContenedor.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 20, -1, 20));
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 204));
 
@@ -444,22 +447,41 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnContenedor.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 50, 100, -1));
+        pnContenedor.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 320, 100, -1));
+
+        jScrollPane6.setBackground(new java.awt.Color(51, 51, 51));
+
+        jTCodigoOptimizado.setBackground(new java.awt.Color(255, 153, 255));
+        jTCodigoOptimizado.setColumns(20);
+        jTCodigoOptimizado.setRows(5);
+        jTCodigoOptimizado.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTCodigoOptimizado.setSelectionColor(new java.awt.Color(204, 204, 204));
+        jTCodigoOptimizado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTCodigoOptimizadoKeyTyped(evt);
+            }
+        });
+        jScrollPane6.setViewportView(jTCodigoOptimizado);
+
+        pnContenedor.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 40, 330, 220));
+
+        jLabel4.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        jLabel4.setText("Codigo intermedio");
+        pnContenedor.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 20, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(pnContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 1144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 1349, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(pnContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -1694,24 +1716,37 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_lbIntermedioMouseClicked
 
     private void lbOptimizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbOptimizacionMouseClicked
-        pnObjeto.setVisible(true);
-        int res = eliminaMetFunSU();
-        int response = JOptionPane.showConfirmDialog(null, "¡Recuerda!\nPulsa \"Guardar\"\nSi deseas conservar codigo optimizado.",
-                "Lineas restantes" + res, JOptionPane.OK_OPTION);
-        if (response == JOptionPane.OK_OPTION) {
+//        pnObjeto.setVisible(true);
+//        int res = eliminaMetFunSU();
+//        int response = JOptionPane.showConfirmDialog(null, "¡Recuerda!\nPulsa \"Guardar\"\nSi deseas conservar codigo optimizado.",
+//                "Lineas restantes" + res, JOptionPane.OK_OPTION);
+//        if (response == JOptionPane.OK_OPTION) {
 //            jTProgramaFuente.setText(programaEjecutado);
-            CodigoOp ven = new CodigoOp(programaEjecutado);
-            ven.setVisible(true);
-            try {
-                ManejoArchivos.guardarArchivo(programaEjecutado, true);
-                // TODO add your handling code here:
-
-            } catch (IOException ex) {
-                Logger.getLogger(InterfazPrincipal.class
-                        .getName()).log(Level.SEVERE, null, ex);
+        String[] lineArray = new String[0];
+        String text = jTProgramaCodigoIntermedio.getText();
+        lineArray = text.split("\n");
+        OptimizacionCodigo optimizacion = new OptimizacionCodigo();
+        String resultado = optimizacion.procesarCodigoIntermedio(lineArray);
+        String[] lineas = resultado.split("\n");
+        StringBuilder nuevoResultado = new StringBuilder();
+        for (String linea : lineas) {
+            if (!linea.trim().isEmpty()) {
+                nuevoResultado.append(linea.replaceAll(";", "")).append("\n");
             }
-            JOptionPane.showMessageDialog(null, "Archivo optimizado Guardado con exito.");
         }
+        jTCodigoOptimizado.setText(nuevoResultado.toString());
+//            CodigoOp ven = new CodigoOp(programaEjecutado);
+//            ven.setVisible(true);
+//            try {
+//                ManejoArchivos.guardarArchivo(programaEjecutado, true);
+//                // TODO add your handling code here:
+//
+//            } catch (IOException ex) {
+//                Logger.getLogger(InterfazPrincipal.class
+//                        .getName()).log(Level.SEVERE, null, ex);
+//            }
+//            JOptionPane.showMessageDialog(null, "Archivo optimizado Guardado con exito.");
+//        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_lbOptimizacionMouseClicked
@@ -1751,6 +1786,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lbSintactico.setText("Sintactico:");
         lbSemantico.setText("Semantico:");
     }//GEN-LAST:event_jTProgramaFuenteKeyTyped
+
+    private void jTCodigoOptimizadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTCodigoOptimizadoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTCodigoOptimizadoKeyTyped
 
     private void cambiaC(int l) {
         jTProgramaFuente.getLineCount();
@@ -1865,13 +1904,16 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTextArea jTCodigoOptimizado;
     private javax.swing.JTextArea jTProgramaCodigoIntermedio;
     private javax.swing.JTextArea jTProgramaCompilado;
     private javax.swing.JTextArea jTProgramaFuente;
