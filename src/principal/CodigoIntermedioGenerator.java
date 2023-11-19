@@ -21,7 +21,7 @@ public class CodigoIntermedioGenerator {
 //        etiquetaActual += 10;
 //        return etiqueta;
 //    }
-    public String generarCodigoIntermedio(String[] reglas) {
+    public String generarCodigoIntermedio(String[] reglas, boolean optimizacion) {
         StringBuilder codigoIntermedio = new StringBuilder();
         int condicionesAbiertas = 0;
         List<String> bloqueCondicion = new ArrayList<>();
@@ -43,21 +43,24 @@ public class CodigoIntermedioGenerator {
                             if (condicionesAbiertas == 0) {
                                 condicionesAbiertas--;
                                 bloqueAbierto = false;
-                                StringBuilder resultado2 = procesarBloque(bloqueCondicion, etiquetaActual2);
+                                StringBuilder resultado2 = procesarBloque(bloqueCondicion, etiquetaActual2, optimizacion);
                                 codigoIntermedio.append(resultado2).append("\n");
                                 bloqueCondicion.clear();
                             }
                         } else {
                             if (condicionesAbiertas == 0) {
                                 bloqueAbierto = false;
-                                StringBuilder resultado2 = procesarBloque(bloqueCondicion, etiquetaActual2);
+                                StringBuilder resultado2 = procesarBloque(bloqueCondicion, etiquetaActual2, optimizacion);
                                 codigoIntermedio.append(resultado2).append("\n");
                                 bloqueCondicion.clear();
                             }
                         }
                     }
                 } else {
-                    String resultado = codigoGeneral(regla);
+                    String resultado = codigoGeneral(regla, optimizacion);
+//                    if (resultado.equals("ERROR DIVISION ENTRE CERO NO DEFINIDA")) {
+//                        
+//                    }
                     codigoIntermedio.append(resultado).append("\n");
                 }
             }
@@ -65,8 +68,68 @@ public class CodigoIntermedioGenerator {
         return codigoIntermedio.toString();
     }
 
-    public String codigoGeneral(String linea) {
+    public String codigoGeneral(String linea, boolean optimizacion) {
+        String linea3 = linea.replaceAll(" ", "").replaceAll(";", "");
+        String linea4 = "";
+        System.out.println("==Evaluando linea: " + linea3);
+        if (optimizacion) {
+            System.out.println("ENTRAMOS!" + linea3);
+            if (linea3.contains("+") || linea3.contains("-") || linea3.contains("*") || linea3.contains("/")) {
+                for (int i = 0; i < linea3.length(); i++) {
+                    if (!linea4.equals("")) {
+                        linea3 = linea4;
+                        linea4 = "";
+                    }
+                    if (linea3.charAt(i) == '0') {
+                        System.out.println("LINEA A PROCESAR: " + linea3);
+                        if (linea3.charAt(i - 1) == '+' || linea3.charAt(i - 1) == '-') {
+                            System.out.println("ENTRE ACA");
+                            for (int j = 0; j < linea3.length(); j++) {
+                                if (j > i || j < i - 1) {
+                                    linea4 += linea3.charAt(j);
+                                    System.out.println(linea4);
+                                }
+                            }
+                            for (int j = 0; j < linea4.length(); j++) {
+                                if (linea4.charAt(j) == '0' && (linea4.charAt(j - 1) == '+' || linea4.charAt(j - 1) == '-')) {
+                                    i = 0;
+                                    System.out.println("SEGUNDA VUELTA");
+                                    break;
+                                } else {
+                                    i = linea3.length();
+                                    System.out.println("FINALIZA");
+                                }
+                            }
+                        } else if (linea3.charAt(i - 1) == '/' || linea3.charAt(i - 1) == '*') {
+                            if (linea3.charAt(i - 1) == '/') {
+                                linea4 = "ERROR DIVISION ENTRE CERO NO DEFINIDA";
+                                break;
+                            }
+                            System.out.println("ENTRE AQUI");
+                            for (int j = i - 2; j >= 0; j--) {
+                                System.out.println(linea3.charAt(j));
+                                if (linea3.charAt(j) == '+' || linea3.charAt(j) == '-' || linea3.charAt(j) == '/' || linea3.charAt(j) == '*' || linea3.charAt(j) == '=') {
+                                    for (int k = 0; k < linea3.length(); k++) {
+                                        System.out.println("i: " + i + " k: " + k + " j: " + j);
+                                        if (k > i || k < j) {//JHhjhjh
+                                            linea4 += linea3.charAt(k);
+                                            System.out.println("Linea4: " + linea4);
+                                        }
+                                    }
+                                    j = -1;
+                                    i = linea3.length();
+                                }
+                            }
+                            System.out.println(linea4 + " NUEVA LINEA CODIGO INTERMEDIO");
+                        }
+                    }
+                }
+            }
+        }
         String linea2 = linea.replaceAll(";", "").replaceAll(" ", "");
+        if (optimizacion && !linea4.equals("")) {
+            linea2 = linea4;
+        }
         String[] tokens = linea2.split("(?=[()+\\-*/=])|(?<=[()+\\-*/=])");
         StringBuilder resultado = new StringBuilder();
         Stack<String> operadores = new Stack<>();
@@ -208,7 +271,7 @@ public class CodigoIntermedioGenerator {
 
     }
 
-    private StringBuilder procesarBloque(List<String> bloqueActual, int etiquetaActual) {
+    private StringBuilder procesarBloque(List<String> bloqueActual, int etiquetaActual, boolean optimizacion) {
         StringBuilder resultado = new StringBuilder();
 //        for (int i = 0; i < bloqueActual.size(); i++) {
 //            System.out.println("**" + bloqueActual.get(i));
@@ -408,14 +471,14 @@ public class CodigoIntermedioGenerator {
                             if (linea.contains("NSTF")) {
                                 if (condicionesAbiertas2 == 0) {
                                     bloqueAbierto2 = false;
-                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa);
+                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa, optimizacion);
                                     resultado.append(resultado2).append("\n");
                                     bloqueCondicion2.clear();
                                 }
                             } else {
                                 if (condicionesAbiertas2 == 0) {
                                     bloqueAbierto2 = false;
-                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa);
+                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa, optimizacion);
                                     resultado.append(resultado2).append("\n");
                                     bloqueCondicion2.clear();
                                 }
@@ -425,7 +488,11 @@ public class CodigoIntermedioGenerator {
                         if (linea.startsWith("}")) {
                             resultado.append("E").append(EFalsa).append(":").append("\n");
                         } else {
-                            String resultado2 = codigoGeneral(linea);
+                            if (optimizacion) {
+                                System.out.println("Entro Aqui Optimizacion STF: " + linea);
+                            }
+                            System.out.println("Entro linea: " + linea);
+                            String resultado2 = codigoGeneral(linea, optimizacion);
                             resultado.append(resultado2).append("\n");
                         }
                     }
@@ -460,14 +527,14 @@ public class CodigoIntermedioGenerator {
                             if (linea.contains("NSTF")) {
                                 if (condicionesAbiertas2 == 0) {
                                     bloqueAbierto2 = false;
-                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa);
+                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa, optimizacion);
                                     resultado.append(resultado2).append("\n");
                                     bloqueCondicion2.clear();
                                 }
                             } else {
                                 if (condicionesAbiertas2 == 0) {
                                     bloqueAbierto2 = false;
-                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa);
+                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa, optimizacion);
                                     resultado.append(resultado2).append("\n");
                                     bloqueCondicion2.clear();
                                 }
@@ -477,7 +544,7 @@ public class CodigoIntermedioGenerator {
                         if (linea.startsWith("}")) {
 
                         } else {
-                            String resultado2 = codigoGeneral(linea);
+                            String resultado2 = codigoGeneral(linea, optimizacion);
                             resultado.append(resultado2).append("\n");
                         }
                     }
@@ -823,14 +890,14 @@ public class CodigoIntermedioGenerator {
                             if (linea.contains("NSTF")) {
                                 if (condicionesAbiertas2 == 0) {
                                     bloqueAbierto2 = false;
-                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa);
+                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa, optimizacion);
                                     resultado.append(resultado2).append("\n");
                                     bloqueCondicion2.clear();
                                 }
                             } else {
                                 if (condicionesAbiertas2 == 0) {
                                     bloqueAbierto2 = false;
-                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa);
+                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa, optimizacion);
                                     resultado.append(resultado2).append("\n");
                                     bloqueCondicion2.clear();
                                 }
@@ -841,7 +908,7 @@ public class CodigoIntermedioGenerator {
                             resultado.append("goto E").append(SComienzo).append(":").append("\n");
                             resultado.append("E").append(EFalsa).append(":").append("\n");
                         } else {
-                            String resultado2 = codigoGeneral(linea);
+                            String resultado2 = codigoGeneral(linea, optimizacion);
                             resultado.append(resultado2).append("\n");
                         }
                     }
@@ -882,14 +949,14 @@ public class CodigoIntermedioGenerator {
                             if (linea.contains("NSTF")) {
                                 if (condicionesAbiertas2 == 0) {
                                     bloqueAbierto2 = false;
-                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa);
+                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa, optimizacion);
                                     resultado.append(resultado2).append("\n");
                                     bloqueCondicion2.clear();
                                 }
                             } else {
                                 if (condicionesAbiertas2 == 0) {
                                     bloqueAbierto2 = false;
-                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa);
+                                    StringBuilder resultado2 = procesarBloque(bloqueCondicion2, EFalsa, optimizacion);
                                     resultado.append(resultado2).append("\n");
                                     bloqueCondicion2.clear();
                                 }
@@ -919,7 +986,7 @@ public class CodigoIntermedioGenerator {
                                 } else {
                                     if (linea.startsWith("PREDET")) {
                                     } else {
-                                        String resultado2 = codigoGeneral(linea);
+                                        String resultado2 = codigoGeneral(linea, optimizacion);
                                         resultado.append(resultado2).append("\n");
                                     }
                                 }
@@ -953,7 +1020,7 @@ public class CodigoIntermedioGenerator {
                             condicionesAbiertas3--;
                             if (condicionesAbiertas3 == 0) {
                                 bloqueAbierto3 = false;
-                                StringBuilder resultado3 = procesarBloque(bloqueCondicion3, SSiguiente);
+                                StringBuilder resultado3 = procesarBloque(bloqueCondicion3, SSiguiente, optimizacion);
                                 resultado.append(resultado3).append("\n");
                                 bloqueCondicion3.clear();
                             }
@@ -962,7 +1029,7 @@ public class CodigoIntermedioGenerator {
                         if (linea.startsWith("}")) {
                             resultado.append("E").append(SSiguiente).append(":").append("\n");
                         } else {
-                            String resultado3 = codigoGeneral(linea);
+                            String resultado3 = codigoGeneral(linea, optimizacion);
                             resultado.append(resultado3).append("\n");
                         }
                     }
