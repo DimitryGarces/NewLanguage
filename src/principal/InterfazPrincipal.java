@@ -1702,7 +1702,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         String text = jTProgramaFuente.getText();
         lineArray = text.split("\n");
         CodigoIntermedioGenerator intermedio = new CodigoIntermedioGenerator();
-        String resultado = intermedio.generarCodigoIntermedio(lineArray);
+        String resultado = intermedio.generarCodigoIntermedio(lineArray, false);
         String[] lineas = resultado.split("\n");
         StringBuilder nuevoResultado = new StringBuilder();
         for (String linea : lineas) {
@@ -1726,10 +1726,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         String text = jTProgramaCodigoIntermedio.getText();
         lineArray = text.split("\n");
         OptimizacionCodigo optimizacion = new OptimizacionCodigo();
-        String resultado = optimizacion.procesarCodigoIntermedio(lineArray);
+        String[] lineArray2 = new String[0];
+        String text2 = jTProgramaFuente.getText();
+        lineArray2 = text2.split("\n");
+        String resultado = optimizacion.procesarCodigoIntermedio(lineArray, lineArray2);
         String[] lineas = resultado.split("\n");
         StringBuilder nuevoResultado = new StringBuilder();
         for (String linea : lineas) {
+            if (linea.contains("ERROR DIVISION ENTRE CERO NO DEFINIDA")) {
+                nuevoResultado.append("ERROR DIVISION ENTRE CERO NO DEFINIDA");
+                break;
+            }
             if (!linea.trim().isEmpty()) {
                 nuevoResultado.append(linea.replaceAll(";", "")).append("\n");
             }
