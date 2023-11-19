@@ -5,6 +5,8 @@
 package principal;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -12,7 +14,10 @@ import java.util.Arrays;
  */
 public class OptimizacionCodigo {
 
-    public String procesarCodigoIntermedio(String[] codigo) {
+    boolean nvoOptim = false;
+    String resultadoOptm = "";
+
+    public String procesarCodigoIntermedio(String[] codigo, String[] lineArray2) {
         String resultado = "";
         for (int i = 0; i < codigo.length; i++) {
             if (codigo[i].startsWith("temporal1")) {
@@ -46,7 +51,10 @@ public class OptimizacionCodigo {
                         bloqueTemporal = bloqueTemporalAux;
                     }
                 } while (codigo[i].startsWith("temporal"));
-                resultado += procesarBloque(bloqueTemporal);
+                resultado += procesarBloque(bloqueTemporal, lineArray2);
+                if (nvoOptim && !resultadoOptm.equals("")) {
+                    return resultadoOptm;
+                }
             } else {
                 resultado += codigo[i] + "\n";
             }
@@ -54,7 +62,7 @@ public class OptimizacionCodigo {
         return resultado;
     }
 
-    private String procesarBloque(String[] bloqueTemporal) {
+    private String procesarBloque(String[] bloqueTemporal, String[] lineArray2) {
         String resultado = "";
 
         for (int i = 0; i < bloqueTemporal.length; i++) {
@@ -62,7 +70,90 @@ public class OptimizacionCodigo {
             String partes[] = linea.split("=");
             boolean uno = true;
             if (partes.length != 1) {
-                if (partes[1].contains("*") || partes[1].contains("/")) {
+                String op[] = partes[1].split("[*/+-]");
+                if (op.length != 1) {
+                    if (esNumero(op[0]) && !esNumero(op[1])) {
+                        double temporal = Double.parseDouble(op[0]);
+                        if (temporal == 0) {
+                            CodigoIntermedioGenerator nvoIntermedio = new CodigoIntermedioGenerator();
+                            String nvoResultado = nvoIntermedio.generarCodigoIntermedio(lineArray2, true);
+                            System.out.println(nvoResultado + "===");
+                            String[] lineas = nvoResultado.split("\n");
+                            OptimizacionCodigo nvoOpt = new OptimizacionCodigo();
+                            resultadoOptm = nvoOpt.procesarCodigoIntermedio(lineas, lineArray2);
+                            nvoOptim = true;
+                            return resultado;
+                        }
+                    } else if (!esNumero(op[0]) && esNumero(op[1])) {
+                        double temporal = Double.parseDouble(op[1]);
+                        if (temporal == 0) {
+                            CodigoIntermedioGenerator nvoIntermedio = new CodigoIntermedioGenerator();
+                            String nvoResultado = nvoIntermedio.generarCodigoIntermedio(lineArray2, true);
+                            System.out.println(nvoResultado + "===");
+                            String[] lineas = nvoResultado.split("\n");
+                            OptimizacionCodigo nvoOpt = new OptimizacionCodigo();
+                            resultadoOptm = nvoOpt.procesarCodigoIntermedio(lineas, lineArray2);
+                            nvoOptim = true;
+                            return resultado;
+                        }
+                    } else if (esNumero(op[0]) && esNumero(op[1])) {
+                        double temporal = Double.parseDouble(op[0]);
+                        double temporal2 = Double.parseDouble(op[1]);
+                        if (temporal == 0 || temporal2 == 0) {
+                            CodigoIntermedioGenerator nvoIntermedio = new CodigoIntermedioGenerator();
+                            String nvoResultado = nvoIntermedio.generarCodigoIntermedio(lineArray2, true);
+                            System.out.println(nvoResultado + "===");
+                            String[] lineas = nvoResultado.split("\n");
+                            OptimizacionCodigo nvoOpt = new OptimizacionCodigo();
+                            resultadoOptm = nvoOpt.procesarCodigoIntermedio(lineas, lineArray2);
+                            nvoOptim = true;
+                            return resultado;
+                        }
+                        double temporal3;
+                        if (partes[1].contains("*")) {
+                            temporal3 = temporal * temporal2;
+                            bloqueTemporal[i] = "";
+                            String temporal3s = String.valueOf(temporal3);
+                            for (int j = 0; j < bloqueTemporal.length; j++) {
+                                if (bloqueTemporal[j].contains(partes[0])) {
+                                    String replace = bloqueTemporal[j].replaceAll(partes[0], temporal3s);
+                                    bloqueTemporal[j] = replace;
+                                }
+                            }
+                        } else if (partes[1].contains("/")) {
+                            temporal3 = temporal / temporal2;
+                            bloqueTemporal[i] = "";
+                            String temporal3s = String.valueOf(temporal3);
+                            for (int j = 0; j < bloqueTemporal.length; j++) {
+                                if (bloqueTemporal[j].contains(partes[0])) {
+                                    String replace = bloqueTemporal[j].replaceAll(partes[0], temporal3s);
+                                    bloqueTemporal[j] = replace;
+                                }
+                            }
+                        } else if (partes[1].contains("+")) {
+                            temporal3 = temporal + temporal2;
+                            bloqueTemporal[i] = "";
+                            String temporal3s = String.valueOf(temporal3);
+                            for (int j = 0; j < bloqueTemporal.length; j++) {
+                                if (bloqueTemporal[j].contains(partes[0])) {
+                                    String replace = bloqueTemporal[j].replaceAll(partes[0], temporal3s);
+                                    bloqueTemporal[j] = replace;
+                                }
+                            }
+                        } else if (partes[1].contains("-")) {
+                            temporal3 = temporal - temporal2;
+                            bloqueTemporal[i] = "";
+                            String temporal3s = String.valueOf(temporal3);
+                            for (int j = 0; j < bloqueTemporal.length; j++) {
+                                if (bloqueTemporal[j].contains(partes[0])) {
+                                    String replace = bloqueTemporal[j].replaceAll(partes[0], temporal3s);
+                                    bloqueTemporal[j] = replace;
+                                }
+                            }
+                        }
+
+                    }
+                } else if (partes[1].contains("*") || partes[1].contains("/")) {
                     String operacion[] = partes[1].split("[*/]");
                     if (operacion[0].equals("1") || operacion[1].equals("1")) {
                         if (partes[1].contains("*")) {
@@ -141,6 +232,15 @@ public class OptimizacionCodigo {
             resultado += bloqueTemporal1 + "\n";
         }
         return resultado;
+    }
+
+    private boolean esNumero(String string) {
+        try {
+            Double.parseDouble(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 }
