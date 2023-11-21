@@ -153,7 +153,8 @@ public class OptimizacionCodigo {
                         }
 
                     }
-                } else if (partes[1].contains("*") || partes[1].contains("/")) {
+                }
+                if (partes[1].contains("*") || partes[1].contains("/")) {
                     String operacion[] = partes[1].split("[*/]");
                     if (operacion[0].equals("1") || operacion[1].equals("1")) {
                         if (partes[1].contains("*")) {
@@ -194,7 +195,6 @@ public class OptimizacionCodigo {
                                             bloqueTemporal[j] = part[0] + " = " + replace;
                                         }
                                     }
-
                                 }
                                 uno = false;
                             }
@@ -207,9 +207,33 @@ public class OptimizacionCodigo {
                 for (int j = 0; j < bloqueTemporal.length; j++) {
                     String linea2 = bloqueTemporal[j].replaceAll(" ", "");
                     String partes2[] = linea2.split("=");
+                    String operacion[];
                     if (partes2.length != 1) {
+                        operacion = partes2[1].split("[*/]");
+                    } else {
+                        operacion = partes2[0].split("[*/]");
+                    }
+                    String operacion2[] = partes[1].split("[*/]");
+                    if (partes2.length != 1 && operacion.length != 1 && operacion2.length != 1) {
+                        if (partes2[1].contains("/") && operacion2[0].equals(operacion2[1])) {
+                            bloqueTemporal[j] = "";
+                            for (int k = 0; k < bloqueTemporal.length; k++) {
+                                String linea3 = bloqueTemporal[k].replaceAll(" ", "");
+                                System.out.println("LINEA3= " + linea3);
+                                String partes3[] = linea3.split("=");
+                                if (partes3.length != 1) {
+                                    if (partes3[1].contains(partes[0])) {
+                                        String replace = partes3[1].replaceAll(partes2[0], "1");
+                                        bloqueTemporal[k] = partes3[0] + " = " + replace;
+                                    }
+                                    if (partes3[0].contains(operacion2[0])) {
+                                        bloqueTemporal[k] = "";
+                                    }
+                                }
+                            }
+                        }
                         if (!partes2[0].equals(partes[0])) {
-                            if (partes2[1].equals(partes[1])) {
+                            if (partes2[1].equals(partes[1]) || ((operacion[0].equals(operacion2[1])) && operacion[1].equals(operacion2[0]))) {
                                 bloqueTemporal[j] = "";
                                 for (int k = 0; k < bloqueTemporal.length; k++) {
                                     String linea3 = bloqueTemporal[k].replaceAll(" ", "");
