@@ -80,6 +80,7 @@ public class CodigoIntermedioGenerator {
                         linea3 = linea4;
                         linea4 = "";
                     }
+//                    System.out.println("ENTRAMOS AQUI MAIK");
                     if (linea3.charAt(i) == '0') {
                         System.out.println("LINEA A PROCESAR: " + linea3);
                         if (linea3.charAt(i - 1) == '+' || linea3.charAt(i - 1) == '-') {
@@ -108,7 +109,7 @@ public class CodigoIntermedioGenerator {
                             System.out.println("ENTRE AQUI");
                             for (int j = i - 2; j >= 0; j--) {
                                 System.out.println(linea3.charAt(j));
-                                if (linea3.charAt(j) == '+' || linea3.charAt(j) == '-' || linea3.charAt(j) == '/' || linea3.charAt(j) == '*' || linea3.charAt(j) == '=') {
+                                if (linea3.charAt(j) == '+' || linea3.charAt(j) == '-' || linea3.charAt(j) == '=') {
                                     for (int k = 0; k < linea3.length(); k++) {
                                         System.out.println("i: " + i + " k: " + k + " j: " + j);
                                         if (k > i || k < j) {//JHhjhjh
@@ -118,6 +119,24 @@ public class CodigoIntermedioGenerator {
                                     }
                                     j = -1;
                                     i = linea3.length();
+                                } else if (linea3.charAt(j) == '/' || linea3.charAt(j) == '*') {
+                                    System.out.println("ENTRAMOS ACA");
+                                    boolean cero = false;
+                                    for (int k = 0; k < linea3.length(); k++) {
+                                        System.out.println("i: " + i + " k: " + k + " j: " + j);
+                                        if (k > i || k < j - 1) {//JHhjhjh
+                                            linea4 += linea3.charAt(k);
+                                            System.out.println("Linea4: " + linea4);
+                                        }
+                                        if (k == j) {
+                                            if (!cero) {
+                                                linea4 += "0";
+                                                cero = true;
+                                            }
+                                        }
+                                    }
+                                    j = -1;
+                                    i = 0;
                                 }
                             }
                             System.out.println(linea4 + " NUEVA LINEA CODIGO INTERMEDIO");
@@ -718,7 +737,7 @@ public class CodigoIntermedioGenerator {
                 if (matcher.find()) {
                     parentesis = matcher.group(1);
                 }
-                System.out.println(parentesis);
+//                System.out.println(parentesis);
                 String[] partes = parentesis.split("\\|\\| | && ");
                 String operadores = parentesis.replaceAll("[^|&]+", "");
                 StringBuilder nuevaLinea = new StringBuilder();
