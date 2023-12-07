@@ -178,9 +178,9 @@ public class Semantico {
     public boolean operLogCompatibles(String fila, String op, String colum) {
         if (fila.equals("50") && colum.equals("50")) {
             return true;
-        }else if (fila.equals("51") && op.equals("27")&& colum.equals("51")) {
+        } else if (fila.equals("51") && op.equals("27") && colum.equals("51")) {
             return true;
-        }else if (fila.equals("54") && op.equals("27")&& colum.equals("54")) {
+        } else if (fila.equals("54") && op.equals("27") && colum.equals("54")) {
             return true;
         } else if (fila.equals(colum)) {
             if (op.equals("==") || op.equals("!")) {
@@ -532,26 +532,28 @@ public class Semantico {
      */
     static String verificaCAP(String texto, ArrayList<String> cadeVariables) {
         String error = "";
-        ArrayList<String> arrVariables = new ArrayList<String>();
-        String[] subCad = texto.split("\\s*[;| |\n|(|)]\\s*");
-
-        String[] lineasError = texto.split("\n");
-        int numLinErr = 0;
-
-        for (int i = 0; i < subCad.length; i++) {
-            if (subCad[i].equals("CAP") && cadeVariables.contains(subCad[i + 1])) {
-                arrVariables.add(subCad[i + 1]);
-            }
-            if (subCad[i].equals("CAP") && !cadeVariables.contains(subCad[i + 1])) {
-                for (int j = 0; j < lineasError.length; j++) {
-                    lineasError[j] = lineasError[j].replace(" ", "");
-                    if (lineasError[j].contains("CAP(" + subCad[i + 1] + ")")) {
-                        numLinErr = j + 1;
-                    }
-                }
-                error += "Error, no se encontro la variable [" + subCad[i + 1] + "] en la linea " + numLinErr + "\n";
-            }
-        }
+//        ArrayList<String> arrVariables = new ArrayList<String>();
+//        String[] subCad = texto.split("\\s*[;| |\n|(|)]\\s*");
+//
+//        String[] lineasError = texto.split("\n");
+//        int numLinErr = 0;
+//
+//        for (int i = 0; i < subCad.length; i++) {
+////            System.out.println("CAP VERIFICA " + subCad[i] + " *** " + subCad[i + 1]);
+//            if (subCad[i].contains("CAP") && cadeVariables.contains(subCad[i + 1])) {
+//                arrVariables.add(subCad[i + 1]);
+//                System.out.println("HOLA " + subCad[i+1]);
+//            }
+//            if (subCad[i].contains("CAP") && !cadeVariables.contains(subCad[i + 1])) {
+//                for (int j = 0; j < lineasError.length; j++) {
+//                    lineasError[j] = lineasError[j].replace(" ", "");
+//                    if (lineasError[j].contains("CAP(" + subCad[i + 1] + ")")) {
+//                        numLinErr = j + 1;
+//                    }
+//                }
+//                error += "Error, no se encontro la variable [" + subCad[i + 1] + "] en la linea " + numLinErr + "\n";
+//            }
+//        }
         return error;
     }
 
@@ -665,86 +667,86 @@ public class Semantico {
      */
     static String verificaIMP(String texto, ArrayList<String> numerosVar, ArrayList<String> boolsVar, ArrayList<String> carsVar, ArrayList<String> cadenasVar, ArrayList<String[]> tablaIdentCol) {
         String mensajeError = "";
-
-        String[] lineasError = texto.split("\n");
-        int numLinErr = 0;
-
-        //Divide el texto por cada ;, espacio blanco, salto o parentesis
-        String[] subCad = texto.split("\\s*[;|\n|(|)]\\s*");
-
-        String[] concatSep = null;
-
-        //Detectar si hay una impresion
-        for (int i = 0; i < subCad.length; i++) {
-            if (subCad[i].equals("IMP")) {
-
-                //Divide el contenido de la IMP sin concatenar
-                concatSep = subCad[i + 1].split("%");
-
-                //Verifica si es una operacion aritmetica o no
-                for (int j = 0; j < concatSep.length; j++) {
-                    if (concatSep[j].contains("+") | concatSep[j].contains("-") | concatSep[j].contains("*") | concatSep[j].contains("/")) {
-                        String operaAritVerf = verificaOperacion(concatSep[j], tablaIdentCol, numerosVar, texto);
-                        if (!operaAritVerf.equals("")) {
-                            String[] separacion = operaAritVerf.split("\\s*[/|\n]\\s*");
-
-                            String variableError = separacion[0];
-                            String tipoError = separacion[1];
-
-                            //Revisa en que linea estuvo el error
-                            for (int k = 0; k < lineasError.length; k++) {
-                                if (lineasError[k].contains("IMP(") && lineasError[k].contains(variableError)) {
-                                    numLinErr = k + 1;
-                                }
-                            }
-
-                            for (int k = 0; k < separacion.length; k++) {
-                                if (k % 2 == 0) {
-                                    variableError = separacion[k];
-                                    tipoError = separacion[k + 1];
-                                    mensajeError += "Error en la linea " + numLinErr + " con [" + variableError + "] " + tipoError + "\n";
-                                }
-                            }
-                        }
-                    } else {
-                        //Verifica si es un numero
-                        boolean esNum = false;
-                        try {
-                            int numero = Integer.parseInt(concatSep[i]);
-                            esNum = true;
-                        } catch (Exception e) {
-                        }
-
-                        //Revisa que la variable exista
-                        if (!(concatSep[j].contains("\"") | concatSep[j].contains("'") | esNum)) {
-                            String verifDecl = verificaExistVaria(concatSep[j], numerosVar, boolsVar, carsVar, cadenasVar);
-                            if (verifDecl.equals("")) {
-
-                                //Revisa en que linea estuvo el error
-                                for (int k = 0; k < lineasError.length; k++) {
-                                    if (lineasError[k].contains("IMP(") && lineasError[k].contains(verifDecl)) {
-                                        numLinErr = k + 1;
-                                    }
-                                }
-                                mensajeError += "Error en la linea " + numLinErr + " [" + concatSep[j] + "] no existe\n";
-                            }
-                            boolean asignado = verifAsignacion(texto, verifDecl);
-                            if (!asignado && !verifDecl.equals("")) {
-
-                                //Revisa en que linea estuvo el error
-                                for (int k = 0; k < lineasError.length; k++) {
-                                    if (lineasError[k].contains("IMP(") && lineasError[k].contains(verifDecl)) {
-                                        numLinErr = k + 1;
-                                    }
-                                }
-
-                                mensajeError += "Error en la linea " + numLinErr + " [" + concatSep[j] + "] sin asignación\n";
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//
+//        String[] lineasError = texto.split("\n");
+//        int numLinErr = 0;
+//
+//        //Divide el texto por cada ;, espacio blanco, salto o parentesis
+//        String[] subCad = texto.split("\\s*[;|\n|(|)]\\s*");
+//
+//        String[] concatSep = null;
+//
+//        //Detectar si hay una impresion
+//        for (int i = 0; i < subCad.length; i++) {
+//            if (subCad[i].equals("IMP")) {
+//
+//                //Divide el contenido de la IMP sin concatenar
+//                concatSep = subCad[i + 1].split("%");
+//
+//                //Verifica si es una operacion aritmetica o no
+//                for (int j = 0; j < concatSep.length; j++) {
+//                    if (concatSep[j].contains("+") | concatSep[j].contains("-") | concatSep[j].contains("*") | concatSep[j].contains("/")) {
+//                        String operaAritVerf = verificaOperacion(concatSep[j], tablaIdentCol, numerosVar, texto);
+//                        if (!operaAritVerf.equals("")) {
+//                            String[] separacion = operaAritVerf.split("\\s*[/|\n]\\s*");
+//
+//                            String variableError = separacion[0];
+//                            String tipoError = separacion[1];
+//
+//                            //Revisa en que linea estuvo el error
+//                            for (int k = 0; k < lineasError.length; k++) {
+//                                if (lineasError[k].contains("IMP(") && lineasError[k].contains(variableError)) {
+//                                    numLinErr = k + 1;
+//                                }
+//                            }
+//
+//                            for (int k = 0; k < separacion.length; k++) {
+//                                if (k % 2 == 0) {
+//                                    variableError = separacion[k];
+//                                    tipoError = separacion[k + 1];
+//                                    mensajeError += "Error en la linea " + numLinErr + " con [" + variableError + "] " + tipoError + "\n";
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        //Verifica si es un numero
+//                        boolean esNum = false;
+//                        try {
+//                            int numero = Integer.parseInt(concatSep[i]);
+//                            esNum = true;
+//                        } catch (Exception e) {
+//                        }
+//
+//                        //Revisa que la variable exista
+//                        if (!(concatSep[j].contains("\"") | concatSep[j].contains("'") | esNum)) {
+//                            String verifDecl = verificaExistVaria(concatSep[j], numerosVar, boolsVar, carsVar, cadenasVar);
+//                            if (verifDecl.equals("")) {
+//
+//                                //Revisa en que linea estuvo el error
+//                                for (int k = 0; k < lineasError.length; k++) {
+//                                    if (lineasError[k].contains("IMP(") && lineasError[k].contains(verifDecl)) {
+//                                        numLinErr = k + 1;
+//                                    }
+//                                }
+//                                mensajeError += "Error en la linea " + numLinErr + " [" + concatSep[j] + "] no existe\n";
+//                            }
+//                            boolean asignado = verifAsignacion(texto, verifDecl);
+//                            if (!asignado && !verifDecl.equals("")) {
+//
+//                                //Revisa en que linea estuvo el error
+//                                for (int k = 0; k < lineasError.length; k++) {
+//                                    if (lineasError[k].contains("IMP(") && lineasError[k].contains(verifDecl)) {
+//                                        numLinErr = k + 1;
+//                                    }
+//                                }
+//
+//                                mensajeError += "Error en la linea " + numLinErr + " [" + concatSep[j] + "] sin asignación\n";
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
         return mensajeError;
     }
 
@@ -814,7 +816,7 @@ public class Semantico {
             String aux2 = infixPila.pop();
             if (aux2 != null) {
                 aux.push(aux2);
-            }else{
+            } else {
                 return null;
             }
         }
@@ -916,7 +918,7 @@ public class Semantico {
     }
 
     public Pila<String> convertInfijPosCad(Pila<String> infixPila) {
-       Pila<String> pila = new Pila<>();
+        Pila<String> pila = new Pila<>();
         Pila<String> postfixPila = new Pila<>();
         Pila<String> aux = new Pila<>();
         Pattern stringPattern = Pattern.compile("\"[\\w\\s]+\"");
@@ -995,7 +997,7 @@ public class Semantico {
     }
 
     public double evaluar(Pila<String> expresionPosfija) {
-        
+
         Pila<Double> pila = new Pila<>();
         int i = 1;
         while (!expresionPosfija.estaVacia()) {
@@ -1057,6 +1059,7 @@ public class Semantico {
         }
         return pila.pop();
     }
+
     private boolean isOperador(String elemento) {
         return elemento.equals("+") || elemento.equals("-") || elemento.equals("*") || elemento.equals("/");
     }
