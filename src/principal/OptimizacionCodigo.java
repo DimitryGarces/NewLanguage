@@ -20,7 +20,7 @@ public class OptimizacionCodigo {
     public String procesarCodigoIntermedio(String[] codigo, String[] lineArray2) {
         String resultado = "";
         for (int i = 0; i < codigo.length; i++) {
-            if (codigo[i].startsWith("temporal1")) {
+            if (codigo[i].startsWith("temporal")) {
                 String bloqueTemporal[];
                 bloqueTemporal = new String[1];
                 bloqueTemporal[0] = codigo[i];
@@ -41,16 +41,22 @@ public class OptimizacionCodigo {
                             bloqueTemporal = bloqueTemporalAux;
                             i++;
                             first = false;
+
+                            i++;
                         }
-                        i++;
                     }
-                    if (!codigo[i].startsWith("temporal") && codigo[i].contains("temporal")) {
+                    if (codigo[i].contains("goto")) {
+                        String bloqueTemporalAux[] = new String[bloqueTemporal.length + 1];
+                        System.arraycopy(bloqueTemporal, 0, bloqueTemporalAux, 0, bloqueTemporal.length);
+                        bloqueTemporalAux[bloqueTemporal.length] = codigo[i].replaceAll(":", "");
+                        bloqueTemporal = bloqueTemporalAux;
+                    } else if (!codigo[i].startsWith("temporal") && !codigo[i].contains("temporal")) {
                         String bloqueTemporalAux[] = new String[bloqueTemporal.length + 1];
                         System.arraycopy(bloqueTemporal, 0, bloqueTemporalAux, 0, bloqueTemporal.length);
                         bloqueTemporalAux[bloqueTemporal.length] = codigo[i];
                         bloqueTemporal = bloqueTemporalAux;
                     }
-                } while (codigo[i].startsWith("temporal"));
+                } while (codigo[i - 1].startsWith("temporal"));
                 resultado += procesarBloque(bloqueTemporal, lineArray2);
                 if (nvoOptim && !resultadoOptm.equals("")) {
                     return resultadoOptm;
@@ -64,7 +70,9 @@ public class OptimizacionCodigo {
 
     private String procesarBloque(String[] bloqueTemporal, String[] lineArray2) {
         String resultado = "";
-
+        for (int i = 0; i < bloqueTemporal.length; i++) {
+            System.out.println("$$$$$ " + bloqueTemporal[i]);
+        }
         for (int i = 0; i < bloqueTemporal.length; i++) {
             String linea = bloqueTemporal[i].replaceAll(" ", "");
             String partes[] = linea.split("=");
